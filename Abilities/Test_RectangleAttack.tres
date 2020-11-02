@@ -1,0 +1,28 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Abilities/Ability.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+name = "Rectangle Attack"
+ability_type = 0
+ability_target_type = 1
+ability_shape = 2
+ability_shape_center = 1
+ability_radius = 50
+ability_rectangle_size = Vector2( 0, 0 )
+cooldown = 500.0
+base_damage = 2.0
+weapon_damage = 0.0
+strength_damange = 0.0
+intelligence_damage = 0.0
+agility_damage = 0.0
+base_heal = 0.0
+intelligence_heal = 0.0
+effect_duration = 0.0
+effect_frequency = 0.0
+base_block = 0.0
+block_percent = 0.0
+effect_stat = 1
+effect_stat_increase_base = 0.0
+effect_stat_increase_multiplier = 0.0

@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Characters/Components/EffectManager.gd" type="Script" id=1]
+
+[node name="EffectManager" type="Control"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="."]
+anchor_right = 0.025
+anchor_bottom = 0.044
+margin_bottom = 0.319998
+custom_constants/vseparation = 1
+custom_constants/hseparation = 1
+columns = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Characters/Scenes/Character.tscn" type="PackedScene" id=1]
+
+[node name="Archer" instance=ExtResource( 1 )]
+character_class = 2
+attack_range = 128
+
+[editable path="Hurtbox"]
+
+[editable path="HitboxPivot/Hitbox"]
+
+[editable path="AbilityManager"]

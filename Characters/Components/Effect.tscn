@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Characters/Components/Effect.gd" type="Script" id=1]
+
+[node name="Effect" type="Control"]
+anchor_right = 0.008
+anchor_bottom = 0.014
+margin_right = -10.24
+margin_bottom = -10.08
+rect_min_size = Vector2( 10, 10 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+centered = false
+
+[node name="FrequencyTimer" type="Timer" parent="."]
+
+[node name="DurationTimer" type="Timer" parent="."]
+[connection signal="timeout" from="FrequencyTimer" to="." method="_on_FrequencyTimer_timeout"]
+[connection signal="timeout" from="DurationTimer" to="." method="_on_DurationTimer_timeout"]

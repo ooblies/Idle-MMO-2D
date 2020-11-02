@@ -1,0 +1,102 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Shadows/SmallShadow.png" type="Texture" id=1]
+[ext_resource path="res://UI/HealthUI.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Enemies/Components/Enemy.gd" type="Script" id=3]
+[ext_resource path="res://Hitboxes & Hurtboxes/Hurtbox.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Enemies/Components/Stats.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Enemies/Components/PlayerDetection.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Hitboxes & Hurtboxes/Hitbox.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Hitboxes & Hurtboxes/SoftCollision.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Enemies/Components/WanderController.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Characters/Components/Clickable.tscn" type="PackedScene" id=10]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 8.0
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 80.0
+
+[sub_resource type="CircleShape2D" id=4]
+custom_solver_bias = 1.0
+radius = 25.0
+
+[sub_resource type="CircleShape2D" id=5]
+radius = 7.0
+
+[node name="Enemy" type="KinematicBody2D" groups=[
+"Enemies",
+]]
+collision_layer = 2048
+script = ExtResource( 3 )
+
+[node name="HealthUI" parent="." instance=ExtResource( 2 )]
+margin_top = -30.0
+margin_bottom = -30.0
+grow_horizontal = 2
+
+[node name="Shadow" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+offset = Vector2( 0, -12 )
+hframes = 5
+frame = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Hurtbox" parent="." instance=ExtResource( 4 )]
+visible = false
+position = Vector2( 0, -1 )
+collision_layer = 4096
+collision_mask = 2147483656
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2( 0, -12 )
+shape = SubResource( 2 )
+
+[node name="Stats" parent="." instance=ExtResource( 5 )]
+
+[node name="PlayerDetection" parent="." instance=ExtResource( 6 )]
+
+[node name="CollisionShape2D" parent="PlayerDetection" index="0"]
+shape = SubResource( 3 )
+
+[node name="Hitbox" parent="." instance=ExtResource( 7 )]
+collision_layer = 8192
+collision_mask = 4
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2( 0, -14 )
+shape = SubResource( 4 )
+disabled = true
+
+[node name="SoftCollision" parent="." instance=ExtResource( 8 )]
+collision_mask = 2147484672
+
+[node name="CollisionShape2D" parent="SoftCollision" index="0"]
+shape = SubResource( 5 )
+
+[node name="WanderController" parent="." instance=ExtResource( 9 )]
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="Clickable" parent="." instance=ExtResource( 10 )]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+[connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
+[connection signal="body_exited" from="PlayerDetection" to="." method="_on_PlayerDetection_body_exited"]
+
+[editable path="Hurtbox"]
+
+[editable path="PlayerDetection"]
+
+[editable path="Hitbox"]
+
+[editable path="SoftCollision"]
