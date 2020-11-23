@@ -1,0 +1,24 @@
+[gd_resource type="Resource" load_steps=5 format=2]
+
+[ext_resource path="res://Characters/Components/Classes/CharacterClass.gd" type="Script" id=1]
+[ext_resource path="res://Abilities/Archer_Snipe.tres" type="Resource" id=2]
+[ext_resource path="res://Abilities/Archer_RainOfArrows.tres" type="Resource" id=3]
+[ext_resource path="res://Abilities/Archer_DoubleShot.tres" type="Resource" id=4]
+
+[resource]
+script = ExtResource( 1 )
+name = "Archer"
+class_prefix = "archer_"
+class_enum = 2
+attack_range = 64
+int_starting = 1
+con_starting = 2
+str_starting = 3
+agi_starting = 4
+int_per_level = 1
+con_per_level = 2
+str_per_level = 3
+agi_per_level = 4
+ability_1 = ExtResource( 4 )
+ability_2 = ExtResource( 2 )
+ability_3 = ExtResource( 3 )

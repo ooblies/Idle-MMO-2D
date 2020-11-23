@@ -1,0 +1,24 @@
+[gd_resource type="Resource" load_steps=5 format=2]
+
+[ext_resource path="res://Characters/Components/Classes/CharacterClass.gd" type="Script" id=1]
+[ext_resource path="res://Abilities/Priest_Heal.tres" type="Resource" id=2]
+[ext_resource path="res://Abilities/Priest_Regen.tres" type="Resource" id=3]
+[ext_resource path="res://Abilities/Priest_Resurrect.tres" type="Resource" id=4]
+
+[resource]
+script = ExtResource( 1 )
+name = "Priest"
+class_prefix = "priest_"
+class_enum = 3
+attack_range = 16
+int_starting = 4
+con_starting = 3
+str_starting = 2
+agi_starting = 1
+int_per_level = 4
+con_per_level = 3
+str_per_level = 2
+agi_per_level = 1
+ability_1 = ExtResource( 2 )
+ability_2 = ExtResource( 3 )
+ability_3 = ExtResource( 4 )

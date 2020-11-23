@@ -1,0 +1,303 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://UI/UI.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Navigation/Navigation.tscn" type="PackedScene" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+
+var character = null
+var enemy = null
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	$UI/ClassOptions.add_item(\"Class\")
+	$UI/ClassOptions.add_item(\"Warrior\")
+	$UI/ClassOptions.add_item(\"Archer\")
+	$UI/ClassOptions.add_item(\"Priest\")
+	
+	$UI/EnemyOptions.add_item(\"Enemy\")
+	$UI/EnemyOptions.add_item(\"Mouse\")
+	$UI/EnemyOptions.add_item(\"Bat\")
+
+
+func _on_Ability1_pressed():
+	var a = character.ability_manager.active_ability_1
+	character.play_animation(a.name.to_lower())
+	character.is_busy = true
+	character.ability_to_activate = a
+	#character.ability_manager.activate_ability_1()
+
+
+func _on_Ability2_pressed():
+	
+	var a = character.ability_manager.active_ability_2
+	character.play_animation(a.name.to_lower())
+	character.is_busy = true
+	character.ability_to_activate = a
+	#character.ability_manager.activate_ability_2()
+
+
+func _on_Ability3_pressed():
+	
+	var a = character.ability_manager.active_ability_3
+	character.play_animation(a.name.to_lower())
+	character.is_busy = true
+	character.ability_to_activate = a
+	#character.ability_manager.activate_ability_3()
+
+
+func _on_Health_Down_Button_pressed():
+	character.stats.health -= 1
+	character.health_ui.hearts = character.stats.health
+
+
+func _on_Health_Up_Button_pressed():
+	character.stats.health += 1
+	character.health_ui.hearts = character.stats.health
+
+
+func _on_Mana_Down_Button_pressed():
+	character.stats.mana -= 1
+	character.health_ui.mana = character.stats.mana
+
+
+func _on_Mana_Up_Button_pressed():
+	character.stats.mana -= 1
+	character.health_ui.mana = character.stats.mana
+
+
+func _on_Class_OptionButton_item_selected(index):
+	#get_child
+	if character != null:
+		for child in get_children():
+			if child.is_in_group(\"Characters\"):
+				child.queue_free()
+				character = null
+		
+	if $UI/ClassOptions.get_item_text(index) != \"Class\":
+		character = CharacterManager.create_character($UI/ClassOptions.get_item_text(index))
+		character.global_position = $CharacterPosition.position
+		add_child(character)
+		
+		var t = Timer.new()
+		t.set_wait_time(.25)
+		t.set_one_shot(true)
+		self.add_child(t)
+		t.start()
+		yield(t, \"timeout\")
+		if character.character_class.ability_1 != null:
+			character.ability_manager.active_ability_1 = character.character_class.ability_1.ability_enum
+			$UI/Ability1.text = character.character_class.ability_1.name
+			$UI/Ability1.visible = true
+		else:
+			$UI/Ability1.visible = false
+			
+		if character.character_class.ability_2 != null:
+			character.ability_manager.active_ability_2 = character.character_class.ability_2.ability_enum
+			$UI/Ability2.text = character.character_class.ability_2.name
+			$UI/Ability2.visible = true
+		else:
+			$UI/Ability2.visible = false
+			
+		if character.character_class.ability_3 != null:
+			character.ability_manager.active_ability_3 = character.character_class.ability_3.ability_enum
+			$UI/Ability3.text = character.character_class.ability_3.name
+			$UI/Ability3.visible = true
+		else:
+			$UI/Ability3.visible = false
+
+
+func _on_EnemyOptions_item_selected(index):
+	if enemy != null:
+		for child in get_children():
+			if child.is_in_group(\"Enemies\"):
+				child.queue_free()
+				enemy = null
+	if $UI/EnemyOptions.get_item_text(index) != \"Enemy\":
+		enemy = EnemyManager.create_enemy($UI/EnemyOptions.get_item_text(index))
+		enemy.set_global_position($EnemyPosition.position)
+		add_child(enemy)	
+
+
+func _on_Exp_Down_Button_pressed():
+	character.stats.experience -= 1
+	character.health_ui.experience = character.stats.experience
+
+
+func _on_Exp_Up_Button_pressed():
+	character.stats.experience += 1
+	character.health_ui.experience = character.stats.experience
+"
+
+[node name="World" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="Navigation" parent="." instance=ExtResource( 3 )]
+tile_data = PoolIntArray(  )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 0.5, 0.5 )
+
+[node name="CharacterPosition" type="Position2D" parent="."]
+position = Vector2( -64, 0 )
+
+[node name="EnemyPosition" type="Position2D" parent="."]
+position = Vector2( 64, 0 )
+
+[node name="UI" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ClassOptions" type="OptionButton" parent="UI"]
+anchor_left = -7.6
+anchor_top = -4.2
+anchor_right = -7.6
+anchor_bottom = -4.2
+margin_top = 1.52588e-05
+margin_right = 62.0
+margin_bottom = 20.0
+text = "Class"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Health" type="HBoxContainer" parent="UI"]
+margin_left = -304.0
+margin_top = -136.0
+margin_right = -217.0
+margin_bottom = -116.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="UI/Health"]
+margin_right = 17.0
+margin_bottom = 20.0
+text = "-"
+
+[node name="Label" type="Label" parent="UI/Health"]
+margin_left = 21.0
+margin_top = 3.0
+margin_right = 63.0
+margin_bottom = 17.0
+text = "Health"
+
+[node name="Button2" type="Button" parent="UI/Health"]
+margin_left = 67.0
+margin_right = 87.0
+margin_bottom = 20.0
+text = "+"
+
+[node name="Mana" type="HBoxContainer" parent="UI"]
+margin_left = -304.0
+margin_top = -104.0
+margin_right = -217.0
+margin_bottom = -84.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="UI/Mana"]
+margin_right = 17.0
+margin_bottom = 20.0
+text = "-"
+
+[node name="Label" type="Label" parent="UI/Mana"]
+margin_left = 21.0
+margin_top = 3.0
+margin_right = 55.0
+margin_bottom = 17.0
+text = "Mana"
+
+[node name="Button2" type="Button" parent="UI/Mana"]
+margin_left = 59.0
+margin_right = 79.0
+margin_bottom = 20.0
+text = "+"
+
+[node name="Experience" type="HBoxContainer" parent="UI"]
+margin_left = -304.0
+margin_top = -72.0
+margin_right = -217.0
+margin_bottom = -52.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="UI/Experience"]
+margin_right = 17.0
+margin_bottom = 20.0
+text = "-"
+
+[node name="Label" type="Label" parent="UI/Experience"]
+margin_left = 21.0
+margin_top = 3.0
+margin_right = 91.0
+margin_bottom = 17.0
+text = "Experience"
+
+[node name="Button2" type="Button" parent="UI/Experience"]
+margin_left = 95.0
+margin_right = 115.0
+margin_bottom = 20.0
+text = "+"
+
+[node name="Ability1" type="Button" parent="UI"]
+margin_left = -304.0
+margin_top = -40.0
+margin_right = -243.0
+margin_bottom = -20.0
+text = "Ability1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Ability2" type="Button" parent="UI"]
+margin_left = -304.0
+margin_top = -8.0
+margin_right = -243.0
+margin_bottom = 12.0
+text = "Ability1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Ability3" type="Button" parent="UI"]
+margin_left = -304.0
+margin_top = 24.0
+margin_right = -243.0
+margin_bottom = 44.0
+text = "Ability1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EnemyOptions" type="OptionButton" parent="UI"]
+margin_left = 232.0
+margin_top = -168.0
+margin_right = 304.0
+margin_bottom = -148.0
+grow_horizontal = 0
+text = "Enemy"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CanvasLayer" parent="." instance=ExtResource( 1 )]
+[connection signal="item_selected" from="UI/ClassOptions" to="." method="_on_Class_OptionButton_item_selected"]
+[connection signal="pressed" from="UI/Health/Button" to="." method="_on_Health_Down_Button_pressed"]
+[connection signal="pressed" from="UI/Health/Button2" to="." method="_on_Health_Up_Button_pressed"]
+[connection signal="pressed" from="UI/Mana/Button" to="." method="_on_Mana_Down_Button_pressed"]
+[connection signal="pressed" from="UI/Mana/Button2" to="." method="_on_Mana_Up_Button_pressed"]
+[connection signal="pressed" from="UI/Experience/Button" to="." method="_on_Exp_Down_Button_pressed"]
+[connection signal="pressed" from="UI/Experience/Button2" to="." method="_on_Exp_Up_Button_pressed"]
+[connection signal="pressed" from="UI/Ability1" to="." method="_on_Ability1_pressed"]
+[connection signal="pressed" from="UI/Ability2" to="." method="_on_Ability2_pressed"]
+[connection signal="pressed" from="UI/Ability3" to="." method="_on_Ability3_pressed"]
+[connection signal="item_selected" from="UI/EnemyOptions" to="." method="_on_EnemyOptions_item_selected"]

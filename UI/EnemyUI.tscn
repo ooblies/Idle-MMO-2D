@@ -1,0 +1,110 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://UI/GUI_DynamicFont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://UI/Assets/ThaleahFat.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://UI/EnemyUI.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 32
+font_data = ExtResource( 2 )
+
+[node name="EnemyUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 256.0
+margin_top = 128.0
+margin_right = -724.0
+margin_bottom = -128.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 720.0, 360.0 ],
+"_edit_use_anchors_": false,
+"_edit_vertical_guides_": [ 680.0 ]
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Stats" type="VBoxContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="Panel/Stats"]
+margin_right = 300.0
+margin_bottom = 63.0
+custom_fonts/font = SubResource( 1 )
+text = "Title
+Title2"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RowHP" type="HBoxContainer" parent="Panel/Stats"]
+margin_top = 67.0
+margin_right = 300.0
+margin_bottom = 82.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Panel/Stats/RowHP"]
+margin_right = 16.0
+margin_bottom = 15.0
+size_flags_horizontal = 2
+custom_fonts/font = ExtResource( 1 )
+text = "HP"
+
+[node name="Value" type="Label" parent="Panel/Stats/RowHP"]
+margin_left = 272.0
+margin_right = 280.0
+margin_bottom = 15.0
+size_flags_horizontal = 8
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 1 )
+text = "5"
+
+[node name="Of" type="Label" parent="Panel/Stats/RowHP"]
+margin_left = 284.0
+margin_right = 288.0
+margin_bottom = 15.0
+size_flags_horizontal = 8
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 1 )
+text = "/"
+
+[node name="Max" type="Label" parent="Panel/Stats/RowHP"]
+margin_left = 292.0
+margin_right = 300.0
+margin_bottom = 15.0
+size_flags_horizontal = 8
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 1 )
+text = "5"
+
+[node name="RowClass" type="HBoxContainer" parent="Panel/Stats"]
+margin_top = 86.0
+margin_right = 300.0
+margin_bottom = 101.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Panel/Stats/RowClass"]
+margin_right = 40.0
+margin_bottom = 15.0
+size_flags_horizontal = 0
+custom_fonts/font = ExtResource( 1 )
+text = "Class"
+
+[node name="Value" type="Label" parent="Panel/Stats/RowClass"]
+margin_left = 292.0
+margin_right = 300.0
+margin_bottom = 15.0
+size_flags_horizontal = 10
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 1 )
+text = "5"

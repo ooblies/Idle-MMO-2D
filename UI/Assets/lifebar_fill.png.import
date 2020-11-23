@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/header_panel_B_full.png-57b6f58af7cbc8a5f2da3064661d1f8c.stex"
+path="res://.import/lifebar_fill.png-fb8b0e083557c87174622bad0ea97443.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://UI/Assets/Candy/window/blue/header_panel_B_full.png"
-dest_files=[ "res://.import/header_panel_B_full.png-57b6f58af7cbc8a5f2da3064661d1f8c.stex" ]
+source_file="res://UI/Assets/lifebar_fill.png"
+dest_files=[ "res://.import/lifebar_fill.png-fb8b0e083557c87174622bad0ea97443.stex" ]
 
 [params]
 

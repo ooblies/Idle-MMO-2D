@@ -1,0 +1,41 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://Abilities/Ability.gd" type="Script" id=1]
+[ext_resource path="res://Effects/Ground_Arrow_Effect.png" type="Texture" id=2]
+[ext_resource path="res://Effects/ground_effect_hit_ground.tres" type="Texture" id=3]
+
+[resource]
+script = ExtResource( 1 )
+name = "RainOfArrows"
+ability_enum = 8
+ability_type = 3
+ability_target_type = 1
+ability_shape = 1
+ability_shape_center = 2
+ability_radius = 64
+ability_rectangle_size = Vector2( 0, 0 )
+cooldown = 30.0
+mana_cost = 5
+level_required = 10
+base_damage = 0.0
+weapon_damage = 0.0
+strength_damange = 0.0
+intelligence_damage = 0.0
+agility_damage = 5.0
+base_heal = 0.0
+intelligence_heal = 0.0
+effect_duration = 10.0
+effect_frequency = 1.0
+ground_effect_texture = ExtResource( 2 )
+ground_effect_gravity = Vector3( 0, 90, 0 )
+ground_effect_direction = Vector3( 0, 1, 0 )
+ground_effect_initial_velocity = 180.0
+ground_effect_lifetime = 0.5
+ground_effect_amount = 4
+ground_effect_accel_curve = ExtResource( 3 )
+ground_effect_position_offset = Vector2( 0, -64 )
+base_block = 0.0
+block_percent = 0.0
+effect_stat = 4
+effect_stat_increase_base = 0.0
+effect_stat_increase_multiplier = 0.0

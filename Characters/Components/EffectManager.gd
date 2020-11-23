@@ -14,6 +14,15 @@ func add_effect(a : Ability):
 	grid.add_child(effect)
 	effect.get_node("DurationTimer").start(a.effect_duration)
 	
+func get_damage_after_block(amount):
+	var amt = amount
+	for e in grid.get_children():
+		if e.ability.base_block > 0:
+			amt -= e.ability.base_block
+		if e.ability.block_percent > 0:
+			amt = amt * (1 - e.ability.block_percent)
+	return amt
+
 	
 func get_stat_buff(stat, stats):	
 	var increase_base = 0

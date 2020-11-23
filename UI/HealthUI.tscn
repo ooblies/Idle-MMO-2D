@@ -1,19 +1,68 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://UI/HealthUI.gd" type="Script" id=1]
 [ext_resource path="res://UI/HeartUIEmpty.png" type="Texture" id=2]
 [ext_resource path="res://UI/HeartUIFull.png" type="Texture" id=3]
+[ext_resource path="res://UI/Assets/exp_fill.png" type="Texture" id=4]
+[ext_resource path="res://UI/Assets/lifebar_bg.png" type="Texture" id=6]
+[ext_resource path="res://UI/Assets/health_fill.png" type="Texture" id=7]
+[ext_resource path="res://UI/Assets/mana_fill.png" type="Texture" id=8]
 
 [node name="HealthUI" type="Control"]
-margin_top = -3.0
-margin_bottom = -3.0
-rect_scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="HealthProgress" type="TextureProgress" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -32.0
+margin_top = -6.0
+margin_right = 32.0
+margin_bottom = -2.0
+max_value = 5.0
+value = 5.0
+rounded = true
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ManaProgress" type="TextureProgress" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -32.0
+margin_top = -2.0
+margin_right = 32.0
+margin_bottom = 2.0
+max_value = 5.0
+value = 5.0
+rounded = true
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="XPProgress" type="TextureProgress" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -32.0
+margin_top = 2.0
+margin_right = 32.0
+margin_bottom = 6.0
+max_value = 5.0
+rounded = true
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="HeartUIEmpty" type="TextureRect" parent="."]
+visible = false
 margin_right = 60.0
 margin_bottom = 13.0
 texture = ExtResource( 2 )
@@ -23,6 +72,7 @@ __meta__ = {
 }
 
 [node name="HeartUIFull" type="TextureRect" parent="."]
+visible = false
 margin_right = 45.0
 margin_bottom = 11.0
 texture = ExtResource( 3 )
@@ -31,3 +81,5 @@ stretch_mode = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Tween" type="Tween" parent="."]

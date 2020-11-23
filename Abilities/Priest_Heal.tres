@@ -1,0 +1,37 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Abilities/Ability.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+name = "Heal"
+ability_enum = 5
+ability_type = 1
+ability_target_type = 2
+ability_shape = 1
+ability_shape_center = 1
+ability_radius = 128
+ability_rectangle_size = Vector2( 0, 0 )
+cooldown = 20.0
+mana_cost = 1
+level_required = 2
+base_damage = 0.0
+weapon_damage = 0.0
+strength_damange = 0.0
+intelligence_damage = 0.0
+agility_damage = 0.0
+base_heal = 5.0
+intelligence_heal = 0.0
+effect_duration = 0.0
+effect_frequency = 0.0
+ground_effect_gravity = Vector3( 0, -15, 0 )
+ground_effect_direction = Vector3( 0, -1, 0 )
+ground_effect_initial_velocity = 0.0
+ground_effect_lifetime = 1.0
+ground_effect_amount = 8
+ground_effect_position_offset = Vector2( 0, 0 )
+base_block = 0.0
+block_percent = 0.0
+effect_stat = 4
+effect_stat_increase_base = 0.0
+effect_stat_increase_multiplier = 0.0

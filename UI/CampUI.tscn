@@ -1,0 +1,182 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://UI/Assets/ThaleahFat.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://UI/GUI_DynamicFont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://UI/CampUI.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 32
+font_data = ExtResource( 1 )
+
+[node name="CampUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 256.0
+margin_top = 128.0
+margin_right = -724.0
+margin_bottom = -128.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CreateCharacter" type="VBoxContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 32.0
+margin_top = 32.0
+margin_right = -32.0
+margin_bottom = -32.0
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="Panel/CreateCharacter"]
+margin_right = 246.0
+margin_bottom = 30.0
+custom_fonts/font = SubResource( 1 )
+text = "Create Character"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Warrior" type="HBoxContainer" parent="Panel/CreateCharacter"]
+margin_top = 40.0
+margin_right = 246.0
+margin_bottom = 61.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/CreateCharacter/Warrior"]
+margin_right = 183.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+custom_constants/separation = -5
+
+[node name="Class" type="Label" parent="Panel/CreateCharacter/Warrior/VBoxContainer"]
+margin_right = 183.0
+margin_bottom = 15.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 2 )
+text = "Warrior"
+
+[node name="Warning" type="Label" parent="Panel/CreateCharacter/Warrior/VBoxContainer"]
+visible = false
+margin_top = 10.0
+margin_right = 155.0
+margin_bottom = 25.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.952941, 0.117647, 0.117647, 1 )
+text = "Reach lvl 5 to unlock"
+
+[node name="Button" type="Button" parent="Panel/CreateCharacter/Warrior"]
+margin_left = 187.0
+margin_right = 246.0
+margin_bottom = 21.0
+custom_fonts/font = ExtResource( 2 )
+text = "Create"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Archer" type="HBoxContainer" parent="Panel/CreateCharacter"]
+margin_top = 71.0
+margin_right = 246.0
+margin_bottom = 96.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/CreateCharacter/Archer"]
+margin_right = 183.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+custom_constants/separation = -5
+
+[node name="Class" type="Label" parent="Panel/CreateCharacter/Archer/VBoxContainer"]
+margin_right = 183.0
+margin_bottom = 15.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 2 )
+text = "Archer"
+
+[node name="Warning" type="Label" parent="Panel/CreateCharacter/Archer/VBoxContainer"]
+margin_top = 10.0
+margin_right = 155.0
+margin_bottom = 25.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.952941, 0.117647, 0.117647, 1 )
+text = "Reach lvl 5 to unlock"
+
+[node name="Button" type="Button" parent="Panel/CreateCharacter/Archer"]
+margin_left = 187.0
+margin_right = 246.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 2 )
+disabled = true
+text = "Create"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Priest" type="HBoxContainer" parent="Panel/CreateCharacter"]
+margin_top = 106.0
+margin_right = 246.0
+margin_bottom = 131.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/CreateCharacter/Priest"]
+margin_right = 183.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+custom_constants/separation = -5
+
+[node name="Class" type="Label" parent="Panel/CreateCharacter/Priest/VBoxContainer"]
+margin_right = 183.0
+margin_bottom = 15.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 2 )
+text = "Priest"
+
+[node name="Warning" type="Label" parent="Panel/CreateCharacter/Priest/VBoxContainer"]
+margin_top = 10.0
+margin_right = 155.0
+margin_bottom = 25.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.952941, 0.117647, 0.117647, 1 )
+text = "Reach lvl 5 to unlock"
+
+[node name="Button" type="Button" parent="Panel/CreateCharacter/Priest"]
+margin_left = 187.0
+margin_right = 246.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 2 )
+disabled = true
+text = "Create"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="Panel/CreateCharacter/Warrior/Button" to="." method="_create_character" binds= [ "Warrior" ]]
+[connection signal="pressed" from="Panel/CreateCharacter/Archer/Button" to="." method="_create_character" binds= [ "Archer" ]]
+[connection signal="pressed" from="Panel/CreateCharacter/Priest/Button" to="." method="_create_character" binds= [ "Priest" ]]

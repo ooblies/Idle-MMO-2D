@@ -1,0 +1,9 @@
+[gd_resource type="CurveTexture" load_steps=2 format=2]
+
+[sub_resource type="Curve" id=1]
+min_value = -1024.0
+max_value = 200.0
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.5, 2.49091 ), 0.0, 0.0, 0, 0, Vector2( 0.508242, -1024 ), -79488.1, 0.0, 0, 0 ]
+
+[resource]
+curve = SubResource( 1 )

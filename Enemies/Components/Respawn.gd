@@ -11,15 +11,13 @@ onready var timer = $Timer
 onready var spawned_enemies = $SpawnedEnemies
 onready var collision_shape = $StaticBody2D/CollisionShape2D
 
-var enemy_scene = load("res://Enemies/Scenes/" + Global.Enemies.keys()[enemy] + ".tscn")
-
 onready var navigation = get_owner().get_node("Navigation")
 
 
 func _ready():
 	spawn_area_shape.shape.radius = spawn_radius
 	timer.start(spawn_rate)
-	print("spawner at - " + str(global_position))
+	#print("spawner at - " + str(global_position))
 	
 	yield(navigation, "ready")
 	navigation.disable_point(collision_shape.global_position, collision_shape.shape.radius)
@@ -46,9 +44,11 @@ func _on_Timer_timeout():
 	if spawned < max_enemies:		
 		var spawn_location = get_spawn_location()
 		#print(spawn_location)
-		var enemy_instance = enemy_scene.instance()
-		enemy_instance.set_global_position(spawn_location)
-		spawned_enemies.add_child(enemy_instance)	
+		var enemy_to_spawn = EnemyManager.create_enemy(Global.Enemies.keys()[enemy])
+		#enemy_scene = load("res://Enemies/Scenes/" + Global.Enemies.keys()[enemy] + ".tscn")
+		#var enemy_instance = enemy_scene.instance()
+		enemy_to_spawn.set_global_position(spawn_location)
+		spawned_enemies.add_child(enemy_to_spawn)	
 		
 		#print("spawning enemy at - " + str(spawned_enemies.get_child(0).global_position))
 

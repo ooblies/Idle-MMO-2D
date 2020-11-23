@@ -1,0 +1,522 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://UI/GUI_DynamicFont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://UI/Assets/ThaleahFat.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://UI/CharacterUI.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 32
+font_data = ExtResource( 2 )
+
+[node name="CharacterUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 256.0
+margin_top = 128.0
+margin_right = -724.0
+margin_bottom = -128.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 720.0, 360.0 ],
+"_edit_use_anchors_": false,
+"_edit_vertical_guides_": [ 680.0 ]
+}
+
+[node name="TabContainer" type="TabContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/side_margin = 0
+tab_align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Stats" type="VBoxContainer" parent="TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="Title" type="Label" parent="TabContainer/Stats"]
+margin_right = 292.0
+margin_bottom = 63.0
+custom_fonts/font = SubResource( 1 )
+text = "Title
+Title2"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RowHP" type="HBoxContainer" parent="TabContainer/Stats"]
+margin_top = 67.0
+margin_right = 292.0
+margin_bottom = 82.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="TabContainer/Stats/RowHP"]
+margin_right = 16.0
+margin_bottom = 15.0
+size_flags_horizontal = 2
+custom_fonts/font = ExtResource( 1 )
+text = "HP"
+
+[node name="Value" type="Label" parent="TabContainer/Stats/RowHP"]
+margin_left = 264.0
+margin_right = 272.0
+margin_bottom = 15.0
+size_flags_horizontal = 8
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 1 )
+text = "5"
+
+[node name="Of" type="Label" parent="TabContainer/Stats/RowHP"]
+margin_left = 276.0
+margin_right = 280.0
+margin_bottom = 15.0
+size_flags_horizontal = 8
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 1 )
+text = "/"
+
+[node name="Max" type="Label" parent="TabContainer/Stats/RowHP"]
+margin_left = 284.0
+margin_right = 292.0
+margin_bottom = 15.0
+size_flags_horizontal = 8
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 1 )
+text = "5"
+
+[node name="RowMana" type="HBoxContainer" parent="TabContainer/Stats"]
+margin_top = 86.0
+margin_right = 292.0
+margin_bottom = 101.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="TabContainer/Stats/RowMana"]
+margin_right = 32.0
+margin_bottom = 15.0
+size_flags_horizontal = 2
+custom_fonts/font = ExtResource( 1 )
+text = "Mana"
+
+[node name="Value" type="Label" parent="TabContainer/Stats/RowMana"]
+margin_left = 264.0
+margin_right = 272.0
+margin_bottom = 15.0
+size_flags_horizontal = 8
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 1 )
+text = "5"
+
+[node name="Of" type="Label" parent="TabContainer/Stats/RowMana"]
+margin_left = 276.0
+margin_right = 280.0
+margin_bottom = 15.0
+size_flags_horizontal = 8
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 1 )
+text = "/"
+
+[node name="Max" type="Label" parent="TabContainer/Stats/RowMana"]
+margin_left = 284.0
+margin_right = 292.0
+margin_bottom = 15.0
+size_flags_horizontal = 8
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 1 )
+text = "5"
+
+[node name="RowClass" type="HBoxContainer" parent="TabContainer/Stats"]
+margin_top = 105.0
+margin_right = 292.0
+margin_bottom = 120.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="TabContainer/Stats/RowClass"]
+margin_right = 40.0
+margin_bottom = 15.0
+size_flags_horizontal = 0
+custom_fonts/font = ExtResource( 1 )
+text = "Class"
+
+[node name="Value" type="Label" parent="TabContainer/Stats/RowClass"]
+margin_left = 284.0
+margin_right = 292.0
+margin_bottom = 15.0
+size_flags_horizontal = 10
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 1 )
+text = "5"
+
+[node name="RowStr" type="HBoxContainer" parent="TabContainer/Stats"]
+margin_top = 124.0
+margin_right = 292.0
+margin_bottom = 139.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="TabContainer/Stats/RowStr"]
+margin_right = 62.0
+margin_bottom = 15.0
+size_flags_horizontal = 0
+custom_fonts/font = ExtResource( 1 )
+text = "Strength"
+
+[node name="Value" type="Label" parent="TabContainer/Stats/RowStr"]
+margin_left = 284.0
+margin_right = 292.0
+margin_bottom = 15.0
+size_flags_horizontal = 10
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 1 )
+text = "5"
+
+[node name="RowInt" type="HBoxContainer" parent="TabContainer/Stats"]
+margin_top = 143.0
+margin_right = 292.0
+margin_bottom = 158.0
+
+[node name="Label" type="Label" parent="TabContainer/Stats/RowInt"]
+margin_right = 85.0
+margin_bottom = 15.0
+custom_fonts/font = ExtResource( 1 )
+text = "Intelligence"
+
+[node name="Value" type="Label" parent="TabContainer/Stats/RowInt"]
+margin_left = 284.0
+margin_right = 292.0
+margin_bottom = 15.0
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 1 )
+text = "5"
+
+[node name="RowAgi" type="HBoxContainer" parent="TabContainer/Stats"]
+margin_top = 162.0
+margin_right = 292.0
+margin_bottom = 177.0
+
+[node name="Label" type="Label" parent="TabContainer/Stats/RowAgi"]
+margin_right = 44.0
+margin_bottom = 15.0
+custom_fonts/font = ExtResource( 1 )
+text = "Agility"
+
+[node name="Value" type="Label" parent="TabContainer/Stats/RowAgi"]
+margin_left = 284.0
+margin_right = 292.0
+margin_bottom = 15.0
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 1 )
+text = "5"
+
+[node name="RowCon" type="HBoxContainer" parent="TabContainer/Stats"]
+margin_top = 181.0
+margin_right = 292.0
+margin_bottom = 196.0
+
+[node name="Text" type="Label" parent="TabContainer/Stats/RowCon"]
+margin_right = 83.0
+margin_bottom = 15.0
+custom_fonts/font = ExtResource( 1 )
+text = "Constitution"
+
+[node name="Value" type="Label" parent="TabContainer/Stats/RowCon"]
+margin_left = 284.0
+margin_right = 292.0
+margin_bottom = 15.0
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 1 )
+text = "5"
+
+[node name="RowExp" type="HBoxContainer" parent="TabContainer/Stats"]
+margin_top = 200.0
+margin_right = 292.0
+margin_bottom = 215.0
+
+[node name="Label" type="Label" parent="TabContainer/Stats/RowExp"]
+margin_right = 75.0
+margin_bottom = 15.0
+custom_fonts/font = ExtResource( 1 )
+text = "Experience"
+
+[node name="Value" type="Label" parent="TabContainer/Stats/RowExp"]
+margin_left = 284.0
+margin_right = 292.0
+margin_bottom = 15.0
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 1 )
+text = "5"
+
+[node name="RowLevel" type="HBoxContainer" parent="TabContainer/Stats"]
+margin_top = 219.0
+margin_right = 292.0
+margin_bottom = 234.0
+
+[node name="Label" type="Label" parent="TabContainer/Stats/RowLevel"]
+margin_right = 40.0
+margin_bottom = 15.0
+custom_fonts/font = ExtResource( 1 )
+text = "Level"
+
+[node name="Value" type="Label" parent="TabContainer/Stats/RowLevel"]
+margin_left = 284.0
+margin_right = 292.0
+margin_bottom = 15.0
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 1 )
+text = "5"
+
+[node name="RowStatus" type="HBoxContainer" parent="TabContainer/Stats"]
+margin_top = 238.0
+margin_right = 292.0
+margin_bottom = 253.0
+
+[node name="Label" type="Label" parent="TabContainer/Stats/RowStatus"]
+margin_right = 46.0
+margin_bottom = 15.0
+custom_fonts/font = ExtResource( 1 )
+text = "Status"
+
+[node name="Value" type="Label" parent="TabContainer/Stats/RowStatus"]
+margin_left = 284.0
+margin_right = 292.0
+margin_bottom = 15.0
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 1 )
+text = "X"
+
+[node name="RowTask" type="HBoxContainer" parent="TabContainer/Stats"]
+margin_top = 257.0
+margin_right = 292.0
+margin_bottom = 277.0
+
+[node name="Label" type="Label" parent="TabContainer/Stats/RowTask"]
+margin_top = 2.0
+margin_right = 231.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 1 )
+text = "Task"
+
+[node name="OptionButton" type="OptionButton" parent="TabContainer/Stats/RowTask"]
+margin_left = 235.0
+margin_right = 292.0
+margin_bottom = 20.0
+text = "Task"
+
+[node name="EnemyType" type="HBoxContainer" parent="TabContainer/Stats"]
+margin_top = 281.0
+margin_right = 292.0
+margin_bottom = 301.0
+
+[node name="Label" type="Label" parent="TabContainer/Stats/EnemyType"]
+margin_top = 2.0
+margin_right = 259.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 1 )
+text = "Hunt enemy"
+
+[node name="OptionButton" type="OptionButton" parent="TabContainer/Stats/EnemyType"]
+margin_left = 263.0
+margin_right = 292.0
+margin_bottom = 20.0
+
+[node name="Abilities" type="VBoxContainer" parent="TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="Title" type="Label" parent="TabContainer/Abilities"]
+margin_right = 292.0
+margin_bottom = 30.0
+custom_fonts/font = SubResource( 1 )
+text = "Abilties"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AbilityList" type="VBoxContainer" parent="TabContainer/Abilities"]
+margin_top = 34.0
+margin_right = 292.0
+margin_bottom = 162.0
+
+[node name="AbilityRow" type="HBoxContainer" parent="TabContainer/Abilities/AbilityList"]
+margin_right = 292.0
+margin_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Abilities/AbilityList/AbilityRow"]
+margin_right = 212.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+
+[node name="Name" type="Label" parent="TabContainer/Abilities/AbilityList/AbilityRow/VBoxContainer"]
+margin_right = 212.0
+margin_bottom = 15.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 1 )
+text = "Ability"
+
+[node name="Warning" type="Label" parent="TabContainer/Abilities/AbilityList/AbilityRow/VBoxContainer"]
+margin_top = 19.0
+margin_right = 212.0
+margin_bottom = 34.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "Level X Required"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Active" type="CheckButton" parent="TabContainer/Abilities/AbilityList/AbilityRow"]
+margin_left = 216.0
+margin_right = 292.0
+margin_bottom = 40.0
+
+[node name="AbilityRow2" type="HBoxContainer" parent="TabContainer/Abilities/AbilityList"]
+margin_top = 44.0
+margin_right = 292.0
+margin_bottom = 84.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Abilities/AbilityList/AbilityRow2"]
+margin_right = 212.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+
+[node name="Name" type="Label" parent="TabContainer/Abilities/AbilityList/AbilityRow2/VBoxContainer"]
+margin_right = 212.0
+margin_bottom = 15.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 1 )
+text = "Ability"
+
+[node name="Warning" type="Label" parent="TabContainer/Abilities/AbilityList/AbilityRow2/VBoxContainer"]
+margin_top = 19.0
+margin_right = 212.0
+margin_bottom = 34.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "Level X Required"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Active" type="CheckButton" parent="TabContainer/Abilities/AbilityList/AbilityRow2"]
+margin_left = 216.0
+margin_right = 292.0
+margin_bottom = 40.0
+
+[node name="AbilityRow3" type="HBoxContainer" parent="TabContainer/Abilities/AbilityList"]
+margin_top = 88.0
+margin_right = 292.0
+margin_bottom = 128.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Abilities/AbilityList/AbilityRow3"]
+margin_right = 212.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+
+[node name="Name" type="Label" parent="TabContainer/Abilities/AbilityList/AbilityRow3/VBoxContainer"]
+margin_right = 212.0
+margin_bottom = 15.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 1 )
+text = "Ability"
+
+[node name="Warning" type="Label" parent="TabContainer/Abilities/AbilityList/AbilityRow3/VBoxContainer"]
+margin_top = 19.0
+margin_right = 212.0
+margin_bottom = 34.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "Level X Required"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Active" type="CheckButton" parent="TabContainer/Abilities/AbilityList/AbilityRow3"]
+margin_left = 216.0
+margin_right = 292.0
+margin_bottom = 40.0
+
+[node name="Party" type="VBoxContainer" parent="TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="Title" type="Label" parent="TabContainer/Party"]
+margin_right = 292.0
+margin_bottom = 30.0
+custom_fonts/font = SubResource( 1 )
+text = "Create Party"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Party"]
+margin_top = 34.0
+margin_right = 292.0
+margin_bottom = 54.0
+
+[node name="Label" type="Label" parent="TabContainer/Party/HBoxContainer"]
+margin_top = 3.0
+margin_right = 61.0
+margin_bottom = 17.0
+text = "Add Party"
+
+[node name="TextEdit" type="TextEdit" parent="TabContainer/Party/HBoxContainer"]
+margin_left = 65.0
+margin_right = 235.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+selecting_enabled = false
+caret_blink = true
+
+[node name="Button" type="Button" parent="TabContainer/Party/HBoxContainer"]
+margin_left = 239.0
+margin_right = 292.0
+margin_bottom = 20.0
+text = "Create"
+
+[node name="HSeparator" type="HSeparator" parent="TabContainer/Party"]
+margin_top = 58.0
+margin_right = 292.0
+margin_bottom = 62.0
+
+[node name="Title2" type="Label" parent="TabContainer/Party"]
+margin_top = 66.0
+margin_right = 292.0
+margin_bottom = 96.0
+custom_fonts/font = SubResource( 1 )
+text = "Parties"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PartyList" type="VBoxContainer" parent="TabContainer/Party"]
+margin_top = 100.0
+margin_right = 292.0
+margin_bottom = 100.0
+[connection signal="item_selected" from="TabContainer/Stats/RowTask/OptionButton" to="." method="_on_OptionButton_item_selected"]
+[connection signal="item_selected" from="TabContainer/Stats/EnemyType/OptionButton" to="." method="_on_enemy_type_selected"]
+[connection signal="toggled" from="TabContainer/Abilities/AbilityList/AbilityRow/Active" to="." method="_on_ability_active_toggled" binds= [ 1 ]]
+[connection signal="toggled" from="TabContainer/Abilities/AbilityList/AbilityRow2/Active" to="." method="_on_ability_active_toggled" binds= [ 2 ]]
+[connection signal="toggled" from="TabContainer/Abilities/AbilityList/AbilityRow3/Active" to="." method="_on_ability_active_toggled" binds= [ 3 ]]
+[connection signal="pressed" from="TabContainer/Party/HBoxContainer/Button" to="." method="_create_party"]

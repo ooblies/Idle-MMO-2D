@@ -14,15 +14,40 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Abilities/Ability.gd"
 }, {
+"base": "StaticBody2D",
+"class": "Camp",
+"language": "GDScript",
+"path": "res://Characters/Components/Camp.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Character",
 "language": "GDScript",
 "path": "res://Characters/Scripts/Character.gd"
 }, {
+"base": "Resource",
+"class": "CharacterClass",
+"language": "GDScript",
+"path": "res://Characters/Components/Classes/CharacterClass.gd"
+}, {
 "base": "Node",
 "class": "Effect",
 "language": "GDScript",
 "path": "res://Characters/Components/Effect.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Enemy",
+"language": "GDScript",
+"path": "res://Enemies/Components/Enemy.gd"
+}, {
+"base": "Resource",
+"class": "EnemyClass",
+"language": "GDScript",
+"path": "res://Enemies/Components/EnemyClass.gd"
+}, {
+"base": "Reference",
+"class": "Party",
+"language": "GDScript",
+"path": "res://Characters/Components/Party/Party.gd"
 }, {
 "base": "Node",
 "class": "Stats",
@@ -31,8 +56,13 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Ability": "",
+"Camp": "",
 "Character": "",
+"CharacterClass": "",
 "Effect": "",
+"Enemy": "",
+"EnemyClass": "",
+"Party": "",
 "Stats": ""
 }
 
@@ -46,6 +76,8 @@ config/icon="res://icon.png"
 
 Global="*res://Global.tscn"
 CharacterManager="*res://Characters/CharacterManager.gd"
+PartyManager="*res://Characters/Components/Party/PartyManager.gd"
+EnemyManager="*res://Enemies/Components/EnemyManager.gd"
 
 [display]
 

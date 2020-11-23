@@ -1,7 +1,5 @@
 extends Camera2D
 
-signal cancel_inspect
-
 onready var top_left = $Limits/TopLeft
 onready var bottom_right = $Limits/BottomRight
 
@@ -13,7 +11,6 @@ export(float) var min_zoom = .1
 export(float) var zoom_step = .1
 export(float) var inspect_zoom_level = .3
 
-var is_inspecting = false
 var inspecting_target = null
 
 func _ready():
@@ -22,8 +19,8 @@ func _ready():
 	#limit_right = bottom_right.position.x
 	#limit_bottom = bottom_right.position.y
 	
-	var world = get_tree().get_root().get_node("World")
-	var _cnct = connect("cancel_inspect", world ,"_cancel_inspect")
+	#var world = get_tree().get_root().get_node("World")
+	#var _cnct = connect("cancel_inspect", world ,"_cancel_inspect")
 	
 	update_zoom(zoom_level)
 	
@@ -37,39 +34,33 @@ func _process(delta):
 		
 	if Input.is_action_pressed("ui_left"):
 		position.x -= move_speed * zoom_level * delta
-		is_inspecting = false
-		emit_signal("cancel_inspect")
+		Global.InspectTarget = null
 		
 	if Input.is_action_pressed("ui_right"):
 		position.x += move_speed * zoom_level * delta
-		is_inspecting = false
-		emit_signal("cancel_inspect")
+		Global.InspectTarget = null
 	
 	if Input.is_action_pressed("ui_up"):
 		position.y -= move_speed * zoom_level * delta
-		is_inspecting = false
-		emit_signal("cancel_inspect")
+		Global.InspectTarget = null
 		
 	if Input.is_action_pressed("ui_down"):
 		position.y += move_speed * zoom_level * delta
-		is_inspecting = false
-		emit_signal("cancel_inspect")
+		Global.InspectTarget = null
 		
-	if is_inspecting:
+	if Global.InspectTarget != null:
 		inspect_follow()
+		update_zoom(inspect_zoom_level)
+	else:
+		inspecting_target = null
+		
 			
 func update_zoom(level):
 	zoom_level = level
 	zoom.x = level
 	zoom.y = level
 	
-func inspect(target):
-	is_inspecting = true	
-	inspecting_target = target
-	update_zoom(inspect_zoom_level)
-
 func inspect_follow():
-	if inspecting_target != null:
-		var new_pos = inspecting_target.global_position
-		new_pos.x -= camera_inspect_offset * zoom_level
-		position = new_pos
+	var new_pos = Global.InspectTarget.global_position
+	new_pos.x -= camera_inspect_offset * zoom_level
+	position = new_pos

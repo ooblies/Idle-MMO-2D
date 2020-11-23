@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/window_bottom_full.png-5c662aefa701ee0e55054ead408fea46.stex"
+path="res://.import/Mouse_Brown.png-9f25b36c92a3e5a905c6a541a10f47b3.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://UI/Assets/Candy/window/blue/window_bottom_full.png"
-dest_files=[ "res://.import/window_bottom_full.png-5c662aefa701ee0e55054ead408fea46.stex" ]
+source_file="res://Enemies/Images/Mouse_Brown.png"
+dest_files=[ "res://.import/Mouse_Brown.png-9f25b36c92a3e5a905c6a541a10f47b3.stex" ]
 
 [params]
 

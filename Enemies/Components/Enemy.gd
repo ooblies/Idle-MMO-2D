@@ -1,4 +1,5 @@
 extends KinematicBody2D
+class_name Enemy
 
 const enemy_death_effect = preload("res://Effects/EnemyDeathEffect.tscn")
 
@@ -13,40 +14,51 @@ onready var animation_player = $AnimationPlayer
 onready var attack_timer = $AttackTimer
 onready var hitbox_shape = $Hitbox/CollisionShape2D
 onready var hitbox = $Hitbox
+onready var nametag = $NameTag
 
-export var acceleration = 300
-export var max_speed = 50
-export var friction = 200
-export var wander_target_range = 4
-export var soft_collision_strength = 400
+#physics vars
+var acceleration = 300
+var max_speed = 50
+var friction = 200
+var wander_target_range = 4
+var soft_collision_strength = 400
 
+#enemy vars
+var enemy_class : EnemyClass
 
+#state vars
 var state = Global.States.Chase
-
 var is_attacking = false
 var velocity = Vector2.ZERO
 
 func _ready():
 	state = pick_random_state([Global.States.Idle,Global.States.Wander])	
-	
-	attack_timer.start(stats.attack_speed)
-	
-	sprite.frame = rand_range(0,4)
+		
+	#sprite.frame = rand_range(0,4)
 	
 	health_ui.max_hearts = stats.max_health	
 	health_ui.hearts = stats.max_health	
+	
+	#class
+	nametag.text = enemy_class.name
+	hitbox_shape.shape.radius = enemy_class.attack_range
+	attack_timer.start(enemy_class.attack_speed)
+	stats.strength = enemy_class.str_starting
+	stats.intelligence = enemy_class.int_starting
+	stats.agility = enemy_class.agi_starting
+	stats.constitution = enemy_class.con_starting
 
 func _physics_process(delta):
 	match state:
 		Global.States.Idle:
-			animation_player.play("idle")
+			play_animation("idle")
 			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 			seek_player()
 			if wander_controller.get_time_left() == 0:
 				update_wander()
 				
 		Global.States.Wander:
-			animation_player.play("idle")
+			play_animation("idle")
 			seek_player()
 			if wander_controller.get_time_left() == 0:
 				update_wander()
@@ -56,13 +68,13 @@ func _physics_process(delta):
 				update_wander()
 			
 		Global.States.Chase:
-			animation_player.play("idle")
+			play_animation("idle")
 			
 			var player = player_detection.player
 			if player != null:
 				#if in attack range
 				if global_position.distance_to(player.global_position) <= hitbox_shape.shape.radius:
-					animation_player.play("idle")
+					play_animation("idle")
 					state = Global.States.Attack
 				else :
 					accelerate_towards_point(player.global_position,delta)				
@@ -75,8 +87,8 @@ func _physics_process(delta):
 			if is_attacking == false:
 				if player != null:
 					if attack_timer.time_left == 0:				
-						animation_player.play("attack")
-						attack_timer.start(stats.attack_speed)
+						play_animation("attack")
+						attack_timer.start(enemy_class.attack_speed)
 						is_attacking = true
 						hitbox.damage = stats.attack_damage
 					else:
@@ -92,7 +104,7 @@ func _physics_process(delta):
 
 func attack_animation_finished():
 	is_attacking = false
-	animation_player.play("idle")
+	play_animation("idle")
 	
 func accelerate_towards_point(point, delta):
 	var dir = global_position.direction_to(point)
@@ -130,5 +142,14 @@ func _on_Stats_no_health():
 	#give exp to nearby characters
 
 
-func _on_PlayerDetection_body_exited(_body):
-	pass # Replace with function body.
+func _on_Clickable_click():
+	Global.InspectTarget = self
+	
+func play_animation(name):
+	var animation_name = enemy_class.enemy_prefix + name
+	if animation_player.has_animation(animation_name):
+		animation_player.play(animation_name)
+	elif animation_player.has_animation("default_" + name):
+		animation_player.play("default_" + name)
+	else:
+		print("UNHANDLED ANIMATION - enemy.gd")

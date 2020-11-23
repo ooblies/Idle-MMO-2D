@@ -1,15 +1,18 @@
-extends Area2D
+extends Control
 
-signal inspect_target(target)
+export(int) var click_radius = 10
+
+signal click
 
 func _ready():
-	
-	var world = get_tree().get_root().get_node("World")
-	var _cnct = connect("inspect_target", world ,"_on_inspect_target")
+	pass
 
-func _input_event(_viewport, event, _shape_idx):
-	if event.get("button_index") != null:
-		if event.button_index == BUTTON_LEFT && event.pressed:
-			
-			emit_signal("inspect_target",get_owner())
-			
+func _input(event):
+	if event.get("button_index") != null: 
+		if event.button_index == BUTTON_LEFT && event.pressed:			
+			var mouse_pos = get_local_mouse_position()
+			var zero = Vector2.ZERO
+			var dist = zero.distance_to(mouse_pos)
+			#print("attempted click - distance - " + str(dist))
+			if dist < click_radius:
+				emit_signal("click")

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Enemies/Components/EnemyClass.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+name = "Bat"
+enemy_prefix = "bat_"
+enemy_enum = 1
+attack_range = 16
+attack_speed = 2
+int_starting = 1
+con_starting = 4
+str_starting = 2
+agi_starting = 1
+level = 2
+exp_on_kill = 2

@@ -100,9 +100,30 @@ func _connect_traversable_tiles():
 
 
 # Determines a unique ID for a given point on the map
-func _get_id_for_point(point):	
-	point -= rect_size.position
-	return point.y * rect_size.size.x + point.x
+func _get_id_for_point(point):		
+	#var xx = x >= 0 ? x * 2 : x * -2 - 1;
+	var xx = 0
+	if point.x >= 0:
+		xx = point.x * 2
+	else:
+		xx = point.x * -2 - 1
+	
+	#var yy = y >= 0 ? y * 2 : y * -2 - 1;
+	var yy = 0
+	if point.y >= 0:
+		yy = point.y * 2
+	else:
+		yy = point.y * -2 - 1
+	
+	var id = 0
+	#(xx >= yy) ? (xx * xx + xx + yy) : (yy * yy + xx);
+	if xx >= yy:
+		id = xx * xx + xx + yy
+	else:
+		id = yy * yy + xx
+	#point -= rect_size.position
+	#var id = point.y * rect_size.size.x + point.x
+	return id
 
 
 ## Public functions
@@ -111,6 +132,7 @@ func _get_id_for_point(point):
 # These are real positions, not cell coordinates
 func calculate_path(start, end):
 
+	var path_time = OS.get_system_time_msecs()
 	# Convert positions to cell coordinates
 	var start_tile = world_to_map(start)
 	var end_tile = world_to_map(end)
@@ -132,6 +154,13 @@ func calculate_path(start, end):
 	for point in path_map:
 		var point_world = map_to_world(Vector2(point.x, point.y)) + half_cell_size
 		path_world.append(point_world)
+	
+	
+	var path_duration : float = OS.get_system_time_msecs() - path_time
+	#print("Calculate path from " + str(start) + " to " + str(end))
+	#print warning if long calculate time
+	if path_duration >= 100:
+		print("WARNING - Time to calculate path - " + str(path_duration / 1000) + "s")
 	return path_world
 
 func disable_point(point : Vector2, radius : float):
@@ -154,8 +183,8 @@ func set_point_weight(point : Vector2, weight : float):
 	#var a_point_world = map_to_world(a_point)
 	#var test_weight = astar.get_point_weight_scale(id)
 	#print("point #" + str(id) + " - " + str(a_point_world) + " - weight = " + str(test_weight))
-	
-	astar.set_point_weight_scale(id, weight)
+	if astar.has_point(id):
+		astar.set_point_weight_scale(id, weight)
 	
 	#test_weight = astar.get_point_weight_scale(id)
 	#print("point #" + str(id) + " - " + str(a_point_world) + " - weight = " + str(test_weight))
