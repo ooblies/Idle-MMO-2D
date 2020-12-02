@@ -4,15 +4,15 @@
 
 [resource]
 script = ExtResource( 1 )
-name = "Bat"
-enemy_prefix = "bat_"
-enemy_enum = 1
-attack_range = 16
+name = "Boar"
+enemy_prefix = "boar_"
+enemy_enum = 2
+attack_range = 32
 attack_speed = 2
 intelligence = 1
-constitution = 4
-strength = 8
+constitution = 20
+strength = 20
 agility = 1
-level = 2
-exp_on_kill = 2
-hitbox_offset_y = -16
+level = 5
+exp_on_kill = 5
+hitbox_offset_y = -12

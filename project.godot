@@ -44,15 +44,25 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Enemies/Components/EnemyClass.gd"
 }, {
+"base": "Node",
+"class": "EnemyStats",
+"language": "GDScript",
+"path": "res://Enemies/Components/EnemyStats.gd"
+}, {
 "base": "Reference",
 "class": "Party",
 "language": "GDScript",
 "path": "res://Characters/Components/Party/Party.gd"
 }, {
 "base": "Node",
-"class": "Stats",
+"class": "PlayerStats",
 "language": "GDScript",
-"path": "res://Enemies/Components/Stats.gd"
+"path": "res://Enemies/Components/PlayerStats.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Projectile",
+"language": "GDScript",
+"path": "res://Abilities/Projectiles/Projectile.gd"
 } ]
 _global_script_class_icons={
 "Ability": "",
@@ -62,8 +72,10 @@ _global_script_class_icons={
 "Effect": "",
 "Enemy": "",
 "EnemyClass": "",
+"EnemyStats": "",
 "Party": "",
-"Stats": ""
+"PlayerStats": "",
+"Projectile": ""
 }
 
 [application]

@@ -1,6 +1,7 @@
-[gd_resource type="Resource" load_steps=2 format=2]
+[gd_resource type="Resource" load_steps=3 format=2]
 
 [ext_resource path="res://Abilities/Ability.gd" type="Script" id=1]
+[ext_resource path="res://Abilities/Projectiles/Arrow.png" type="Texture" id=2]
 
 [resource]
 script = ExtResource( 1 )
@@ -11,7 +12,7 @@ ability_target_type = 1
 ability_shape = 2
 ability_shape_center = 1
 ability_radius = 0
-ability_rectangle_size = Vector2( 128, 8 )
+ability_rectangle_size = Vector2( 96, 8 )
 cooldown = 30.0
 mana_cost = 5
 level_required = 5
@@ -30,6 +31,10 @@ ground_effect_initial_velocity = 0.0
 ground_effect_lifetime = 1.0
 ground_effect_amount = 8
 ground_effect_position_offset = Vector2( 0, 0 )
+projectile_texture = ExtResource( 2 )
+projectile_speed = 700
+projectile_duration = 0.25
+projectile_offset = Vector2( 0, -7 )
 base_block = 0.0
 block_percent = 0.0
 effect_stat = 4

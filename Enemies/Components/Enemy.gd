@@ -3,7 +3,7 @@ class_name Enemy
 
 const enemy_death_effect = preload("res://Effects/EnemyDeathEffect.tscn")
 
-onready var stats = $Stats
+onready var stats = $EnemyStats
 onready var player_detection = $PlayerDetection
 onready var sprite = $Sprite
 onready var hurt_box = $Hurtbox
@@ -32,6 +32,9 @@ var is_attacking = false
 var velocity = Vector2.ZERO
 
 func _ready():
+	stats.enemy_class = enemy_class
+	hitbox.position.y = enemy_class.hitbox_offset_y
+	
 	state = pick_random_state([Global.States.Idle,Global.States.Wander])	
 		
 	#sprite.frame = rand_range(0,4)
@@ -43,10 +46,6 @@ func _ready():
 	nametag.text = enemy_class.name
 	hitbox_shape.shape.radius = enemy_class.attack_range
 	attack_timer.start(enemy_class.attack_speed)
-	stats.strength = enemy_class.str_starting
-	stats.intelligence = enemy_class.int_starting
-	stats.agility = enemy_class.agi_starting
-	stats.constitution = enemy_class.con_starting
 
 func _physics_process(delta):
 	match state:
@@ -70,29 +69,27 @@ func _physics_process(delta):
 		Global.States.Chase:
 			play_animation("idle")
 			
-			var player = player_detection.player
-			if player != null:
+			if player_detection.player != null:
 				#if in attack range
-				if global_position.distance_to(player.global_position) <= hitbox_shape.shape.radius:
+				if global_position.distance_to(player_detection.player.global_position) <= hitbox_shape.shape.radius:
 					play_animation("idle")
 					state = Global.States.Attack
 				else :
-					accelerate_towards_point(player.global_position,delta)				
+					accelerate_towards_point(player_detection.player.global_position,delta)				
 			else:
 				state = Global.States.Idle
 				
 		Global.States.Attack:
-			velocity = Vector2.ZERO
-			var player = player_detection.player
 			if is_attacking == false:
-				if player != null:
+				velocity = Vector2.ZERO
+				if player_detection.player != null:
 					if attack_timer.time_left == 0:				
 						play_animation("attack")
 						attack_timer.start(enemy_class.attack_speed)
 						is_attacking = true
 						hitbox.damage = stats.attack_damage
 					else:
-						if global_position.distance_to(player.global_position) > hitbox_shape.shape.radius:
+						if global_position.distance_to(player_detection.player.global_position) > hitbox_shape.shape.radius:
 							state = Global.States.Chase
 				else:
 					state = Global.States.Idle	
@@ -130,18 +127,6 @@ func _on_Hurtbox_area_entered(area):
 	
 	hurt_box.create_hit_effect()
 
-func _on_Stats_no_health():
-	#delete node
-	queue_free()
-	
-	#death effect
-	var enemy_death_effect_instance = enemy_death_effect.instance()
-	get_parent().add_child(enemy_death_effect_instance)
-	enemy_death_effect_instance.global_position = global_position
-
-	#give exp to nearby characters
-
-
 func _on_Clickable_click():
 	Global.InspectTarget = self
 	
@@ -153,3 +138,15 @@ func play_animation(name):
 		animation_player.play("default_" + name)
 	else:
 		print("UNHANDLED ANIMATION - enemy.gd")
+
+
+func _on_EnemyStats_no_health():
+	#delete node
+	queue_free()
+	
+	#death effect
+	var enemy_death_effect_instance = enemy_death_effect.instance()
+	get_parent().add_child(enemy_death_effect_instance)
+	enemy_death_effect_instance.global_position = global_position
+
+	#give exp to nearby characters

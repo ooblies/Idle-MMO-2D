@@ -4,6 +4,7 @@ export(Global.Enemies) var enemy
 export(int) var max_enemies = 1
 export(int) var spawn_radius = 100
 export(int) var spawn_rate = 1
+export(bool) var dynamic_max = true
 
 onready var spawn_area = $SpawnArea
 onready var spawn_area_shape = $SpawnArea/CollisionShape2D
@@ -38,10 +39,25 @@ func get_spawn_location():
 	
 	return spawn_loc
 
+func get_dynamic_max():
+	var dynamic_max = 0
+	for body in spawn_area.get_overlapping_bodies():
+		if body.is_in_group("Characters"):
+			dynamic_max += 1
+	if dynamic_max == 0:
+		dynamic_max = 1
+		
+	return dynamic_max
+
 func _on_Timer_timeout():
 	timer.start(spawn_rate)
 	var spawned = spawned_enemies.get_child_count()
-	if spawned < max_enemies:		
+	
+	var actual_max = max_enemies
+	if dynamic_max:
+		actual_max = get_dynamic_max()
+	
+	if spawned < actual_max:		
 		var spawn_location = get_spawn_location()
 		#print(spawn_location)
 		var enemy_to_spawn = EnemyManager.create_enemy(Global.Enemies.keys()[enemy])

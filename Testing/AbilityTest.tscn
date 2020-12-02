@@ -20,6 +20,10 @@ func _ready():
 	$UI/EnemyOptions.add_item(\"Enemy\")
 	$UI/EnemyOptions.add_item(\"Mouse\")
 	$UI/EnemyOptions.add_item(\"Bat\")
+	
+	
+	#temp
+	#_on_Class_OptionButton_item_selected(2)
 
 
 func _on_Ability1_pressed():
@@ -64,7 +68,7 @@ func _on_Mana_Down_Button_pressed():
 
 
 func _on_Mana_Up_Button_pressed():
-	character.stats.mana -= 1
+	character.stats.mana += 1
 	character.health_ui.mana = character.stats.mana
 
 
@@ -129,6 +133,27 @@ func _on_Exp_Down_Button_pressed():
 func _on_Exp_Up_Button_pressed():
 	character.stats.experience += 1
 	character.health_ui.experience = character.stats.experience
+
+
+func _on_Direction_Left_Button_pressed():
+	character.sprite.flip_h = true
+
+
+func _on_Direction_Right_Button_pressed():
+	character.sprite.flip_h = false
+
+
+func _on_Attack_pressed():
+	character.is_busy = true
+	character.play_animation(\"attack_right\")
+
+
+func _on_Angle_Down_Button_pressed():
+	character.hitbox_pivot.rotation_degrees -= 5
+
+
+func _on_Angle_Up_Button_pressed():
+	character.hitbox_pivot.rotation_degrees += 5
 "
 
 [node name="World" type="Node2D"]
@@ -248,11 +273,75 @@ margin_right = 115.0
 margin_bottom = 20.0
 text = "+"
 
-[node name="Ability1" type="Button" parent="UI"]
+[node name="Direction" type="HBoxContainer" parent="UI"]
 margin_left = -304.0
 margin_top = -40.0
-margin_right = -243.0
+margin_right = -200.0
 margin_bottom = -20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="UI/Direction"]
+margin_right = 25.0
+margin_bottom = 20.0
+text = "<-"
+
+[node name="Label" type="Label" parent="UI/Direction"]
+margin_left = 29.0
+margin_top = 3.0
+margin_right = 88.0
+margin_bottom = 17.0
+text = "Direction"
+
+[node name="Button2" type="Button" parent="UI/Direction"]
+margin_left = 92.0
+margin_right = 117.0
+margin_bottom = 20.0
+text = "->"
+
+[node name="Angle" type="HBoxContainer" parent="UI"]
+margin_left = -304.0
+margin_top = -8.0
+margin_right = -187.0
+margin_bottom = 12.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="UI/Angle"]
+margin_right = 17.0
+margin_bottom = 20.0
+text = "-"
+
+[node name="Label" type="Label" parent="UI/Angle"]
+margin_left = 21.0
+margin_top = 3.0
+margin_right = 57.0
+margin_bottom = 17.0
+text = "Angle"
+
+[node name="Button2" type="Button" parent="UI/Angle"]
+margin_left = 61.0
+margin_right = 81.0
+margin_bottom = 20.0
+text = "+"
+
+[node name="Attack" type="Button" parent="UI"]
+margin_left = -304.0
+margin_top = 24.0
+margin_right = -243.0
+margin_bottom = 44.0
+text = "Attack"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Ability1" type="Button" parent="UI"]
+margin_left = -304.0
+margin_top = 56.0
+margin_right = -243.0
+margin_bottom = 76.0
 text = "Ability1"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -260,9 +349,9 @@ __meta__ = {
 
 [node name="Ability2" type="Button" parent="UI"]
 margin_left = -304.0
-margin_top = -8.0
+margin_top = 88.0
 margin_right = -243.0
-margin_bottom = 12.0
+margin_bottom = 108.0
 text = "Ability1"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -270,9 +359,9 @@ __meta__ = {
 
 [node name="Ability3" type="Button" parent="UI"]
 margin_left = -304.0
-margin_top = 24.0
+margin_top = 120.0
 margin_right = -243.0
-margin_bottom = 44.0
+margin_bottom = 140.0
 text = "Ability1"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -297,6 +386,11 @@ __meta__ = {
 [connection signal="pressed" from="UI/Mana/Button2" to="." method="_on_Mana_Up_Button_pressed"]
 [connection signal="pressed" from="UI/Experience/Button" to="." method="_on_Exp_Down_Button_pressed"]
 [connection signal="pressed" from="UI/Experience/Button2" to="." method="_on_Exp_Up_Button_pressed"]
+[connection signal="pressed" from="UI/Direction/Button" to="." method="_on_Direction_Left_Button_pressed"]
+[connection signal="pressed" from="UI/Direction/Button2" to="." method="_on_Direction_Right_Button_pressed"]
+[connection signal="pressed" from="UI/Angle/Button" to="." method="_on_Angle_Down_Button_pressed"]
+[connection signal="pressed" from="UI/Angle/Button2" to="." method="_on_Angle_Up_Button_pressed"]
+[connection signal="pressed" from="UI/Attack" to="." method="_on_Attack_pressed"]
 [connection signal="pressed" from="UI/Ability1" to="." method="_on_Ability1_pressed"]
 [connection signal="pressed" from="UI/Ability2" to="." method="_on_Ability2_pressed"]
 [connection signal="pressed" from="UI/Ability3" to="." method="_on_Ability3_pressed"]

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Mouse_Brown.png-9f25b36c92a3e5a905c6a541a10f47b3.stex"
+path="res://.import/favicon.png-407570d1683bc0e3cc7360455ec6b0a9.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Enemies/Images/Mouse_Brown.png"
-dest_files=[ "res://.import/Mouse_Brown.png-9f25b36c92a3e5a905c6a541a10f47b3.stex" ]
+source_file="res://Exports/favicon.png"
+dest_files=[ "res://.import/favicon.png-407570d1683bc0e3cc7360455ec6b0a9.stex" ]
 
 [params]
 

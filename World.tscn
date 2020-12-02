@@ -915,6 +915,7 @@ position = Vector2( 3253.39, 2308.72 )
 
 [node name="Camp" parent="YSort/Camps" instance=ExtResource( 7 )]
 position = Vector2( 371.929, 328.099 )
+heal_strength = 5
 
 [node name="Spawners" type="YSort" parent="YSort"]
 
@@ -926,6 +927,11 @@ max_enemies = 2
 position = Vector2( 104, -384 )
 enemy = 1
 max_enemies = 2
+
+[node name="BoarSpawner" parent="YSort/Spawners" instance=ExtResource( 15 )]
+position = Vector2( 1461.15, 328 )
+enemy = 2
+dynamic_max = false
 
 [node name="Environment" type="YSort" parent="YSort"]
 

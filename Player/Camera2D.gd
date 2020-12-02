@@ -33,20 +33,20 @@ func _process(delta):
 		update_zoom(clamp(zoom_level + zoom_step, min_zoom, max_zoom))
 		
 	if Input.is_action_pressed("ui_left"):
-		position.x -= move_speed * zoom_level * delta
-		Global.InspectTarget = null
+		if Global.InspectTarget == null:
+			position.x -= move_speed * zoom_level * delta
 		
 	if Input.is_action_pressed("ui_right"):
-		position.x += move_speed * zoom_level * delta
-		Global.InspectTarget = null
+		if Global.InspectTarget == null:
+			position.x += move_speed * zoom_level * delta
 	
 	if Input.is_action_pressed("ui_up"):
-		position.y -= move_speed * zoom_level * delta
-		Global.InspectTarget = null
+		if Global.InspectTarget == null:
+			position.y -= move_speed * zoom_level * delta
 		
 	if Input.is_action_pressed("ui_down"):
-		position.y += move_speed * zoom_level * delta
-		Global.InspectTarget = null
+		if Global.InspectTarget == null:
+			position.y += move_speed * zoom_level * delta
 		
 	if Global.InspectTarget != null:
 		inspect_follow()

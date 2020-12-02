@@ -10,11 +10,14 @@ export(int) var attack_range = 16
 export(int) var attack_speed = 2
 
 #stats
-export(int) var int_starting = 1
-export(int) var con_starting = 1
-export(int) var str_starting = 1
-export(int) var agi_starting = 1
+export(int) var intelligence = 1
+export(int) var constitution = 1
+export(int) var strength = 1
+export(int) var agility = 1
 
 #exp
 export(int) var level = 1
 export(int) var exp_on_kill = 1
+
+#offsert
+export(int) var hitbox_offset_y = 0

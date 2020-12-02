@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 signal add_effect
 
@@ -33,7 +33,8 @@ var parent
 onready var ability_timer_1 = $AbilityTimer1
 onready var ability_timer_2 = $AbilityTimer2
 onready var ability_timer_3 = $AbilityTimer3
-onready var hitbox : Area2D = $Hitbox
+onready var hitbox : Area2D = $HitboxPivot/Hitbox
+onready var hitbox_pivot : Position2D = $HitboxPivot
 onready var friendly_detector: Area2D = $FriendlyDetector
 
 func _ready():	
@@ -57,6 +58,14 @@ func _ready():
 	#activate_ability(abilities[Global.Abilities.Priest_Regen])
 	
 	#add_child(create_particles(abilities[Global.Abilities.Priest_Regen]))
+	
+	#global_position = parent.global_position
+	
+	
+func get_ability_from_name(name):
+	for a in abilities:
+		if name in a.resource_path.to_lower():
+			return a
 	
 func activate_buffs():
 	if active_ability_1 != null:
@@ -208,8 +217,7 @@ func calculate_ability_damage(a: Ability):
 
 func calculate_heal_amount(a : Ability):
 	var base = a.base_heal
-	#To-Do: Scale this with INT
-	var intHeal = a.intelligence_heal
+	var intHeal = a.intelligence_heal * parent.get_effective_stat(Global.Stats.Intelligence)
 	
 	return base + intHeal
 	
@@ -294,7 +302,8 @@ func activate_ability(a: Ability):
 							
 							match a.ability_shape_center:
 								Global.AbilityShapeCenter.Self:
-									collision.global_position = parent.global_position
+									#collision.global_position = parent.global_position
+									pass
 								Global.AbilityShapeCenter.Target:
 									print("Unhandled Ability Case - dsct")
 									
@@ -304,7 +313,8 @@ func activate_ability(a: Ability):
 							
 							match a.ability_shape_center:
 								Global.AbilityShapeCenter.Self:
-									collision.global_position = parent.global_position + Vector2(a.ability_rectangle_size.x,a.ability_rectangle_size.y/2*-1)
+									#TODO this isn't quite right
+									collision.global_position = Vector2(a.ability_rectangle_size.x,a.ability_rectangle_size.y/2*-1)
 								Global.AbilityShapeCenter.Target:									
 									print("Unhandled Ability Case - dsrt")
 									
@@ -316,6 +326,10 @@ func activate_ability(a: Ability):
 					
 			collision.set_shape(shape)
 			hitbox.add_child(collision)
+			
+			if a.projectile_texture != null:
+				hitbox_pivot.rotation_degrees = parent.hitbox_pivot.rotation_degrees
+				
 			yield(get_tree().create_timer(max(.1,a.effect_duration)), "timeout")
 			collision.queue_free()
 
@@ -332,7 +346,7 @@ func activate_ability(a: Ability):
 							heal_area.set_collision_mask_bit(2, true) 
 							heal_area.damage = heal_amount
 							
-							collision.global_position = parent.global_position
+							#collision.global_position = parent.global_position
 							
 							shape = CircleShape2D.new()
 							shape.radius = a.ability_radius
@@ -351,7 +365,7 @@ func activate_ability(a: Ability):
 							
 							#add particles
 							var particles = create_particle_effect(a)
-							particles.position = parent.global_position
+							#particles.position = parent.global_position
 							heal_area.add_child(particles)
 							
 							#add area
@@ -400,7 +414,6 @@ func activate_ability(a: Ability):
 				Global.AbilityTargetType.Shaped:
 					var dmg_area = load("res://Hitboxes & Hurtboxes/Hitbox.tscn").instance()
 					dmg_area.damage = calculate_ability_damage(a)
-					#hitbox.set_collision_layer_bit(12, true) #enemy hurtbox
 					dmg_area.set_collision_mask_bit(12, true) #enemy hurtbox
 					
 					match a.ability_shape:
@@ -410,11 +423,14 @@ func activate_ability(a: Ability):
 							
 							match a.ability_shape_center:
 								Global.AbilityShapeCenter.Self:
-									collision.global_position = parent.global_position
+									#collision.global_position = parent.global_position
+									pass
 								Global.AbilityShapeCenter.Target:
 									var pos = parent.get_enemy_position()
-									if pos == null:
-										pos = parent.global_position
+									if pos != null: 
+										pos = pos + Vector2(global_position.x * -1, global_position.y * -1)
+									else:
+										pos = Vector2.ZERO
 									collision.global_position = pos
 									
 						Global.AbilityShapes.Rectangle:
@@ -423,14 +439,23 @@ func activate_ability(a: Ability):
 							
 							match a.ability_shape_center:
 								Global.AbilityShapeCenter.Self:
-									collision.global_position = parent.global_position + Vector2(a.ability_rectangle_size.x,a.ability_rectangle_size.y/2*-1)
+									collision.global_position = Vector2(a.ability_rectangle_size.x,a.ability_rectangle_size.y/2*-1)
 								Global.AbilityShapeCenter.Target:
 									collision.global_position = parent.get_enemy_position() + Vector2(a.ability_rectangle_size.x,a.ability_rectangle_size.y/2*-1)
 					
 					#set collision
+					
 					collision.set_shape(shape)
 					collision.disabled = true
-					dmg_area.add_child(collision)
+					
+					if a.projectile_texture != null:
+						var pivot = Position2D.new()
+						pivot.add_child(collision)
+						dmg_area.add_child(pivot)
+						pivot.rotation_degrees = parent.hitbox_pivot.rotation_degrees
+					else:
+						dmg_area.add_child(collision)
+					
 					dmg_area.blink_shape = collision
 					
 					#create timer for area

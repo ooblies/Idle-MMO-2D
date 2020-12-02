@@ -8,6 +8,8 @@ func can_see_enemy():
 	enemies = get_overlapping_bodies()
 	if enemies.size() > 0:
 		enemy = get_closest_enemy()
+	else:
+		enemy = null
 	
 		
 	return enemy != null

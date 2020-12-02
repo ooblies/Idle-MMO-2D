@@ -1,6 +1,7 @@
 class_name Party
 
 var characters = []
+var leader = null
 
 export var name = "Default Party Name"
 
@@ -10,14 +11,30 @@ func add_character(c):
 		if characters[i] == c:
 			new_char = false
 	if new_char:
+		if characters.size() == 0:
+			leader = c
 		characters.append(c)
 		c.party = self
+		
+func is_party_leader(c):
+	if c == leader:
+		return true
+	else:
+		return false
+		
+func set_attack_target(target):
+	for character in characters:
+		character.enemy_detector.enemy = target
+		character.move_to_enemy(target)
+		
 
 func remove_character(c):
 	for i in characters.size():
 		if characters[i] == c:
 			characters.remove(i)
 			c.party = null
+	if characters.size() == 0:
+		leader = null
 
 func is_character_in_party(c):
 	for character in characters:

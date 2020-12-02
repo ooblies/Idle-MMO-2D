@@ -87,20 +87,64 @@ size_flags_vertical = 1
 custom_fonts/font = ExtResource( 1 )
 text = "5"
 
-[node name="RowClass" type="HBoxContainer" parent="Panel/Stats"]
+[node name="RowAttackDamage" type="HBoxContainer" parent="Panel/Stats"]
 margin_top = 86.0
 margin_right = 300.0
 margin_bottom = 101.0
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Panel/Stats/RowClass"]
-margin_right = 40.0
+[node name="Label" type="Label" parent="Panel/Stats/RowAttackDamage"]
+margin_right = 99.0
 margin_bottom = 15.0
 size_flags_horizontal = 0
 custom_fonts/font = ExtResource( 1 )
-text = "Class"
+text = "Attack Damage"
 
-[node name="Value" type="Label" parent="Panel/Stats/RowClass"]
+[node name="Value" type="Label" parent="Panel/Stats/RowAttackDamage"]
+margin_left = 292.0
+margin_right = 300.0
+margin_bottom = 15.0
+size_flags_horizontal = 10
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 1 )
+text = "5"
+
+[node name="RowAttackSpeed" type="HBoxContainer" parent="Panel/Stats"]
+margin_top = 105.0
+margin_right = 300.0
+margin_bottom = 120.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Panel/Stats/RowAttackSpeed"]
+margin_right = 91.0
+margin_bottom = 15.0
+size_flags_horizontal = 0
+custom_fonts/font = ExtResource( 1 )
+text = "Attack Speed"
+
+[node name="Value" type="Label" parent="Panel/Stats/RowAttackSpeed"]
+margin_left = 292.0
+margin_right = 300.0
+margin_bottom = 15.0
+size_flags_horizontal = 10
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 1 )
+text = "5"
+
+[node name="RowAttackRange" type="HBoxContainer" parent="Panel/Stats"]
+margin_top = 124.0
+margin_right = 300.0
+margin_bottom = 139.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Panel/Stats/RowAttackRange"]
+margin_right = 91.0
+margin_bottom = 15.0
+size_flags_horizontal = 0
+custom_fonts/font = ExtResource( 1 )
+text = "Attack Range"
+
+[node name="Value" type="Label" parent="Panel/Stats/RowAttackRange"]
 margin_left = 292.0
 margin_right = 300.0
 margin_bottom = 15.0

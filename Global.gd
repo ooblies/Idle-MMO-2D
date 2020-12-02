@@ -18,7 +18,8 @@ enum Classes {
 
 enum Enemies {
 	Mouse,
-	Bat
+	Bat,
+	Boar
 }
 
 enum Abilities {
@@ -81,6 +82,13 @@ enum AbilityShapeCenter {
 func get_state_name(state):
 	return States.keys()[state]
 
+var default_names = ["Liam","Noah","William","James","Oliver","Benjamin","Elijah","Lucas","Mason","Logan","Alexander","Ethan",
+			"Emma","Olivia","Ava","Isabella","Sophia","Charlotte","Mia","Amelia","Harper","Evelyn","Abigail","Emily","Elizabeth"]
+
+func get_random_name():
+	var name_index = randi() % 25
+	return default_names[name_index]
+
 var InspectTarget
 
 var level_breakpoints = [ #0
@@ -112,6 +120,8 @@ func get_experience_at_previous_level(experience):
 
 #To-Do: move below to new helper?
 func can_create_character(character_class):	
+	return true
+	
 	var characters = get_tree().get_nodes_in_group("Characters")
 	var character_count = characters.size()
 	var max_warrior_level = 0
@@ -136,7 +146,7 @@ func can_create_character(character_class):
 			priest_count += 1
 			if character.stats.level > max_priest_level:
 				max_priest_level = character.stats.level
-	#return true
+	
 	match character_class:
 		Global.Classes.Warrior:
 			if character_count == 0:

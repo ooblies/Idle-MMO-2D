@@ -42,6 +42,12 @@ export(int) var ground_effect_amount = 8
 export(Resource) var ground_effect_accel_curve = null
 export(Vector2) var ground_effect_position_offset = Vector2.ZERO
 
+#projectile
+export(Texture) var projectile_texture = null
+export(int) var projectile_speed = 250
+export(float) var projectile_duration = 0.5
+export(Vector2) var projectile_offset = Vector2.ZERO
+
 #block
 export(float) var base_block = 0
 export(float) var block_percent = 0

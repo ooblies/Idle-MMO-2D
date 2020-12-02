@@ -6,7 +6,9 @@ onready var abilities_tab = $TabContainer/Abilities
 onready var party_tab = $TabContainer/Party
 
 #inspect
-onready var title_row = $TabContainer/Stats/Title
+onready var title_row = $TabContainer/Stats/TitleContainer/Title
+onready var title_edit = $TabContainer/Stats/TitleContainer/TitleEdit
+onready var title_toggle = $TabContainer/Stats/TitleContainer/TitleEditToggle
 onready var health_row = $TabContainer/Stats/RowHP
 onready var mana_row = $TabContainer/Stats/RowMana
 onready var class_row = $TabContainer/Stats/RowClass
@@ -96,9 +98,11 @@ func _ready():
 	task_row.add_item("Town", Global.Tasks.Town)
 	task_row.add_item("Hunt", Global.Tasks.Hunt)
 	
+	#todo make dynamic
 	hunt_enemy_row.add_item("None",-1)
 	hunt_enemy_row.add_item("Mouse", Global.Enemies.Mouse)
 	hunt_enemy_row.add_item("Bat", Global.Enemies.Bat)
+	hunt_enemy_row.add_item("Boar", Global.Enemies.Boar)
 	
 func _process(_delta):
 	var git = Global.InspectTarget
@@ -141,6 +145,14 @@ func display_character_stats():
 	set_experience(stats.experience)
 	set_level(stats.level)
 	set_state(Global.get_state_name(target.state))
+	if target.party != null:
+		if target.party.is_party_leader(target):
+			task_row.disabled = false
+			hunt_enemy_row.disabled = false
+		else:
+			task_row.disabled = true
+			hunt_enemy_row.disabled = true
+			
 	task_row.select(target.task)
 	hunt_enemy_row.select(-1)
 	if target.task == Global.Tasks.Hunt:
@@ -248,17 +260,20 @@ func _on_OptionButton_item_selected(index):
 
 
 func _on_enemy_type_selected(enemy):
-	enemy -= 1
-	#-1 is NONE
-	if enemy >= 0:
-		if Global.InspectTarget.party != null:
-			Global.InspectTarget.party.set_hunting_target(enemy)
-		else:
-			Global.InspectTarget.set_hunting_target(enemy)
+	if Global.InspectTarget.is_in_group("Characters"):
+		enemy -= 1
+		#-1 is NONE
+		if enemy >= 0:
+			if Global.InspectTarget.party != null:
+				Global.InspectTarget.party.set_hunting_target(enemy)
+			else:
+				Global.InspectTarget.set_hunting_target(enemy)
 
 
 func _create_party():
 	PartyManager.create_party(new_party_name.text)
+	$TabContainer/Party/HBoxContainer/TextEdit.text = ""
+	$TabContainer/Party/HBoxContainer/TextEdit.release_focus()
 	
 func _join_party(name):
 	for party in party_list.get_children():
@@ -303,3 +318,32 @@ func _on_ability_active_toggled(active, ability_index):
 				Global.InspectTarget.ability_manager.active_ability_3 = Global.InspectTarget.character_class.ability_3.ability_enum
 			else:
 				Global.InspectTarget.ability_manager.active_ability_3 = null
+
+
+func _on_TitleEditToggle_pressed():
+	title_row.visible = !title_row.visible
+	title_edit.visible = !title_edit.visible
+	#title_edit.focus_mode = Control.FOCUS_ALL
+	title_edit.grab_focus()
+	title_edit.select_all()
+
+
+func _on_TitleEdit_text_changed(text):
+	Global.InspectTarget.character_name = text
+
+func _input(_event):
+	if Input.is_key_pressed(KEY_ENTER):
+		if tabs.current_tab == 0: #Stats
+			_on_TitleEditToggle_pressed()
+
+
+
+func _on_TitleEdit_visibility_changed():
+	title_edit.text = title_row.text
+
+
+func _on_PartyEdit_text_changed(new_text):
+	if new_text.length() > 0:
+		$TabContainer/Party/HBoxContainer/Button.disabled = false
+	else:
+		$TabContainer/Party/HBoxContainer/Button.disabled = true

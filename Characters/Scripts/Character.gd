@@ -34,7 +34,7 @@ onready var exclamation = $Exclamation
 export var acceleration = 300
 export var max_speed = 50
 export var friction = 200
-export var rest_threshhold = .5
+export var rest_threshhold = .25
 export var soft_collision_strength = 400
 var velocity = Vector2.ZERO
 
@@ -68,23 +68,20 @@ var hunting_target_location
 
 
 func _ready():
-	#yield(get_owner(), "ready")
+	stats.character_class = character_class
+	stats.health = stats.max_health
+	stats.experience = 1
 	attack_timer.start(stats.attack_speed)
+	
 	health_ui.max_hearts = stats.max_health
 	health_ui.hearts = stats.max_health
-	#health_ui.max_experience = Global.get_experience_at_next_level(stats.experience)
 	health_ui.experience = stats.experience
 	health_ui.max_mana = stats.max_mana
 	health_ui.mana = stats.mana
 	
-	stats.health = stats.max_health
 	ability_manager.parent = self
-	stats.character_class = character_class
 	
-
-		
 	respawn_point.position = global_position	
-		
 	
 	hitbox_area_shape.shape = CapsuleShape2D.new()
 	hitbox_area_shape.shape.height = stats.attack_range
@@ -98,7 +95,6 @@ func _ready():
 	attack_area_shape.position = hitbox_area_shape.position	
 	hitbox_area_shape.rotation_degrees = 90
 	
-	nametag.text = character_name
 	set_state(Global.States.Idle)
 	#shaders
 	var dupe_mat = get_node("Sprite").material.duplicate()
@@ -106,6 +102,7 @@ func _ready():
 	
 
 func _physics_process(delta):
+	nametag.text = character_name
 	#print(class_prefix + "- Range:" + str(hitbox_area_shape.shape.height))
 	match state:
 		Global.States.Idle:
@@ -124,6 +121,12 @@ func _physics_process(delta):
 	if soft_collisions.is_colliding():
 		velocity += soft_collisions.get_push_vector() * delta * soft_collision_strength
 	velocity = move_and_slide(velocity)
+	
+	$Leader.visible = false
+	if party != null:
+		if party.is_party_leader(self):
+			$Leader.visible = true
+		
 
 
 func flip_sprite():
@@ -152,11 +155,11 @@ func state_travel(delta):
 func state_rest(delta):
 	res_team()
 	if !is_busy:
-		if path != null:	
-			move_along_path(delta)
+		if stats.health >= stats.max_health && stats.mana >= stats.max_mana:
+			set_state(Global.States.Idle)
 		else:
-			if stats.health >= stats.max_health:
-				set_state(Global.States.Idle)
+			if path != null:	
+				move_along_path(delta)
 			else:
 				play_animation("idle")
 				velocity = Vector2.ZERO
@@ -194,7 +197,10 @@ func state_idle(_delta):
 				if hpercent < rest_threshhold:
 					camp = seek_closest_camp()
 					if camp:
-						set_state(Global.States.Rest)
+						if party != null:
+							party.set_state(Global.States.Rest)
+						else:
+							set_state(Global.States.Rest)
 					else:
 						seek_enemy()
 				else:
@@ -316,16 +322,32 @@ func move_along_path(delta):
 		velocity = velocity.move_toward(dir * max_speed, acceleration * delta)
 	
 		flip_sprite()
-	
+
+func move_to_enemy(e):
+	path = navigation.calculate_path(global_position, e.global_position)
+	if path != null && path.size() > 0:
+		update_navigation_line()
+		set_state(Global.States.Chase)
+	else:
+		print("can't find a path to " + e.name)
+		enemy_detector.get_next_enemy()
+
 func seek_enemy():
 	if enemy_detector.can_see_enemy() && navigation != null:
-		path = navigation.calculate_path(global_position, enemy_detector.enemy.global_position)
-		if path != null && path.size() > 0:
-			update_navigation_line()
-			set_state(Global.States.Chase)
+		if party != null:
+			if party.is_party_leader(self):
+				party.set_attack_target(enemy_detector.enemy)
+			else: 
+				move_to_enemy(enemy_detector.enemy)
 		else:
-			print("can't find a path to " + enemy_detector.enemy.name)
-			enemy_detector.get_next_enemy()
+			move_to_enemy(enemy_detector.enemy)
+	else:
+		if task == Global.Tasks.Hunt:
+			set_hunting_target(hunting_target)
+		elif task == Global.Tasks.Town:
+			seek_closest_camp()
+		#can't find enemy - go to spawner
+		
 		
 
 func _on_Hurtbox_area_entered(area : Area2D):
@@ -385,8 +407,8 @@ func _on_stats_changed():
 
 func _on_EnemyDetector_body_exited(body):
 	if body.is_in_group("Enemies"):
-		if body.stats.level != null:
-			stats.experience += body.stats.level
+		if body.enemy_class != null && body.stats.health <= 0:
+			stats.experience += body.enemy_class.exp_on_kill 
 			health_ui.experience = stats.experience
 		
 func _add_effect(ability : Ability):
@@ -411,7 +433,6 @@ func get_effective_stat(stat):
 func state_dead():
 	velocity = Vector2.ZERO
 	sprite.material.shader = load("res://Effects/Ghost.shader")
-	#sprite.material.shader = load("res://Effects/Ghost.shader")
 	play_animation("idle")
 	health_ui.visible = false
 	hurt_box.monitorable = false
@@ -462,3 +483,24 @@ func get_enemy_position():
 		var enemy = enemy_detector.enemy
 		return enemy.global_position
 	return null
+
+func fire_attack_projectile():
+	if character_class.attack_projectile_texture != null:
+		var projectile : Projectile = load("res://Abilities/Projectiles/Projectile.tscn").instance()
+		projectile.texture = character_class.attack_projectile_texture
+		projectile.speed = character_class.attack_projectile_speed
+		projectile.duration = character_class.attack_projectile_duration
+		projectile.offset = character_class.attack_projectile_offset
+		projectile.p_rotation = hitbox_pivot.rotation_degrees
+		add_child(projectile)
+		
+func fire_ability_projectile(a_name):
+	var a : Ability = ability_manager.get_ability_from_name(a_name)
+	if a.projectile_texture != null:
+		var projectile : Projectile = load("res://Abilities/Projectiles/Projectile.tscn").instance()
+		projectile.texture = a.projectile_texture
+		projectile.speed = a.projectile_speed
+		projectile.duration = a.projectile_duration
+		projectile.offset = a.projectile_offset
+		projectile.p_rotation = hitbox_pivot.rotation_degrees
+		add_child(projectile)

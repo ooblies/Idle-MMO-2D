@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Bat.png-ac5d94dc58b0aa6359770b1102bd525f.stex"
+path="res://.import/star.svg-c3a71fffe654c707920dfdf349d774c5.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Enemies/Images/Bat.png"
-dest_files=[ "res://.import/Bat.png-ac5d94dc58b0aa6359770b1102bd525f.stex" ]
+source_file="res://Characters/Components/Party/star.svg"
+dest_files=[ "res://.import/star.svg-c3a71fffe654c707920dfdf349d774c5.stex" ]
 
 [params]
 
