@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Characters/Components/Classes/CharacterClass.gd"
 }, {
+"base": "KinematicBody2D",
+"class": "Drop",
+"language": "GDScript",
+"path": "res://Items/Drop.gd"
+}, {
 "base": "Node",
 "class": "Effect",
 "language": "GDScript",
@@ -48,6 +53,16 @@ _global_script_classes=[ {
 "class": "EnemyStats",
 "language": "GDScript",
 "path": "res://Enemies/Components/EnemyStats.gd"
+}, {
+"base": "Node",
+"class": "Equipment",
+"language": "GDScript",
+"path": "res://Items/Equipment/Equipment.gd"
+}, {
+"base": "Resource",
+"class": "Item",
+"language": "GDScript",
+"path": "res://Items/Item.gd"
 }, {
 "base": "Reference",
 "class": "Party",
@@ -69,10 +84,13 @@ _global_script_class_icons={
 "Camp": "",
 "Character": "",
 "CharacterClass": "",
+"Drop": "",
 "Effect": "",
 "Enemy": "",
 "EnemyClass": "",
 "EnemyStats": "",
+"Equipment": "",
+"Item": "",
 "Party": "",
 "PlayerStats": "",
 "Projectile": ""
@@ -90,6 +108,7 @@ Global="*res://Global.tscn"
 CharacterManager="*res://Characters/CharacterManager.gd"
 PartyManager="*res://Characters/Components/Party/PartyManager.gd"
 EnemyManager="*res://Enemies/Components/EnemyManager.gd"
+ItemManager="*res://Items/Item_Manager.gd"
 
 [display]
 
@@ -192,6 +211,7 @@ ui_scroll_down={
 2d_physics/layer_3="CharacterHurtbox"
 2d_physics/layer_4="CharacterHitbox"
 2d_physics/layer_5="CharacterHealbox"
+2d_physics/layer_6="Drops"
 2d_physics/layer_11="SoftCollisions"
 2d_physics/layer_12="Enemy"
 2d_physics/layer_13="EnemyHurtbox"

@@ -64,6 +64,10 @@ var state = Global.States.Idle
 var task = Global.Tasks.Town
 var hunting_target = null
 var hunting_target_location
+
+#item vars
+var items : Array = []
+var equipment : Equipment = load("res://Items/Equipment/Equipment.gd").new()
 	
 
 
@@ -99,6 +103,10 @@ func _ready():
 	#shaders
 	var dupe_mat = get_node("Sprite").material.duplicate()
 	sprite.material = dupe_mat
+	
+	
+	#temp
+	items.append(ItemManager.generate_item())
 	
 
 func _physics_process(delta):
@@ -138,7 +146,7 @@ func flip_sprite():
 func state_travel(delta):
 	res_team()
 	if !is_busy:
-		if path != null:	
+		if path != null && path.size() > 0:	
 			move_along_path(delta)
 		else:		
 			match task:
@@ -441,6 +449,8 @@ func state_dead():
 func revive():
 	set_state(Global.States.Idle)
 	
+	is_busy = false
+	
 	stats.health = stats.max_health
 	health_ui.hearts = stats.health
 	
@@ -504,3 +514,14 @@ func fire_ability_projectile(a_name):
 		projectile.offset = a.projectile_offset
 		projectile.p_rotation = hitbox_pivot.rotation_degrees
 		add_child(projectile)
+
+
+func _on_PickupArea_body_entered(body):
+	var dps = ((body.item.min_damage + body.item.max_damage) / 2) / body.item.weapon_speed
+	
+	items.append(body.item)
+	
+	for item in items:
+		print ("Current Items: (" + str(item.get_instance_id()) + ") " + item.name)
+	
+	body.queue_free()

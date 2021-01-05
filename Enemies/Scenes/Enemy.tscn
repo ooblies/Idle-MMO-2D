@@ -287,7 +287,7 @@ tracks/5/keys = {
 "values": [ 0, 1, 2, 3, 4 ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=9]
 resource_name = "boar_attack"
 length = 0.4
 tracks/0/type = "value"
@@ -401,7 +401,7 @@ tracks/8/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=10]
 resource_name = "boar_idle"
 length = 0.3
 loop = true
@@ -490,7 +490,7 @@ tracks/6/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=11]
 resource_name = "boar_move"
 length = 0.8
 loop = true
@@ -579,17 +579,13 @@ tracks/6/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=9]
-resource_name = "default_attack"
-
-[sub_resource type="Animation" id=10]
-resource_name = "default_idle"
-
-[sub_resource type="Animation" id=11]
-resource_name = "default_move"
-
 [sub_resource type="Animation" id=12]
-resource_name = "mouse_attack"
+
+[sub_resource type="Animation" id=13]
+
+[sub_resource type="Animation" id=14]
+
+[sub_resource type="Animation" id=15]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
@@ -690,8 +686,7 @@ tracks/7/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=13]
-resource_name = "mouse_idle"
+[sub_resource type="Animation" id=16]
 length = 0.5
 loop = true
 tracks/0/type = "value"
@@ -767,8 +762,7 @@ tracks/5/keys = {
 "values": [ 0, 1, 2, 3, 4 ]
 }
 
-[sub_resource type="Animation" id=14]
-resource_name = "mouse_move"
+[sub_resource type="Animation" id=17]
 length = 0.5
 loop = true
 tracks/0/type = "value"
@@ -928,15 +922,15 @@ autostart = true
 anims/bat_attack = SubResource( 6 )
 anims/bat_idle = SubResource( 7 )
 anims/bat_move = SubResource( 8 )
-anims/boar_attack = SubResource( 15 )
-anims/boar_idle = SubResource( 16 )
-anims/boar_move = SubResource( 17 )
-anims/default_attack = SubResource( 9 )
-anims/default_idle = SubResource( 10 )
-anims/default_move = SubResource( 11 )
-anims/mouse_attack = SubResource( 12 )
-anims/mouse_idle = SubResource( 13 )
-anims/mouse_move = SubResource( 14 )
+anims/boar_attack = SubResource( 9 )
+anims/boar_idle = SubResource( 10 )
+anims/boar_move = SubResource( 11 )
+anims/default_attack = SubResource( 12 )
+anims/default_idle = SubResource( 13 )
+anims/default_move = SubResource( 14 )
+anims/mouse_attack = SubResource( 15 )
+anims/mouse_idle = SubResource( 16 )
+anims/mouse_move = SubResource( 17 )
 
 [node name="EnemyStats" parent="." instance=ExtResource( 5 )]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]

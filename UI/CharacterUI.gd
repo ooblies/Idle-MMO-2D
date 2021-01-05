@@ -1,35 +1,47 @@
 extends Control
 #Tabs
 onready var tabs = $TabContainer
-onready var stats_tab = $TabContainer/Stats
+onready var character_tab = $TabContainer/Character
 onready var abilities_tab = $TabContainer/Abilities
-onready var party_tab = $TabContainer/Party
+onready var inventory_tab = $TabContainer/Inventory
+#onready var party_tab = $TabContainer/Party
 
-#inspect
-onready var title_row = $TabContainer/Stats/TitleContainer/Title
-onready var title_edit = $TabContainer/Stats/TitleContainer/TitleEdit
-onready var title_toggle = $TabContainer/Stats/TitleContainer/TitleEditToggle
-onready var health_row = $TabContainer/Stats/RowHP
-onready var mana_row = $TabContainer/Stats/RowMana
-onready var class_row = $TabContainer/Stats/RowClass
-onready var strength_row = $TabContainer/Stats/RowStr
-onready var intelligence_row = $TabContainer/Stats/RowInt
-onready var agility_row = $TabContainer/Stats/RowAgi
-onready var constitution_row = $TabContainer/Stats/RowCon
-onready var experience_row = $TabContainer/Stats/RowExp
-onready var level_row = $TabContainer/Stats/RowLevel
-onready var state_row = $TabContainer/Stats/RowStatus
-onready var task_row = $TabContainer/Stats/RowTask/OptionButton
-onready var hunt_enemy_row = $TabContainer/Stats/EnemyType/OptionButton
+#character
+onready var title_row = $TabContainer/Character/TitleContainer/Title
+onready var title_edit = $TabContainer/Character/TitleContainer/TitleEdit
+onready var title_toggle = $TabContainer/Character/TitleContainer/TitleEditToggle
+onready var health_row = $TabContainer/Character/RowHP
+onready var mana_row = $TabContainer/Character/RowMana
+onready var class_row = $TabContainer/Character/RowClass
+onready var strength_row = $TabContainer/Character/RowStr
+onready var intelligence_row = $TabContainer/Character/RowInt
+onready var agility_row = $TabContainer/Character/RowAgi
+onready var constitution_row = $TabContainer/Character/RowCon
+onready var experience_row = $TabContainer/Character/RowExp
+onready var level_row = $TabContainer/Character/RowLevel
+onready var state_row = $TabContainer/Character/RowStatus
+onready var task_row = $TabContainer/Character/RowTask/OptionButton
+onready var hunt_enemy_row = $TabContainer/Character/EnemyType/OptionButton
+#party
+onready var new_party_name = $TabContainer/Character/Party/HBoxContainer/TextEdit
+onready var party_list = $TabContainer/Character/Party/PartyList
+onready var party_button = $TabContainer/Character/Party/HBoxContainer/Button
+onready var party_text = $TabContainer/Character/Party/HBoxContainer/TextEdit
 
 #abilities
 onready var ability_row_1 = $TabContainer/Abilities/AbilityList/AbilityRow
 onready var ability_row_2 = $TabContainer/Abilities/AbilityList/AbilityRow2
 onready var ability_row_3 = $TabContainer/Abilities/AbilityList/AbilityRow3
 
-#party
-onready var new_party_name = $TabContainer/Party/HBoxContainer/TextEdit
-onready var party_list = $TabContainer/Party/PartyList
+#inventory
+onready var item_list = $TabContainer/Inventory/ItemList
+onready var equipment_stats_dps_value = $TabContainer/Inventory/EquipmentStats/DPS/Value
+onready var equipment_stats_armor_value = $TabContainer/Inventory/EquipmentStats/Armor/Value
+onready var equipment_stats_str_value = $TabContainer/Inventory/EquipmentStats/Str/Value
+onready var equipment_stats_con_value = $TabContainer/Inventory/EquipmentStats/Con/Value
+onready var equipment_stats_agi_value = $TabContainer/Inventory/EquipmentStats/Agi/Value
+onready var equipment_stats_int_value = $TabContainer/Inventory/EquipmentStats/Int/Value
+
 
 
 var health setget set_health
@@ -122,13 +134,13 @@ func _process(_delta):
 func display_character_screen():	
 	match tabs.current_tab:
 		0: #stats
-			display_character_stats()
+			display_character_tab()
 		1: #abilities
 			display_abilities_screen()
-		2: #party	
-			display_party_screen()
+		2: #inventory
+			display_inventory_screen()
 	
-func display_character_stats():
+func display_character_tab():
 	var target = Global.InspectTarget
 	var stats = target.stats
 	title_row.text = target.character_name
@@ -220,7 +232,7 @@ func display_abilities_screen():
 	else:
 		ability_row_3.visible = false
 	
-func display_party_screen():
+func update_party_screen():
 	for party in PartyManager.get_parties():
 		var create_party_row = true
 		
@@ -247,6 +259,13 @@ func display_party_screen():
 			var leave_button : Button = new_party_row.get_node("Party/Leave")
 			var _leave = leave_button.connect("pressed",self,"_leave_party",[new_party_row.party_name])
 			
+			if party.is_character_in_party(Global.InspectTarget):
+				new_party_row.get_node("Party/Join").disabled = true
+				new_party_row.get_node("Party/Leave").disabled = false
+			else:
+				new_party_row.get_node("Party/Join").disabled = false
+				new_party_row.get_node("Party/Leave").disabled = true
+			
 			party_list.add_child(new_party_row)
 	
 #select task
@@ -256,7 +275,7 @@ func _on_OptionButton_item_selected(index):
 	else:
 		Global.InspectTarget.task = index
 	if index == Global.Tasks.Hunt:
-		display_character_stats()
+		display_character_tab()
 
 
 func _on_enemy_type_selected(enemy):
@@ -272,8 +291,11 @@ func _on_enemy_type_selected(enemy):
 
 func _create_party():
 	PartyManager.create_party(new_party_name.text)
-	$TabContainer/Party/HBoxContainer/TextEdit.text = ""
-	$TabContainer/Party/HBoxContainer/TextEdit.release_focus()
+	party_text.text = ""
+	party_text.release_focus()
+	party_button.disabled = true
+	
+	update_party_screen()
 	
 func _join_party(name):
 	for party in party_list.get_children():
@@ -290,6 +312,8 @@ func _join_party(name):
 			
 	PartyManager.add_character_to_party(name, Global.InspectTarget)
 	
+	update_party_screen()
+	
 func _leave_party(name):
 	for party in party_list.get_children():
 		if party.party_name == name:
@@ -299,6 +323,8 @@ func _leave_party(name):
 					character_list.remove_child(character_row)
 
 	PartyManager.remove_character_from_party(name, Global.InspectTarget)
+	
+	update_party_screen()
 
 
 func _on_ability_active_toggled(active, ability_index):
@@ -344,6 +370,67 @@ func _on_TitleEdit_visibility_changed():
 
 func _on_PartyEdit_text_changed(new_text):
 	if new_text.length() > 0:
-		$TabContainer/Party/HBoxContainer/Button.disabled = false
+		party_button.disabled = false
 	else:
-		$TabContainer/Party/HBoxContainer/Button.disabled = true
+		party_button.disabled = true
+		
+		
+func display_inventory_screen():
+	update_inventory_screen()
+
+func update_inventory_screen():
+	update_inventory_stats()
+	var items = Global.InspectTarget.items
+	var nodes = item_list.get_children()
+	
+	for item in Global.InspectTarget.items:
+		var create_item_row = true
+		
+		#Existing Item
+		for node in item_list.get_children():
+			if item.item_id == node.item.item_id:
+				create_item_row = false
+		
+		#New Item
+		if create_item_row:
+			var new_item_row = load("res://UI/ItemRow.tscn").instance()
+			new_item_row.item = item
+			
+			var sell_button : Button = new_item_row.get_node("Sell")
+			var _sell = sell_button.connect("pressed",self,"_sell_item",[new_item_row.item])
+			
+			item_list.add_child(new_item_row)
+	
+	for node in item_list.get_children():
+		var delete = true
+		for item in Global.InspectTarget.items:
+			if item.item_id == node.item.item_id:
+				delete = false
+		
+		if delete:
+			node.queue_free()
+			
+func _sell_item(item):
+	print("Selling Item " + item.name + " for " + str(item.calculate_value()) + "g")
+	Global.gold += item.calculate_value()
+	Global.InspectTarget.items.erase(item)
+	for node in item_list.get_children():
+		if item.item_id == node.item.item_id:
+			node.queue_free()
+			
+func update_inventory_stats():
+	equipment_stats_dps_value.text = calculate_dps()
+	equipment_stats_armor_value.text = str(Global.InspectTarget.equipment.get_armor_value())
+	equipment_stats_str_value.text = str(Global.InspectTarget.stats.strength)
+	equipment_stats_agi_value.text = str(Global.InspectTarget.stats.agility)
+	equipment_stats_int_value.text = str(Global.InspectTarget.stats.intelligence)
+	equipment_stats_con_value.text = str(Global.InspectTarget.stats.constitution)
+
+func calculate_dps():
+	var speed = Global.InspectTarget.equipment.get_weapon_speed()
+	if speed == 0:
+		speed = Global.InspectTarget.stats.attack_speed
+	var damage = Global.InspectTarget.equipment.get_avg_damage() + Global.InspectTarget.stats.strength
+	var dps = damage / speed
+	
+	return str(stepify(dps, 0.1))

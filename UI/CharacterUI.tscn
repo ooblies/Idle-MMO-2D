@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://UI/GUI_DynamicFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://UI/Assets/ThaleahFat.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://UI/CharacterUI.gd" type="Script" id=3]
 [ext_resource path="res://UI/Assets/Icons/edit-3.svg" type="Texture" id=4]
+[ext_resource path="res://UI/EquipmentSlot.tscn" type="PackedScene" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
@@ -18,9 +19,9 @@ margin_right = -724.0
 margin_bottom = -128.0
 script = ExtResource( 3 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 720.0, 360.0 ],
+"_edit_horizontal_guides_": [ 720.0, 384.0, 160.0 ],
 "_edit_use_anchors_": false,
-"_edit_vertical_guides_": [ 680.0 ]
+"_edit_vertical_guides_": [ 552.0, 264.0 ]
 }
 
 [node name="TabContainer" type="TabContainer" parent="."]
@@ -32,7 +33,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Stats" type="VBoxContainer" parent="TabContainer"]
+[node name="Character" type="VBoxContainer" parent="TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -41,11 +42,11 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="TitleContainer" type="HBoxContainer" parent="TabContainer/Stats"]
+[node name="TitleContainer" type="HBoxContainer" parent="TabContainer/Character"]
 margin_right = 292.0
 margin_bottom = 30.0
 
-[node name="Title" type="Label" parent="TabContainer/Stats/TitleContainer"]
+[node name="Title" type="Label" parent="TabContainer/Character/TitleContainer"]
 margin_right = 252.0
 margin_bottom = 30.0
 size_flags_horizontal = 3
@@ -55,7 +56,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TitleEdit" type="LineEdit" parent="TabContainer/Stats/TitleContainer"]
+[node name="TitleEdit" type="LineEdit" parent="TabContainer/Character/TitleContainer"]
 visible = false
 margin_left = 128.0
 margin_right = 252.0
@@ -63,27 +64,27 @@ margin_bottom = 30.0
 size_flags_horizontal = 3
 caret_blink = true
 
-[node name="TitleEditToggle" type="Button" parent="TabContainer/Stats/TitleContainer"]
+[node name="TitleEditToggle" type="Button" parent="TabContainer/Character/TitleContainer"]
 margin_left = 256.0
 margin_right = 292.0
 margin_bottom = 30.0
 size_flags_horizontal = 8
 icon = ExtResource( 4 )
 
-[node name="RowHP" type="HBoxContainer" parent="TabContainer/Stats"]
+[node name="RowHP" type="HBoxContainer" parent="TabContainer/Character"]
 margin_top = 34.0
 margin_right = 292.0
 margin_bottom = 49.0
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="TabContainer/Stats/RowHP"]
+[node name="Label" type="Label" parent="TabContainer/Character/RowHP"]
 margin_right = 16.0
 margin_bottom = 15.0
 size_flags_horizontal = 2
 custom_fonts/font = ExtResource( 1 )
 text = "HP"
 
-[node name="Value" type="Label" parent="TabContainer/Stats/RowHP"]
+[node name="Value" type="Label" parent="TabContainer/Character/RowHP"]
 margin_left = 264.0
 margin_right = 272.0
 margin_bottom = 15.0
@@ -92,7 +93,7 @@ size_flags_vertical = 1
 custom_fonts/font = ExtResource( 1 )
 text = "5"
 
-[node name="Of" type="Label" parent="TabContainer/Stats/RowHP"]
+[node name="Of" type="Label" parent="TabContainer/Character/RowHP"]
 margin_left = 276.0
 margin_right = 280.0
 margin_bottom = 15.0
@@ -101,7 +102,7 @@ size_flags_vertical = 1
 custom_fonts/font = ExtResource( 1 )
 text = "/"
 
-[node name="Max" type="Label" parent="TabContainer/Stats/RowHP"]
+[node name="Max" type="Label" parent="TabContainer/Character/RowHP"]
 margin_left = 284.0
 margin_right = 292.0
 margin_bottom = 15.0
@@ -110,20 +111,20 @@ size_flags_vertical = 1
 custom_fonts/font = ExtResource( 1 )
 text = "5"
 
-[node name="RowMana" type="HBoxContainer" parent="TabContainer/Stats"]
+[node name="RowMana" type="HBoxContainer" parent="TabContainer/Character"]
 margin_top = 53.0
 margin_right = 292.0
 margin_bottom = 68.0
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="TabContainer/Stats/RowMana"]
+[node name="Label" type="Label" parent="TabContainer/Character/RowMana"]
 margin_right = 32.0
 margin_bottom = 15.0
 size_flags_horizontal = 2
 custom_fonts/font = ExtResource( 1 )
 text = "Mana"
 
-[node name="Value" type="Label" parent="TabContainer/Stats/RowMana"]
+[node name="Value" type="Label" parent="TabContainer/Character/RowMana"]
 margin_left = 264.0
 margin_right = 272.0
 margin_bottom = 15.0
@@ -132,7 +133,7 @@ size_flags_vertical = 1
 custom_fonts/font = ExtResource( 1 )
 text = "5"
 
-[node name="Of" type="Label" parent="TabContainer/Stats/RowMana"]
+[node name="Of" type="Label" parent="TabContainer/Character/RowMana"]
 margin_left = 276.0
 margin_right = 280.0
 margin_bottom = 15.0
@@ -141,7 +142,7 @@ size_flags_vertical = 1
 custom_fonts/font = ExtResource( 1 )
 text = "/"
 
-[node name="Max" type="Label" parent="TabContainer/Stats/RowMana"]
+[node name="Max" type="Label" parent="TabContainer/Character/RowMana"]
 margin_left = 284.0
 margin_right = 292.0
 margin_bottom = 15.0
@@ -150,20 +151,20 @@ size_flags_vertical = 1
 custom_fonts/font = ExtResource( 1 )
 text = "5"
 
-[node name="RowClass" type="HBoxContainer" parent="TabContainer/Stats"]
+[node name="RowClass" type="HBoxContainer" parent="TabContainer/Character"]
 margin_top = 72.0
 margin_right = 292.0
 margin_bottom = 87.0
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="TabContainer/Stats/RowClass"]
+[node name="Label" type="Label" parent="TabContainer/Character/RowClass"]
 margin_right = 40.0
 margin_bottom = 15.0
 size_flags_horizontal = 0
 custom_fonts/font = ExtResource( 1 )
 text = "Class"
 
-[node name="Value" type="Label" parent="TabContainer/Stats/RowClass"]
+[node name="Value" type="Label" parent="TabContainer/Character/RowClass"]
 margin_left = 284.0
 margin_right = 292.0
 margin_bottom = 15.0
@@ -172,7 +173,7 @@ size_flags_vertical = 1
 custom_fonts/font = ExtResource( 1 )
 text = "5"
 
-[node name="RowStr" type="HBoxContainer" parent="TabContainer/Stats"]
+[node name="RowStr" type="HBoxContainer" parent="TabContainer/Character"]
 margin_top = 91.0
 margin_right = 292.0
 margin_bottom = 106.0
@@ -181,14 +182,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="TabContainer/Stats/RowStr"]
+[node name="Label" type="Label" parent="TabContainer/Character/RowStr"]
 margin_right = 62.0
 margin_bottom = 15.0
 size_flags_horizontal = 0
 custom_fonts/font = ExtResource( 1 )
 text = "Strength"
 
-[node name="Value" type="Label" parent="TabContainer/Stats/RowStr"]
+[node name="Value" type="Label" parent="TabContainer/Character/RowStr"]
 margin_left = 284.0
 margin_right = 292.0
 margin_bottom = 15.0
@@ -197,18 +198,18 @@ size_flags_vertical = 1
 custom_fonts/font = ExtResource( 1 )
 text = "5"
 
-[node name="RowInt" type="HBoxContainer" parent="TabContainer/Stats"]
+[node name="RowInt" type="HBoxContainer" parent="TabContainer/Character"]
 margin_top = 110.0
 margin_right = 292.0
 margin_bottom = 125.0
 
-[node name="Label" type="Label" parent="TabContainer/Stats/RowInt"]
+[node name="Label" type="Label" parent="TabContainer/Character/RowInt"]
 margin_right = 85.0
 margin_bottom = 15.0
 custom_fonts/font = ExtResource( 1 )
 text = "Intelligence"
 
-[node name="Value" type="Label" parent="TabContainer/Stats/RowInt"]
+[node name="Value" type="Label" parent="TabContainer/Character/RowInt"]
 margin_left = 284.0
 margin_right = 292.0
 margin_bottom = 15.0
@@ -216,18 +217,18 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 1 )
 text = "5"
 
-[node name="RowAgi" type="HBoxContainer" parent="TabContainer/Stats"]
+[node name="RowAgi" type="HBoxContainer" parent="TabContainer/Character"]
 margin_top = 129.0
 margin_right = 292.0
 margin_bottom = 144.0
 
-[node name="Label" type="Label" parent="TabContainer/Stats/RowAgi"]
+[node name="Label" type="Label" parent="TabContainer/Character/RowAgi"]
 margin_right = 44.0
 margin_bottom = 15.0
 custom_fonts/font = ExtResource( 1 )
 text = "Agility"
 
-[node name="Value" type="Label" parent="TabContainer/Stats/RowAgi"]
+[node name="Value" type="Label" parent="TabContainer/Character/RowAgi"]
 margin_left = 284.0
 margin_right = 292.0
 margin_bottom = 15.0
@@ -235,18 +236,18 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 1 )
 text = "5"
 
-[node name="RowCon" type="HBoxContainer" parent="TabContainer/Stats"]
+[node name="RowCon" type="HBoxContainer" parent="TabContainer/Character"]
 margin_top = 148.0
 margin_right = 292.0
 margin_bottom = 163.0
 
-[node name="Text" type="Label" parent="TabContainer/Stats/RowCon"]
+[node name="Text" type="Label" parent="TabContainer/Character/RowCon"]
 margin_right = 83.0
 margin_bottom = 15.0
 custom_fonts/font = ExtResource( 1 )
 text = "Constitution"
 
-[node name="Value" type="Label" parent="TabContainer/Stats/RowCon"]
+[node name="Value" type="Label" parent="TabContainer/Character/RowCon"]
 margin_left = 284.0
 margin_right = 292.0
 margin_bottom = 15.0
@@ -254,18 +255,18 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 1 )
 text = "5"
 
-[node name="RowExp" type="HBoxContainer" parent="TabContainer/Stats"]
+[node name="RowExp" type="HBoxContainer" parent="TabContainer/Character"]
 margin_top = 167.0
 margin_right = 292.0
 margin_bottom = 182.0
 
-[node name="Label" type="Label" parent="TabContainer/Stats/RowExp"]
+[node name="Label" type="Label" parent="TabContainer/Character/RowExp"]
 margin_right = 75.0
 margin_bottom = 15.0
 custom_fonts/font = ExtResource( 1 )
 text = "Experience"
 
-[node name="Value" type="Label" parent="TabContainer/Stats/RowExp"]
+[node name="Value" type="Label" parent="TabContainer/Character/RowExp"]
 margin_left = 284.0
 margin_right = 292.0
 margin_bottom = 15.0
@@ -273,18 +274,18 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 1 )
 text = "5"
 
-[node name="RowLevel" type="HBoxContainer" parent="TabContainer/Stats"]
+[node name="RowLevel" type="HBoxContainer" parent="TabContainer/Character"]
 margin_top = 186.0
 margin_right = 292.0
 margin_bottom = 201.0
 
-[node name="Label" type="Label" parent="TabContainer/Stats/RowLevel"]
+[node name="Label" type="Label" parent="TabContainer/Character/RowLevel"]
 margin_right = 40.0
 margin_bottom = 15.0
 custom_fonts/font = ExtResource( 1 )
 text = "Level"
 
-[node name="Value" type="Label" parent="TabContainer/Stats/RowLevel"]
+[node name="Value" type="Label" parent="TabContainer/Character/RowLevel"]
 margin_left = 284.0
 margin_right = 292.0
 margin_bottom = 15.0
@@ -292,18 +293,18 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 1 )
 text = "5"
 
-[node name="RowStatus" type="HBoxContainer" parent="TabContainer/Stats"]
+[node name="RowStatus" type="HBoxContainer" parent="TabContainer/Character"]
 margin_top = 205.0
 margin_right = 292.0
 margin_bottom = 220.0
 
-[node name="Label" type="Label" parent="TabContainer/Stats/RowStatus"]
+[node name="Label" type="Label" parent="TabContainer/Character/RowStatus"]
 margin_right = 46.0
 margin_bottom = 15.0
 custom_fonts/font = ExtResource( 1 )
 text = "Status"
 
-[node name="Value" type="Label" parent="TabContainer/Stats/RowStatus"]
+[node name="Value" type="Label" parent="TabContainer/Character/RowStatus"]
 margin_left = 284.0
 margin_right = 292.0
 margin_bottom = 15.0
@@ -311,12 +312,12 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 1 )
 text = "X"
 
-[node name="RowTask" type="HBoxContainer" parent="TabContainer/Stats"]
+[node name="RowTask" type="HBoxContainer" parent="TabContainer/Character"]
 margin_top = 224.0
 margin_right = 292.0
 margin_bottom = 244.0
 
-[node name="Label" type="Label" parent="TabContainer/Stats/RowTask"]
+[node name="Label" type="Label" parent="TabContainer/Character/RowTask"]
 margin_top = 2.0
 margin_right = 231.0
 margin_bottom = 17.0
@@ -324,18 +325,18 @@ size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 1 )
 text = "Task"
 
-[node name="OptionButton" type="OptionButton" parent="TabContainer/Stats/RowTask"]
+[node name="OptionButton" type="OptionButton" parent="TabContainer/Character/RowTask"]
 margin_left = 235.0
 margin_right = 292.0
 margin_bottom = 20.0
 text = "Task"
 
-[node name="EnemyType" type="HBoxContainer" parent="TabContainer/Stats"]
+[node name="EnemyType" type="HBoxContainer" parent="TabContainer/Character"]
 margin_top = 248.0
 margin_right = 292.0
 margin_bottom = 268.0
 
-[node name="Label" type="Label" parent="TabContainer/Stats/EnemyType"]
+[node name="Label" type="Label" parent="TabContainer/Character/EnemyType"]
 margin_top = 2.0
 margin_right = 259.0
 margin_bottom = 17.0
@@ -343,10 +344,67 @@ size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 1 )
 text = "Hunt enemy"
 
-[node name="OptionButton" type="OptionButton" parent="TabContainer/Stats/EnemyType"]
+[node name="OptionButton" type="OptionButton" parent="TabContainer/Character/EnemyType"]
 margin_left = 263.0
 margin_right = 292.0
 margin_bottom = 20.0
+
+[node name="Party" type="VBoxContainer" parent="TabContainer/Character"]
+margin_top = 272.0
+margin_right = 292.0
+margin_bottom = 373.0
+size_flags_vertical = 8
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="TabContainer/Character/Party"]
+margin_right = 292.0
+margin_bottom = 30.0
+custom_fonts/font = SubResource( 1 )
+text = "Party"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Character/Party"]
+margin_top = 34.0
+margin_right = 292.0
+margin_bottom = 58.0
+
+[node name="Label" type="Label" parent="TabContainer/Character/Party/HBoxContainer"]
+margin_top = 5.0
+margin_right = 77.0
+margin_bottom = 19.0
+text = "Create Party"
+
+[node name="TextEdit" type="LineEdit" parent="TabContainer/Character/Party/HBoxContainer"]
+margin_left = 81.0
+margin_right = 235.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+caret_blink = true
+
+[node name="Button" type="Button" parent="TabContainer/Character/Party/HBoxContainer"]
+margin_left = 239.0
+margin_right = 292.0
+margin_bottom = 24.0
+disabled = true
+text = "Create"
+
+[node name="HSeparator" type="HSeparator" parent="TabContainer/Character/Party"]
+margin_top = 62.0
+margin_right = 292.0
+margin_bottom = 66.0
+
+[node name="PartyList" type="VBoxContainer" parent="TabContainer/Character/Party"]
+margin_top = 70.0
+margin_right = 292.0
+margin_bottom = 101.37
+rect_min_size = Vector2( 0, 31.37 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Abilities" type="VBoxContainer" parent="TabContainer"]
 visible = false
@@ -470,7 +528,7 @@ margin_left = 216.0
 margin_right = 292.0
 margin_bottom = 40.0
 
-[node name="Party" type="VBoxContainer" parent="TabContainer"]
+[node name="Inventory" type="Control" parent="TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -478,68 +536,240 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="Title" type="Label" parent="TabContainer/Party"]
-margin_right = 292.0
-margin_bottom = 30.0
-custom_fonts/font = SubResource( 1 )
-text = "Create Party"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Party"]
-margin_top = 34.0
-margin_right = 292.0
-margin_bottom = 58.0
-
-[node name="Label" type="Label" parent="TabContainer/Party/HBoxContainer"]
-margin_top = 5.0
-margin_right = 61.0
-margin_bottom = 19.0
-text = "Add Party"
-
-[node name="TextEdit" type="LineEdit" parent="TabContainer/Party/HBoxContainer"]
-margin_left = 65.0
-margin_right = 235.0
-margin_bottom = 24.0
+[node name="GridContainer" type="GridContainer" parent="TabContainer/Inventory"]
+anchor_top = 0.25
+anchor_right = 0.5
+anchor_bottom = 0.25
+margin_left = 32.0
+margin_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
-caret_blink = true
+size_flags_vertical = 3
+custom_constants/vseparation = 64
+custom_constants/hseparation = 64
+columns = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Button" type="Button" parent="TabContainer/Party/HBoxContainer"]
-margin_left = 239.0
-margin_right = 292.0
-margin_bottom = 24.0
-disabled = true
-text = "Create"
+[node name="Head" parent="TabContainer/Inventory/GridContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
+slotType = 8
 
-[node name="HSeparator" type="HSeparator" parent="TabContainer/Party"]
-margin_top = 62.0
-margin_right = 292.0
-margin_bottom = 66.0
+[node name="Finger" parent="TabContainer/Inventory/GridContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 64.0
+margin_right = 64.0
+margin_bottom = 0.0
+slotType = 2
 
-[node name="Title2" type="Label" parent="TabContainer/Party"]
-margin_top = 70.0
+[node name="Neck" parent="TabContainer/Inventory/GridContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 128.0
+margin_right = 128.0
+margin_bottom = 0.0
+slotType = 7
+
+[node name="Chest" parent="TabContainer/Inventory/GridContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 64.0
+margin_right = 0.0
+margin_bottom = 64.0
+slotType = 4
+
+[node name="Legs" parent="TabContainer/Inventory/GridContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 64.0
+margin_top = 64.0
+margin_right = 64.0
+margin_bottom = 64.0
+slotType = 3
+
+[node name="Feet" parent="TabContainer/Inventory/GridContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 128.0
+margin_top = 64.0
+margin_right = 128.0
+margin_bottom = 64.0
+slotType = 6
+
+[node name="MainHand" parent="TabContainer/Inventory/GridContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 128.0
+margin_right = 0.0
+margin_bottom = 128.0
+slotType = 0
+
+[node name="Hands" parent="TabContainer/Inventory/GridContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 64.0
+margin_top = 128.0
+margin_right = 64.0
+margin_bottom = 128.0
+slotType = 5
+
+[node name="OffHand" parent="TabContainer/Inventory/GridContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 128.0
+margin_top = 128.0
+margin_right = 128.0
+margin_bottom = 128.0
+slotType = 1
+
+[node name="EquipmentStats" type="VBoxContainer" parent="TabContainer/Inventory"]
+anchor_left = 0.699
+anchor_top = 0.056
+anchor_right = 0.973
+anchor_bottom = 0.449
+margin_left = -0.108017
+margin_top = 0.0319996
+margin_right = -0.116028
+margin_bottom = -0.172012
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DPS" type="HBoxContainer" parent="TabContainer/Inventory/EquipmentStats"]
+margin_right = 80.0
+margin_bottom = 14.0
+
+[node name="Label" type="Label" parent="TabContainer/Inventory/EquipmentStats/DPS"]
+margin_right = 29.0
+margin_bottom = 14.0
+text = "DPS:"
+
+[node name="Value" type="Label" parent="TabContainer/Inventory/EquipmentStats/DPS"]
+margin_left = 33.0
+margin_right = 41.0
+margin_bottom = 14.0
+text = "3"
+
+[node name="Armor" type="HBoxContainer" parent="TabContainer/Inventory/EquipmentStats"]
+margin_top = 18.0
+margin_right = 80.0
+margin_bottom = 32.0
+
+[node name="Label" type="Label" parent="TabContainer/Inventory/EquipmentStats/Armor"]
+margin_right = 44.0
+margin_bottom = 14.0
+text = "Armor:"
+
+[node name="Value" type="Label" parent="TabContainer/Inventory/EquipmentStats/Armor"]
+margin_left = 48.0
+margin_right = 56.0
+margin_bottom = 14.0
+text = "3"
+
+[node name="Str" type="HBoxContainer" parent="TabContainer/Inventory/EquipmentStats"]
+margin_top = 36.0
+margin_right = 80.0
+margin_bottom = 50.0
+
+[node name="Label" type="Label" parent="TabContainer/Inventory/EquipmentStats/Str"]
+margin_right = 21.0
+margin_bottom = 14.0
+text = "Str:"
+
+[node name="Value" type="Label" parent="TabContainer/Inventory/EquipmentStats/Str"]
+margin_left = 25.0
+margin_right = 33.0
+margin_bottom = 14.0
+text = "3"
+
+[node name="Con" type="HBoxContainer" parent="TabContainer/Inventory/EquipmentStats"]
+margin_top = 54.0
+margin_right = 80.0
+margin_bottom = 68.0
+
+[node name="Label" type="Label" parent="TabContainer/Inventory/EquipmentStats/Con"]
+margin_right = 28.0
+margin_bottom = 14.0
+text = "Con:"
+
+[node name="Value" type="Label" parent="TabContainer/Inventory/EquipmentStats/Con"]
+margin_left = 32.0
+margin_right = 40.0
+margin_bottom = 14.0
+text = "3"
+
+[node name="Agi" type="HBoxContainer" parent="TabContainer/Inventory/EquipmentStats"]
+margin_top = 72.0
+margin_right = 80.0
+margin_bottom = 86.0
+
+[node name="Label" type="Label" parent="TabContainer/Inventory/EquipmentStats/Agi"]
+margin_right = 24.0
+margin_bottom = 14.0
+text = "Agi:"
+
+[node name="Value" type="Label" parent="TabContainer/Inventory/EquipmentStats/Agi"]
+margin_left = 28.0
+margin_right = 36.0
+margin_bottom = 14.0
+text = "3"
+
+[node name="Int" type="HBoxContainer" parent="TabContainer/Inventory/EquipmentStats"]
+margin_top = 90.0
+margin_right = 80.0
+margin_bottom = 104.0
+
+[node name="Label" type="Label" parent="TabContainer/Inventory/EquipmentStats/Int"]
+margin_right = 22.0
+margin_bottom = 14.0
+text = "Int:"
+
+[node name="Value" type="Label" parent="TabContainer/Inventory/EquipmentStats/Int"]
+margin_left = 26.0
+margin_right = 34.0
+margin_bottom = 14.0
+text = "3"
+
+[node name="HSeparator" type="HSeparator" parent="TabContainer/Inventory"]
+anchor_top = 0.5
+anchor_bottom = 0.5
 margin_right = 292.0
-margin_bottom = 100.0
-custom_fonts/font = SubResource( 1 )
-text = "Parties"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="TabContainer/Inventory"]
+anchor_top = 0.519
+anchor_right = 1.0
+anchor_bottom = 0.551
+margin_bottom = 0.171997
+text = "Backpack"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PartyList" type="VBoxContainer" parent="TabContainer/Party"]
-margin_top = 104.0
-margin_right = 292.0
-margin_bottom = 104.0
-[connection signal="text_changed" from="TabContainer/Stats/TitleContainer/TitleEdit" to="." method="_on_TitleEdit_text_changed"]
-[connection signal="visibility_changed" from="TabContainer/Stats/TitleContainer/TitleEdit" to="." method="_on_TitleEdit_visibility_changed"]
-[connection signal="pressed" from="TabContainer/Stats/TitleContainer/TitleEditToggle" to="." method="_on_TitleEditToggle_pressed"]
-[connection signal="item_selected" from="TabContainer/Stats/RowTask/OptionButton" to="." method="_on_OptionButton_item_selected"]
-[connection signal="item_selected" from="TabContainer/Stats/EnemyType/OptionButton" to="." method="_on_enemy_type_selected"]
+[node name="ItemList" type="VBoxContainer" parent="TabContainer/Inventory"]
+anchor_left = 0.014
+anchor_top = 0.561
+anchor_right = 1.0
+anchor_bottom = 0.991
+margin_left = -4.088
+margin_top = -0.108017
+margin_bottom = -0.14801
+[connection signal="text_changed" from="TabContainer/Character/TitleContainer/TitleEdit" to="." method="_on_TitleEdit_text_changed"]
+[connection signal="visibility_changed" from="TabContainer/Character/TitleContainer/TitleEdit" to="." method="_on_TitleEdit_visibility_changed"]
+[connection signal="pressed" from="TabContainer/Character/TitleContainer/TitleEditToggle" to="." method="_on_TitleEditToggle_pressed"]
+[connection signal="item_selected" from="TabContainer/Character/RowTask/OptionButton" to="." method="_on_OptionButton_item_selected"]
+[connection signal="item_selected" from="TabContainer/Character/EnemyType/OptionButton" to="." method="_on_enemy_type_selected"]
+[connection signal="text_changed" from="TabContainer/Character/Party/HBoxContainer/TextEdit" to="." method="_on_PartyEdit_text_changed"]
+[connection signal="pressed" from="TabContainer/Character/Party/HBoxContainer/Button" to="." method="_create_party"]
 [connection signal="toggled" from="TabContainer/Abilities/AbilityList/AbilityRow/Active" to="." method="_on_ability_active_toggled" binds= [ 1 ]]
 [connection signal="toggled" from="TabContainer/Abilities/AbilityList/AbilityRow2/Active" to="." method="_on_ability_active_toggled" binds= [ 2 ]]
 [connection signal="toggled" from="TabContainer/Abilities/AbilityList/AbilityRow3/Active" to="." method="_on_ability_active_toggled" binds= [ 3 ]]
-[connection signal="text_changed" from="TabContainer/Party/HBoxContainer/TextEdit" to="." method="_on_PartyEdit_text_changed"]
-[connection signal="pressed" from="TabContainer/Party/HBoxContainer/Button" to="." method="_create_party"]

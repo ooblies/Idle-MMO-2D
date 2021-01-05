@@ -1,5 +1,10 @@
 extends Node #need to spawn characters
 
+var gold : int = 0 setget set_gold
+func set_gold(value):
+	gold = value
+	get_node("/root/World/UI/Gold").text = str(gold)
+
 enum Stats {
 	Constitution,
 	Strength,
@@ -79,6 +84,28 @@ enum AbilityShapeCenter {
 	Target
 }
 
+enum EquipmentSlot {
+	MainHand,
+	OffHand,
+	Head,
+	Chest,
+	Hands,
+	Legs,
+	Feet,
+	Finger,
+	Neck,
+	None
+}
+
+enum EquipmentTier {
+	Wooden,
+	Leather,
+	Iron,
+	Gold,
+	Diamond,
+	None
+}
+
 func get_state_name(state):
 	return States.keys()[state]
 
@@ -120,7 +147,7 @@ func get_experience_at_previous_level(experience):
 
 #To-Do: move below to new helper?
 func can_create_character(character_class):	
-	return true
+	#return true
 	
 	var characters = get_tree().get_nodes_in_group("Characters")
 	var character_count = characters.size()

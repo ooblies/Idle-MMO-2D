@@ -141,12 +141,19 @@ func play_animation(name):
 
 
 func _on_EnemyStats_no_health():
-	#delete node
-	queue_free()
 	
 	#death effect
 	var enemy_death_effect_instance = enemy_death_effect.instance()
 	get_parent().add_child(enemy_death_effect_instance)
 	enemy_death_effect_instance.global_position = global_position
-
+	
+	var drop = ItemManager.generate_drop_scene()
+	get_parent().add_child(drop)
+	drop.global_position = global_position
+	drop.target_character = player_detection.player
+	
+	#delete node
+	queue_free()
+	
+	#TODO
 	#give exp to nearby characters

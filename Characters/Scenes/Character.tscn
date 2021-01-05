@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://Characters/Scripts/Character.gd" type="Script" id=1]
 [ext_resource path="res://Characters/Images/Default Sprite Sheet.png" type="Texture" id=2]
@@ -23,6 +23,7 @@
 [ext_resource path="res://Characters/Images/Warrior/warrior_block2-Sheet.png" type="Texture" id=21]
 [ext_resource path="res://Characters/Images/Healer Sprite Sheet.png" type="Texture" id=22]
 [ext_resource path="res://Characters/Components/Party/star.svg" type="Texture" id=23]
+[ext_resource path="res://Characters/Components/PickupArea.tscn" type="PackedScene" id=24]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 0.01
@@ -2362,6 +2363,9 @@ emitting = false
 amount = 128
 lifetime = 2.0
 process_material = SubResource( 30 )
+
+[node name="PickupArea" parent="." instance=ExtResource( 24 )]
+position = Vector2( 0, -7 )
 [connection signal="area_entered" from="EnemyDetector" to="EnemyDetector" method="_on_EnemyDetector_area_entered"]
 [connection signal="body_entered" from="EnemyDetector" to="EnemyDetector" method="_on_EnemyDetector_body_entered"]
 [connection signal="body_exited" from="EnemyDetector" to="." method="_on_EnemyDetector_body_exited"]
@@ -2370,6 +2374,7 @@ process_material = SubResource( 30 )
 [connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
 [connection signal="add_effect" from="AbilityManager" to="." method="_add_effect"]
 [connection signal="click" from="Clickable" to="." method="_on_Clickable_click"]
+[connection signal="body_entered" from="PickupArea" to="." method="_on_PickupArea_body_entered"]
 
 [editable path="Hurtbox"]
 

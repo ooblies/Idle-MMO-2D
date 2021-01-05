@@ -40,14 +40,14 @@ func get_spawn_location():
 	return spawn_loc
 
 func get_dynamic_max():
-	var dynamic_max = 0
+	var dynamic_max_count = 0
 	for body in spawn_area.get_overlapping_bodies():
 		if body.is_in_group("Characters"):
-			dynamic_max += 1
-	if dynamic_max == 0:
-		dynamic_max = 1
+			dynamic_max_count += 1
+	if dynamic_max_count == 0:
+		dynamic_max_count = 1
 		
-	return dynamic_max
+	return dynamic_max_count
 
 func _on_Timer_timeout():
 	timer.start(spawn_rate)

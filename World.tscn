@@ -1098,6 +1098,23 @@ visible = false
 [node name="EnemyUI" parent="UI" index="2"]
 visible = false
 
+[node name="$" type="Label" parent="UI"]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "$"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Gold" type="Label" parent="UI"]
+margin_left = 8.0
+margin_right = 88.0
+margin_bottom = 14.0
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [editable path="Camera2D"]
 
 [editable path="UI"]

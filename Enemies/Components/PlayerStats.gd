@@ -28,25 +28,37 @@ func get_attack_speed():
 export(int) var strength setget , get_strength
 func get_strength():
 	if character_class != null:
-		return character_class.str_starting + (get_level() * character_class.str_per_level)
+		var starting_str = character_class.str_starting
+		var level_str = get_level() * character_class.str_per_level
+		var equipment_str = get_parent().equipment.get_stat_bonus(Global.Stats.Strength)
+		return starting_str + level_str + equipment_str
 	return null
 	
 export(int) var intelligence setget , get_intelligence
 func get_intelligence():
 	if character_class != null:
-		return character_class.int_starting + (get_level() * character_class.int_per_level)
+		var starting_int = character_class.int_starting
+		var level_int = get_level() * character_class.int_per_level
+		var equipment_int = get_parent().equipment.get_stat_bonus(Global.Stats.Intelligence)
+		return starting_int + level_int + equipment_int
 	return null
 	
 export(int) var agility setget , get_agility
 func get_agility():
 	if character_class != null:
-		return character_class.agi_starting + (get_level() * character_class.agi_per_level)
+		var starting_agi = character_class.agi_starting
+		var level_agi = get_level() * character_class.agi_per_level
+		var equipment_agi = get_parent().equipment.get_stat_bonus(Global.Stats.Agility)
+		return starting_agi + level_agi + equipment_agi
 	return null
 	
 export(int) var constitution setget , get_constitution
 func get_constitution():
 	if character_class != null:
-		return character_class.con_starting + (get_level() * character_class.con_per_level)
+		var starting_con = character_class.con_starting
+		var level_con = get_level() * character_class.con_per_level
+		var equipment_con = get_parent().equipment.get_stat_bonus(Global.Stats.Constitution)
+		return starting_con + level_con + equipment_con
 	return null
 
 export(int) var experience setget set_experience , get_experience
@@ -63,8 +75,7 @@ func get_level():
 
 var health setget set_health, get_health
 func set_health(value):
-	if max_health == null:
-		max_health = get_max_health()
+	max_health = get_max_health()
 	if health == null:
 		health = max_health	
 	health = min(value,max_health)
