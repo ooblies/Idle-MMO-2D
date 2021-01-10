@@ -127,6 +127,7 @@ CharacterManager="*res://Characters/CharacterManager.gd"
 PartyManager="*res://Characters/Components/Party/PartyManager.gd"
 EnemyManager="*res://Enemies/Components/EnemyManager.gd"
 LootManager="*res://Items/Loot_Manager.gd"
+ProgressionManager="*res://Progression/ProgressionManager.gd"
 
 [display]
 

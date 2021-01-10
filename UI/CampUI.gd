@@ -22,26 +22,26 @@ func _process(_delta):
 func display_camp_screen():
 	#To-Do: load classes dynamically
 	#Warrior
-	create_character.get_node("Warrior/Button").disabled = !Global.can_create_character(Global.Classes.Warrior)
+	create_character.get_node("Warrior/Button").disabled = !ProgressionManager.can_create_character(Global.Classes.Warrior)
 	if create_character.get_node("Warrior/Button").disabled:
 		create_character.get_node("Warrior/VBoxContainer/Warning").visible = true
-		create_character.get_node("Warrior/VBoxContainer/Warning").text = Global.get_create_character_warning_message(Global.Classes.Warrior)
+		create_character.get_node("Warrior/VBoxContainer/Warning").text = ProgressionManager.get_create_character_warning_message(Global.Classes.Warrior)
 	else:
 		create_character.get_node("Warrior/VBoxContainer/Warning").visible = false
 		
 	#Archer
-	create_character.get_node("Archer/Button").disabled = !Global.can_create_character(Global.Classes.Archer)
+	create_character.get_node("Archer/Button").disabled = !ProgressionManager.can_create_character(Global.Classes.Archer)
 	if create_character.get_node("Archer/Button").disabled:
 		create_character.get_node("Archer/VBoxContainer/Warning").visible = true
-		create_character.get_node("Archer/VBoxContainer/Warning").text = Global.get_create_character_warning_message(Global.Classes.Archer)
+		create_character.get_node("Archer/VBoxContainer/Warning").text = ProgressionManager.get_create_character_warning_message(Global.Classes.Archer)
 	else:
 		create_character.get_node("Archer/VBoxContainer/Warning").visible = false
 		
 	#Archer
-	create_character.get_node("Priest/Button").disabled = !Global.can_create_character(Global.Classes.Priest)
+	create_character.get_node("Priest/Button").disabled = !ProgressionManager.can_create_character(Global.Classes.Priest)
 	if create_character.get_node("Priest/Button").disabled:
 		create_character.get_node("Priest/VBoxContainer/Warning").visible = true
-		create_character.get_node("Priest/VBoxContainer/Warning").text = Global.get_create_character_warning_message(Global.Classes.Priest)
+		create_character.get_node("Priest/VBoxContainer/Warning").text = ProgressionManager.get_create_character_warning_message(Global.Classes.Priest)
 	else:
 		create_character.get_node("Priest/VBoxContainer/Warning").visible = false
 

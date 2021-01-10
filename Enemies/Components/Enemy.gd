@@ -161,5 +161,7 @@ func _on_EnemyStats_no_health():
 	
 	queue_free()
 	
+	ProgressionManager.increment_enemy_kill_count(enemy_class.enemy_enum)
+	
 	#TODO
 	#give exp to nearby characters
