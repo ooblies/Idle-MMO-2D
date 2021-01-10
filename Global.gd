@@ -106,6 +106,16 @@ enum EquipmentTier {
 	None
 }
 
+enum DamageTypes {
+	Melee,
+	Magic,
+	None
+}
+
+enum Items {
+	Wooden_1h_Sword
+}
+
 func get_state_name(state):
 	return States.keys()[state]
 

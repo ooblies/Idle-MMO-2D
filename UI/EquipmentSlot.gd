@@ -16,7 +16,9 @@ func _ready():
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed and image.visible:
 		if (event.position - image.rect_global_position).length() < 32:
-			Global.InspectTarget.items.append(Global.InspectTarget.equipment.unequip_slot(slotType))
+			var unequipped_item = Global.InspectTarget.equipment.unequip_slot(slotType)
+			if unequipped_item:
+				Global.InspectTarget.inventory.add(unequipped_item)
 
 func set_default_image():
 	var slotName = Global.EquipmentSlot.keys()[slotType].to_lower()
@@ -26,7 +28,7 @@ func set_default_image():
 	default.texture = load(textureName)
 	default.modulate = Color(0.1,0.1,0.1,.5)
 	
-func _process(delta):
+func _process(_delta):
 	if Global.InspectTarget != null:
 		if Global.InspectTarget.is_in_group("Characters"):
 			var equip = Global.InspectTarget.equipment.get_equipment_by_slot(slotType)

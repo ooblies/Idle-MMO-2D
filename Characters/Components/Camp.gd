@@ -17,9 +17,8 @@ func _ready():
 	heal_timer.start(heal_frequency)
 	healbox_collision.shape.radius = heal_radius
 	healbox_collision.disabled = true
-	healbox.damage = heal_strength
-	healbox.mana = mana_strength
-
+	healbox.heal_amount = heal_strength
+	healbox.mana_regen = mana_strength
 
 func _on_Timer_timeout():
 	heal_timer.start(heal_frequency)

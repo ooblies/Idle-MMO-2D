@@ -1,19 +1,14 @@
 extends KinematicBody2D
 class_name Drop
 
-var item : Item
-var icon
+var loot
 var target_character
 
 export var move_speed = 100
 var wait = true
 
-onready var sprite = $Sprite
 onready var collision = $CollisionShape2D
 
-func _ready():
-	if icon != null:
-		sprite.texture = icon
 
 func _process(delta):
 	if !wait:

@@ -1,6 +1,7 @@
 extends Area2D
 
-var damage = 1
+var damage_event : damage_event
+var heal_amount = 0
 var blink_shape
 
 func blink():

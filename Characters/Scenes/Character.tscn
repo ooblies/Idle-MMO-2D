@@ -2266,7 +2266,7 @@ texture = ExtResource( 17 )
 offset = Vector2( 0, -13 )
 vframes = 8
 hframes = 8
-frame = 22
+frame = 21
 
 [node name="EnemyDetector" type="Area2D" parent="."]
 visible = false

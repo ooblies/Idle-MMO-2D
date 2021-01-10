@@ -1,0 +1,118 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://UI/Items/ItemTooltip.gd" type="Script" id=1]
+[ext_resource path="res://UI/GUI_DynamicFont.tres" type="DynamicFont" id=2]
+
+[node name="ItemTooltip" type="Control"]
+margin_right = 256.0
+margin_bottom = 96.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="Panel" parent="."]
+margin_right = 256.0
+margin_bottom = 96.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Icon" type="TextureRect" parent="Background"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 48.0
+margin_bottom = 48.0
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label1" type="Label" parent="Background"]
+margin_left = 56.0
+margin_top = 8.0
+margin_right = 116.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 2 )
+text = "1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Background"]
+margin_left = 56.0
+margin_top = 24.0
+margin_right = 116.0
+margin_bottom = 39.0
+custom_fonts/font = ExtResource( 2 )
+text = "2"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="Background"]
+margin_left = 56.0
+margin_top = 40.0
+margin_right = 116.0
+margin_bottom = 55.0
+custom_fonts/font = ExtResource( 2 )
+text = "3"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label4" type="Label" parent="Background"]
+margin_left = 120.0
+margin_top = 24.0
+margin_right = 180.0
+margin_bottom = 39.0
+custom_fonts/font = ExtResource( 2 )
+text = "4"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label5" type="Label" parent="Background"]
+margin_left = 120.0
+margin_top = 40.0
+margin_right = 180.0
+margin_bottom = 55.0
+custom_fonts/font = ExtResource( 2 )
+text = "5"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label6" type="Label" parent="Background"]
+margin_left = 184.0
+margin_top = 24.0
+margin_right = 248.0
+margin_bottom = 39.0
+custom_fonts/font = ExtResource( 2 )
+text = "6"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label7" type="Label" parent="Background"]
+margin_left = 184.0
+margin_top = 40.0
+margin_right = 248.0
+margin_bottom = 55.0
+custom_fonts/font = ExtResource( 2 )
+text = "7"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabelDescription" type="Label" parent="Background"]
+margin_left = 8.0
+margin_top = 56.0
+margin_right = 256.0
+margin_bottom = 89.0
+custom_fonts/font = ExtResource( 2 )
+text = "Description
+Description"
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -871,9 +871,9 @@ scale = Vector2( 0.996474, 1 )
 script = ExtResource( 2 )
 
 [node name="TextureRect" type="TextureRect" parent="."]
-margin_left = -2080.0
+margin_left = -2079.33
 margin_top = -1432.0
-margin_right = 3307.0
+margin_right = 3307.67
 margin_bottom = 2345.0
 texture = ExtResource( 3 )
 stretch_mode = 2
@@ -922,15 +922,18 @@ heal_strength = 5
 [node name="BatSpawner" parent="YSort/Spawners" instance=ExtResource( 15 )]
 position = Vector2( 1088, -200 )
 max_enemies = 2
+spawn_rate = 3
 
 [node name="MouseSpawner" parent="YSort/Spawners" instance=ExtResource( 15 )]
 position = Vector2( 104, -384 )
 enemy = 1
 max_enemies = 2
+spawn_rate = 3
 
 [node name="BoarSpawner" parent="YSort/Spawners" instance=ExtResource( 15 )]
 position = Vector2( 1461.15, 328 )
 enemy = 2
+spawn_rate = 3
 dynamic_max = false
 
 [node name="Environment" type="YSort" parent="YSort"]

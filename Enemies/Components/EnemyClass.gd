@@ -15,9 +15,14 @@ export(int) var constitution = 1
 export(int) var strength = 1
 export(int) var agility = 1
 
+#defence
+export(int) var armor = 1
+export(int) var magic_resist = 1
+
 #exp
 export(int) var level = 1
 export(int) var exp_on_kill = 1
 
-#offsert
+#offset
 export(int) var hitbox_offset_y = 0
+

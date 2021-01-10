@@ -41,6 +41,7 @@ onready var equipment_stats_str_value = $TabContainer/Inventory/EquipmentStats/S
 onready var equipment_stats_con_value = $TabContainer/Inventory/EquipmentStats/Con/Value
 onready var equipment_stats_agi_value = $TabContainer/Inventory/EquipmentStats/Agi/Value
 onready var equipment_stats_int_value = $TabContainer/Inventory/EquipmentStats/Int/Value
+onready var tooltip = $ItemTooltip
 
 
 
@@ -125,9 +126,11 @@ func _process(_delta):
 			display_character_screen()
 		else:
 			visible = false
-		
 	else:
 		visible = false
+	
+	if tooltip.visible:
+		tooltip.rect_global_position = get_global_mouse_position() - Vector2(144,112)
 		
 
 
@@ -377,13 +380,10 @@ func _on_PartyEdit_text_changed(new_text):
 		
 func display_inventory_screen():
 	update_inventory_screen()
+	update_inventory_stats()
 
 func update_inventory_screen():
-	update_inventory_stats()
-	var items = Global.InspectTarget.items
-	var nodes = item_list.get_children()
-	
-	for item in Global.InspectTarget.items:
+	for item in Global.InspectTarget.inventory.items:
 		var create_item_row = true
 		
 		#Existing Item
@@ -396,27 +396,34 @@ func update_inventory_screen():
 			var new_item_row = load("res://UI/ItemRow.tscn").instance()
 			new_item_row.item = item
 			
-			var sell_button : Button = new_item_row.get_node("Sell")
+			var _enter = new_item_row.connect("mouse_entered",self,"_show_tooltip",[new_item_row.item])
+			var _exit = new_item_row.connect("mouse_exited",self,"_hide_tooltip")
+			
+			var sell_button : Button = new_item_row.get_node("HBoxContainer/Sell")
 			var _sell = sell_button.connect("pressed",self,"_sell_item",[new_item_row.item])
 			
 			item_list.add_child(new_item_row)
+			refresh_item_rows()
 	
 	for node in item_list.get_children():
 		var delete = true
-		for item in Global.InspectTarget.items:
+		for item in Global.InspectTarget.inventory.items:
 			if item.item_id == node.item.item_id:
 				delete = false
 		
+		#delete item
 		if delete:
 			node.queue_free()
+			refresh_item_rows()
 			
 func _sell_item(item):
 	print("Selling Item " + item.name + " for " + str(item.calculate_value()) + "g")
 	Global.gold += item.calculate_value()
-	Global.InspectTarget.items.erase(item)
+	Global.InspectTarget.inventory.remove(item)
 	for node in item_list.get_children():
 		if item.item_id == node.item.item_id:
 			node.queue_free()
+			refresh_item_rows()
 			
 func update_inventory_stats():
 	equipment_stats_dps_value.text = calculate_dps()
@@ -434,3 +441,15 @@ func calculate_dps():
 	var dps = damage / speed
 	
 	return str(stepify(dps, 0.1))
+
+func refresh_item_rows():
+	for node in item_list.get_children():
+		node.refresh()
+
+func _show_tooltip(item):
+	tooltip.visible = true
+	tooltip.item = item
+	tooltip.refresh()
+	
+func _hide_tooltip():
+	tooltip.visible = false

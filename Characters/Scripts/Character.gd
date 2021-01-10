@@ -66,7 +66,7 @@ var hunting_target = null
 var hunting_target_location
 
 #item vars
-var items : Array = []
+var inventory : Inventory = load("res://Items/Inventory/Inventory.gd").new()
 var equipment : Equipment = load("res://Items/Equipment/Equipment.gd").new()
 	
 
@@ -105,10 +105,6 @@ func _ready():
 	sprite.material = dupe_mat
 	
 	
-	#temp
-	items.append(ItemManager.generate_item())
-	
-
 func _physics_process(delta):
 	nametag.text = character_name
 	#print(class_prefix + "- Range:" + str(hitbox_area_shape.shape.height))
@@ -246,12 +242,21 @@ func state_attack(_delta):
 					ability_to_activate = ability_activated
 					is_busy = true
 				else:
+					var de = damage_event.new()
+					de.attacker_level = stats.level
+					var atk = equipment.calculate_attack()
+					var es = get_effective_stat(Global.Stats.Strength)
+					de.damage = atk + es
+					de.damage_type = Global.DamageTypes.Melee
+					
+					hitbox.damage_event = de
+					
 					play_animation("attack_right")
 					is_busy = true
-					
-					hitbox.damage = get_effective_stat(Global.Stats.Strength)
-
-				attack_timer.start(stats.attack_speed)
+				var class_speed = stats.attack_speed
+				var weapon_speed = equipment.get_weapon_speed()
+				
+				attack_timer.start(min(class_speed, weapon_speed))
 			else:
 				if not attack_area.overlaps_body(enemy):
 					set_state(Global.States.Chase)
@@ -360,22 +365,31 @@ func seek_enemy():
 
 func _on_Hurtbox_area_entered(area : Area2D):
 	if area.collision_layer == 8192: #EnemyHitbox
-		var damage = area.damage
-		var damage_mitigated = effect_manager.get_damage_after_block(damage)
-		#print("Damage Incoming: " + str(damage))
-		#print("Damage Taken:    " + str(damage_mitigated))
-		stats.health -= damage_mitigated
-		health_ui.hearts = stats.health
-		#inspect_ui.stats = stats
+		if area.damage_event:
+			var damage = float(area.damage_event.damage)
+			if area.damage_event.damage_type == Global.DamageTypes.Melee:
+				var armor = equipment.get_armor_value()
+				var armor_dr = float(armor) / float(armor + 400 + (50 * area.damage_event.attacker_level))
+				damage = float(damage * float(1 - armor_dr))
+			if area.damage_event.damage_type == Global.DamageTypes.Magic:
+				var mr = equipment.get_magic_resist()
+				var mr_dr = float(mr) / float(mr + 400 + (50 * area.damage_event.attacker_level))
+				damage = float(damage * float(1 - mr_dr))
+			var damage_mitigated = effect_manager.get_damage_after_block(damage)
+			#print("Damage Incoming: " + str(damage))
+			#print("Damage Taken:    " + str(damage_mitigated))
+			stats.health -= damage_mitigated
+			health_ui.hearts = stats.health
+			#inspect_ui.stats = stats
 	
-		hurt_box.create_hit_effect()
-		if state == Global.States.Rest || state == Global.States.Travel:
-			seek_enemy()
+			hurt_box.create_hit_effect()
+			if state == Global.States.Rest || state == Global.States.Travel:
+				seek_enemy()
 	if area.collision_layer == 16: #CharacterHealbox
-		stats.health += area.damage
+		stats.health += area.heal_amount
 		health_ui.hearts = stats.health
 		if (area.get("mana") != null):
-			stats.mana += area.mana
+			stats.mana += area.mana_regen
 			health_ui.mana = stats.mana
 		#inspect_ui.stats = stats
 
@@ -517,11 +531,9 @@ func fire_ability_projectile(a_name):
 
 
 func _on_PickupArea_body_entered(body):
-	var dps = ((body.item.min_damage + body.item.max_damage) / 2) / body.item.weapon_speed
-	
-	items.append(body.item)
-	
-	for item in items:
-		print ("Current Items: (" + str(item.get_instance_id()) + ") " + item.name)
+	for item in body.loot:
+		inventory.add(item)
 	
 	body.queue_free()
+
+

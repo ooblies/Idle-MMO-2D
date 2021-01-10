@@ -3,7 +3,6 @@ class_name EnemyStats
 
 signal no_health
 signal health_changed(value)
-signal mana_changed(value)
 
 signal stats_changed
 var enemy_class : EnemyClass

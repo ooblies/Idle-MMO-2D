@@ -36,7 +36,7 @@ __meta__ = {
 [node name="EquipmentImage" type="TextureRect" parent="ReferenceRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-stretch_mode = 4
+stretch_mode = 6
 __meta__ = {
 "_edit_use_anchors_": false
 }

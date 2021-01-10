@@ -23,6 +23,7 @@ export(float) var weapon_damage = 0
 export(float) var strength_damange = 0
 export(float) var intelligence_damage = 0
 export(float) var agility_damage = 0
+export(Global.DamageTypes) var damage_type = Global.DamageTypes.Melee
 
 #heal
 export(float) var base_heal = 0

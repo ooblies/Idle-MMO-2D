@@ -59,10 +59,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Items/Equipment/Equipment.gd"
 }, {
+"base": "Node",
+"class": "Inventory",
+"language": "GDScript",
+"path": "res://Items/Inventory/Inventory.gd"
+}, {
 "base": "Resource",
 "class": "Item",
 "language": "GDScript",
 "path": "res://Items/Item.gd"
+}, {
+"base": "Node",
+"class": "LootTable",
+"language": "GDScript",
+"path": "res://Items/Loot_Table.gd"
 }, {
 "base": "Reference",
 "class": "Party",
@@ -78,6 +88,11 @@ _global_script_classes=[ {
 "class": "Projectile",
 "language": "GDScript",
 "path": "res://Abilities/Projectiles/Projectile.gd"
+}, {
+"base": "Reference",
+"class": "damage_event",
+"language": "GDScript",
+"path": "res://Hitboxes & Hurtboxes/DamageEvent.gd"
 } ]
 _global_script_class_icons={
 "Ability": "",
@@ -90,10 +105,13 @@ _global_script_class_icons={
 "EnemyClass": "",
 "EnemyStats": "",
 "Equipment": "",
+"Inventory": "",
 "Item": "",
+"LootTable": "",
 "Party": "",
 "PlayerStats": "",
-"Projectile": ""
+"Projectile": "",
+"damage_event": ""
 }
 
 [application]
@@ -108,7 +126,7 @@ Global="*res://Global.tscn"
 CharacterManager="*res://Characters/CharacterManager.gd"
 PartyManager="*res://Characters/Components/Party/PartyManager.gd"
 EnemyManager="*res://Enemies/Components/EnemyManager.gd"
-ItemManager="*res://Items/Item_Manager.gd"
+LootManager="*res://Items/Loot_Manager.gd"
 
 [display]
 

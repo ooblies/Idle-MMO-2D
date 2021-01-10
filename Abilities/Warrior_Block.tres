@@ -20,6 +20,7 @@ weapon_damage = 0.0
 strength_damange = 0.0
 intelligence_damage = 0.0
 agility_damage = 0.0
+damage_type = 0
 base_heal = 0.0
 intelligence_heal = 0.0
 effect_duration = 5.0

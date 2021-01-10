@@ -80,9 +80,9 @@ func get_stat_bonus(stat):
 func get_avg_damage():
 	var dmg = 0
 	if main_hand != null:
-		dmg = (main_hand.min_damage + main_hand.max_damage) / 2
+		dmg = (float(main_hand.min_damage) + float(main_hand.max_damage)) / 2
 		
-	return dmg
+	return stepify(dmg,0.1)
 
 func get_weapon_speed():
 	var speed = 0 #get_parent().stats.attack_speed
@@ -115,6 +115,31 @@ func get_armor_value():
 		armor += neck.armor
 	
 	return armor
+	
+	
+func get_magic_resist():
+	var mr = 0
+	
+	if head != null:
+		mr += head.magic_resist
+	if chest != null:
+		mr += chest.magic_resist
+	if legs != null:
+		mr += legs.magic_resist
+	if hands != null:
+		mr += hands.magic_resist
+	if feet != null:
+		mr += feet.magic_resist
+	if finger != null:
+		mr += finger.magic_resist
+	if main_hand != null:
+		mr += main_hand.magic_resist
+	if off_hand != null:
+		mr += off_hand.magic_resist
+	if neck != null:
+		mr += neck.magic_resist
+	
+	return mr
 
 func get_equipment_by_slot(slot):
 	var item = null
@@ -172,6 +197,7 @@ func unequip_item(item : Item):
 		unequiped_item = off_hand
 		off_hand = null
 	
+	print ("Equipment - Remove - " + str(unequiped_item.name))
 	return unequiped_item
 
 func unequip_slot(slot):
@@ -205,8 +231,16 @@ func unequip_slot(slot):
 		Global.EquipmentSlot.TwoHand:
 			unequiped_item = main_hand
 			main_hand = null
+			
+	print ("Equipment - Remove - " + str(unequiped_item.name))
 	
 	return unequiped_item
+
+func calculate_attack():
+	if main_hand != null:
+		return randi() % main_hand.max_damage + main_hand.min_damage 
+	else:
+		return 0
 
 func equip(item : Item):
 	var unequiped_items = []
@@ -248,4 +282,9 @@ func equip(item : Item):
 				unequiped_items.append(off_hand)
 			off_hand = item
 	
+	print ("Equipment - Add - " + str(item.name))
+	if unequiped_items.size() > 0:
+		print ("Equipment - Remove - " + str(unequiped_items[0].name))
+	
 	return unequiped_items
+

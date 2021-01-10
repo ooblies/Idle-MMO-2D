@@ -84,10 +84,16 @@ func _physics_process(delta):
 				velocity = Vector2.ZERO
 				if player_detection.player != null:
 					if attack_timer.time_left == 0:				
+						var de = damage_event.new()
+						de.attacker_level = enemy_class.level
+						de.damage = stats.attack_damage
+						de.damage_type = Global.DamageTypes.Melee
+						hitbox.damage_event = de 
+						
 						play_animation("attack")
 						attack_timer.start(enemy_class.attack_speed)
 						is_attacking = true
-						hitbox.damage = stats.attack_damage
+						
 					else:
 						if global_position.distance_to(player_detection.player.global_position) > hitbox_shape.shape.radius:
 							state = Global.States.Chase
@@ -122,7 +128,7 @@ func pick_random_state(state_list):
 	return state_list.pop_front()
 
 func _on_Hurtbox_area_entered(area):
-	stats.health -= area.damage
+	stats.health -= area.damage_event.damage
 	health_ui.hearts = stats.health
 	
 	hurt_box.create_hit_effect()
@@ -147,12 +153,12 @@ func _on_EnemyStats_no_health():
 	get_parent().add_child(enemy_death_effect_instance)
 	enemy_death_effect_instance.global_position = global_position
 	
-	var drop = ItemManager.generate_drop_scene()
-	get_parent().add_child(drop)
-	drop.global_position = global_position
-	drop.target_character = player_detection.player
+	var drop = LootManager.generate_drop_scene(enemy_class)
+	if drop:
+		get_parent().add_child(drop)
+		drop.global_position = global_position
+		drop.target_character = player_detection.player
 	
-	#delete node
 	queue_free()
 	
 	#TODO

@@ -248,7 +248,7 @@ func heal_target(target, amount):
 	#character healbox
 	hitbox.set_collision_layer_bit(4, true)
 	hitbox.set_collision_mask_bit(2, true) 
-	hitbox.damage = amount
+	hitbox.heal_amount = amount
 	
 	var collision = CollisionShape2D.new()	
 	collision.global_position = target.global_position
@@ -284,8 +284,13 @@ func activate_ability(a: Ability):
 			
 	match a.ability_type:
 		Global.AbilityType.Damage:
-			hitbox.damage = calculate_ability_damage(a)
-			#hitbox.set_collision_layer_bit(12, true) #enemy hurtbox
+			var de = damage_event.new()
+			de.attacker_level = parent.stats.level
+			de.damage = calculate_ability_damage(a)
+			de.damage_type = a.damage_type
+			
+			hitbox.damage_event = de
+			
 			hitbox.set_collision_mask_bit(12, true) #enemy hurtbox
 		
 			match a.ability_target_type:
@@ -344,7 +349,7 @@ func activate_ability(a: Ability):
 							var heal_area = load("res://Hitboxes & Hurtboxes/Hitbox.tscn").instance()
 							heal_area.set_collision_layer_bit(4, true)
 							heal_area.set_collision_mask_bit(2, true) 
-							heal_area.damage = heal_amount
+							heal_area.heal_amount = heal_amount
 							
 							#collision.global_position = parent.global_position
 							
@@ -413,7 +418,13 @@ func activate_ability(a: Ability):
 						
 				Global.AbilityTargetType.Shaped:
 					var dmg_area = load("res://Hitboxes & Hurtboxes/Hitbox.tscn").instance()
-					dmg_area.damage = calculate_ability_damage(a)
+					
+					var de = damage_event.new()
+					de.attacker_level = parent.stats.level
+					de.damage = calculate_ability_damage(a)
+					de.damage_type = a.damage_type
+					dmg_area.damage_event = de
+					
 					dmg_area.set_collision_mask_bit(12, true) #enemy hurtbox
 					
 					match a.ability_shape:
