@@ -116,6 +116,8 @@ enum Items {
 	Wooden_1h_Sword
 }
 
+var inventory = Array()
+
 func get_state_name(state):
 	return States.keys()[state]
 

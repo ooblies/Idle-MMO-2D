@@ -29,12 +29,13 @@ onready var soft_collisions = $SoftCollision
 onready var nametag : Label = $NameTag
 onready var clickable = $Clickable
 onready var exclamation = $Exclamation
+onready var deposit_timer = $DepositTimer
 
 #physics vars
 export var acceleration = 300
 export var max_speed = 50
 export var friction = 200
-export var rest_threshhold = .25
+export var rest_threshhold = .75
 export var soft_collision_strength = 400
 var velocity = Vector2.ZERO
 
@@ -105,6 +106,15 @@ func _ready():
 	sprite.material = dupe_mat
 	
 	
+	inventory.add(LootManager.get_test_item())
+	inventory.add(LootManager.get_test_item())
+	inventory.add(LootManager.get_test_item())
+	inventory.add(LootManager.get_test_item())
+	inventory.add(LootManager.get_test_item())
+	
+	set_state(Global.States.Rest)
+	
+	
 func _physics_process(delta):
 	nametag.text = character_name
 	#print(class_prefix + "- Range:" + str(hitbox_area_shape.shape.height))
@@ -156,10 +166,25 @@ func state_travel(delta):
 					respawn_point.position = global_position
 					velocity = Vector2.ZERO				
 
+func has_depositable_items():
+	return inventory.items.size() > 0
+
+
+
+func _on_DepositTimer_timeout():
+	if has_depositable_items():
+		var item = inventory.pop()
+		Global.inventory.append(item)
+		print("Depositing " + item.name)
+	else:
+		deposit_timer.stop()
+	
+	
+	
 func state_rest(delta):
 	res_team()
 	if !is_busy:
-		if stats.health >= stats.max_health && stats.mana >= stats.max_mana:
+		if stats.health >= stats.max_health && stats.mana >= stats.max_mana && !has_depositable_items():
 			set_state(Global.States.Idle)
 		else:
 			if path != null:	
@@ -167,6 +192,8 @@ func state_rest(delta):
 			else:
 				play_animation("idle")
 				velocity = Vector2.ZERO
+				if deposit_timer.time_left == 0:
+					deposit_timer.start()
 
 func res_team():
 	if party != null:

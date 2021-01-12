@@ -53,13 +53,14 @@ func _input(event):
 	
 
 func refresh():
-	if Global.InspectTarget.equipment.get_equipment_by_slot(item.equipment_slot) != null:
-		if item.calculate_value() > Global.InspectTarget.equipment.get_equipment_by_slot(item.equipment_slot).calculate_value():
-			upgrade.visible = true
+	if Global.InspectTarget.is_in_group("Characters"):
+		if Global.InspectTarget.equipment.get_equipment_by_slot(item.equipment_slot) != null:
+			if item.calculate_value() > Global.InspectTarget.equipment.get_equipment_by_slot(item.equipment_slot).calculate_value():
+				upgrade.visible = true
+			else:
+				upgrade.visible = false
 		else:
-			upgrade.visible = false
-	else:
-		upgrade.visible = true
+			upgrade.visible = true
 
 
 func pos_in_rect(pos, rect_pos, rect_size : Vector2):

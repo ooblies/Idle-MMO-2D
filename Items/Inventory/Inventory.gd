@@ -12,3 +12,11 @@ func remove(to_remove):
 		if item.item_id == to_remove.item_id:
 			items.erase(to_remove)
 			print("Inventory - Removing - " + to_remove.name)
+
+func pop():
+	if items.size() > 0:
+		var item = items[0]
+		items.erase(item)
+		return item
+	else:
+		return null

@@ -37,3 +37,6 @@ func generate_item(item):
 	i.generate()
 	i.item_id = i.get_instance_id()
 	return i
+
+func get_test_item():
+	return generate_item(WOODEN_1H_SWORD)
