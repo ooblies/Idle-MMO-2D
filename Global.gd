@@ -97,13 +97,12 @@ enum EquipmentSlot {
 	None
 }
 
-enum EquipmentTier {
-	Wooden,
-	Leather,
-	Iron,
-	Gold,
-	Diamond,
-	None
+enum ItemRarity {
+	Common,
+	Uncommon,
+	Rare,
+	Epic,
+	Legendary
 }
 
 enum DamageTypes {

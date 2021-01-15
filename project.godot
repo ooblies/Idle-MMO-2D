@@ -69,11 +69,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Items/Item.gd"
 }, {
-"base": "Node",
-"class": "LootTable",
-"language": "GDScript",
-"path": "res://Items/Loot_Table.gd"
-}, {
 "base": "Reference",
 "class": "Party",
 "language": "GDScript",
@@ -107,7 +102,6 @@ _global_script_class_icons={
 "Equipment": "",
 "Inventory": "",
 "Item": "",
-"LootTable": "",
 "Party": "",
 "PlayerStats": "",
 "Projectile": "",

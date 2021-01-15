@@ -26,25 +26,19 @@ export(bool) var is_consumable = false
 
 #equipment
 export(bool) var is_equipable = false
-export(Global.EquipmentTier) var equipment_tier = Global.EquipmentTier.None
+export(int) var equipment_tier = 1
 export(Global.EquipmentSlot) var equipment_slot = Global.EquipmentSlot.None
 export(Global.Classes) var equipment_class = Global.Classes.None
 
+export var stat_preference = ["Agi","Con","Str","Int"]
+
 var agility : int
-export(int) var min_agility = 0
-export(int) var max_agility = 0
-
 var constitution : int
-export(int) var min_constitution = 0
-export(int) var max_constitution = 0
-
 var intelligence : int
-export(int) var min_intelligence = 0
-export(int) var max_intelligence = 0
-
 var strength : int
-export(int) var min_strength = 0
-export(int) var max_strength = 0
+
+export(Global.ItemRarity) var rarity
+var rarity_multiplier = 1
 
 #armor
 export(bool) var is_armor = false
@@ -78,18 +72,44 @@ func generate():
 	randomize()
 	
 	if is_equipable:
-		if max_strength > 0:
-			strength = randi() % max_strength + min_strength
+		if randf() > 0.99: #1% chance legendary
+			rarity = Global.ItemRarity.Legendary
+			rarity_multiplier = 2.5
+			print("Generated Legendary Item")
+		elif randf() > 0.96: #4% chance epic
+			rarity = Global.ItemRarity.Epic
+			rarity_multiplier = 2
+			print("Generated Epic Item")
+		elif randf() > 0.85: #15% chance Rare
+			rarity = Global.ItemRarity.Rare
+			rarity_multiplier = 1.5
+			print("Generated Rare Item")
+		elif randf() > 0.7: #30% chance uncommon
+			rarity = Global.ItemRarity.Uncommon
+			rarity_multiplier = 1.2
+			print("Generated Uncommon Item")
+		else: # 50% chance
+			rarity = Global.ItemRarity.Common
+			rarity_multiplier = 1
+			print("Generated Common Item")
 		
-		if max_agility > 0:
-			agility = randi() % max_agility + min_agility
+		var stat_pool = 10 * equipment_tier
+		for stat in stat_preference:
+			if stat_pool > 0:
+				match stat:
+					"Str":
+						strength = int(randi() % stat_pool * rarity_multiplier)
+						stat_pool = stat_pool - strength
+					"Con":
+						constitution = int(randi() % stat_pool * rarity_multiplier)
+						stat_pool = stat_pool - constitution
+					"Agi":
+						agility = int(randi() % stat_pool * rarity_multiplier)
+						stat_pool = stat_pool - agility
+					"Int":
+						intelligence = int(randi() % stat_pool * rarity_multiplier)
+						stat_pool = stat_pool - intelligence
 		
-		if max_intelligence > 0:
-			intelligence = randi() % max_intelligence + min_intelligence
-		
-		if max_constitution > 0:
-			constitution = randi() % max_constitution + min_constitution
-			
 		if max_armor > 0:
 			armor = randi() % max_armor + min_armor
 			

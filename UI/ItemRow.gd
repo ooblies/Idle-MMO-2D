@@ -16,6 +16,7 @@ export var slot_size = 32
 func _ready():
 	label_name.text = item.name
 	label_value.text = str(item.calculate_value())
+	text.texture = item.icon
 	refresh()
 
 func _input(event):

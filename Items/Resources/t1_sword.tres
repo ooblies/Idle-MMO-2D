@@ -1,28 +1,22 @@
 [gd_resource type="Resource" load_steps=3 format=2]
 
 [ext_resource path="res://Items/Item.gd" type="Script" id=1]
-[ext_resource path="res://Items/Icons/sword.png" type="Texture" id=2]
+[ext_resource path="res://Items/Icons/weapon_sword_01.png" type="Texture" id=2]
 
 [resource]
 resource_local_to_scene = true
 script = ExtResource( 1 )
 icon = ExtResource( 2 )
-name = "Wooden 1h Sword"
+name = "Sword"
 description = "This is a wooden sword. "
 junk_value = 0
 is_consumable = false
 is_equipable = true
-equipment_tier = 0
+equipment_tier = 1
 equipment_slot = 0
 equipment_class = 1
-min_agility = 1
-max_agility = 3
-min_constitution = 1
-max_constitution = 3
-min_intelligence = 1
-max_intelligence = 3
-min_strength = 1
-max_strength = 3
+stat_preference = [ "Str", "Agi" ]
+rarity = 0
 is_armor = false
 min_armor = 0
 max_armor = 10
