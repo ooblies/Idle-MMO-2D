@@ -1,0 +1,32 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://Items/Item.gd" type="Script" id=1]
+[ext_resource path="res://Items/Icons/weapon_sword_13.png" type="Texture" id=2]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource( 1 )
+icon = ExtResource( 2 )
+name = "Two Handed Sword"
+description = "Description"
+junk_value = 0
+is_consumable = false
+is_equipable = true
+equipment_tier = 1
+equipment_slot = 0
+equipment_class = 1
+stat_preference = [ "Str", "Agi" ]
+rarity = 0
+is_armor = false
+min_armor = 0
+max_armor = 0
+min_magic_resist = 0
+max_magic_resist = 0
+is_two_hand = true
+is_weapon = true
+min_weapon_speed = 3.0
+max_weapon_speed = 5.0
+min_min_damage = 1
+max_min_damage = 3
+min_max_damage = 3
+max_max_damage = 9

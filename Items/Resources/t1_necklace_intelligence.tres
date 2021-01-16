@@ -1,0 +1,31 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://Items/Item.gd" type="Script" id=1]
+[ext_resource path="res://Items/Icons/accessory_26.png" type="Texture" id=2]
+
+[resource]
+script = ExtResource( 1 )
+icon = ExtResource( 2 )
+name = "Necklace Of Intelligence"
+description = "Description"
+junk_value = 0
+is_consumable = false
+is_equipable = true
+equipment_tier = 1
+equipment_slot = 8
+equipment_class = 4
+stat_preference = [ "Int" ]
+rarity = 0
+is_armor = true
+min_armor = 0
+max_armor = 0
+min_magic_resist = 0
+max_magic_resist = 0
+is_two_hand = false
+is_weapon = false
+min_weapon_speed = 0.0
+max_weapon_speed = 0.0
+min_min_damage = 0
+max_min_damage = 0
+min_max_damage = 0
+max_max_damage = 0

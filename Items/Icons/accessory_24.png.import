@@ -1,0 +1,34 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path="res://.import/accessory_24.png-3681cbf91cccb555e6fe8bce7e6bbaac.stex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://Items/Icons/accessory_24.png"
+dest_files=[ "res://.import/accessory_24.png-3681cbf91cccb555e6fe8bce7e6bbaac.stex" ]
+
+[params]
+
+compress/mode=0
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=0
+flags/filter=false
+flags/mipmaps=false
+flags/anisotropic=false
+flags/srgb=2
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+stream=false
+size_limit=0
+detect_3d=false
+svg/scale=1.0
