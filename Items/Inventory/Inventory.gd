@@ -2,6 +2,13 @@ extends Node
 class_name Inventory
 
 var items : Array = []
+var max_size = 10
+
+func has_space():
+	if items.size() < 10:
+		return true
+	else:
+		return false
 
 func add(item):
 	items.append(item)

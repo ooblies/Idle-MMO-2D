@@ -417,15 +417,8 @@ func _on_Hurtbox_area_entered(area : Area2D):
 		#inspect_ui.stats = stats
 
 func _on_Stats_no_health():
-	#queue_free()
-	#var enemy_death_effect_instance = enemy_death_effect.instance()
-	#get_parent().add_child(enemy_death_effect_instance)
-	#enemy_death_effect_instance.global_position = global_position
-	#global_position = respawn_point.position
-	#state = Global.States.Dead
 	set_state(Global.States.Dead)
 	respawn_timer.start(respawn_time)
-	#visible = false
 
 func set_state(new_state):
 	#var new_state_text = Global.States.keys()[new_state]
@@ -554,7 +547,8 @@ func fire_ability_projectile(a_name):
 
 
 func _on_PickupArea_body_entered(body):
-	if body.target == self:
+	#TODO print no room message
+	if body.target == self && inventory.has_space():
 		for item in body.loot:
 			inventory.add(item)
 		

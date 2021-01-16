@@ -93,21 +93,21 @@ func generate():
 			rarity_multiplier = 1
 			print("Generated Common Item")
 		
-		var stat_pool = 10 * equipment_tier
+		var stat_pool = 10 * equipment_tier * rarity_multiplier
 		for stat in stat_preference:
 			if stat_pool > 0:
 				match stat:
 					"Str":
-						strength = int(randi() % stat_pool * rarity_multiplier)
+						strength = int(randi() % stat_pool )
 						stat_pool = stat_pool - strength
 					"Con":
-						constitution = int(randi() % stat_pool * rarity_multiplier)
+						constitution = int(randi() % stat_pool )
 						stat_pool = stat_pool - constitution
 					"Agi":
-						agility = int(randi() % stat_pool * rarity_multiplier)
+						agility = int(randi() % stat_pool )
 						stat_pool = stat_pool - agility
 					"Int":
-						intelligence = int(randi() % stat_pool * rarity_multiplier)
+						intelligence = int(randi() % stat_pool )
 						stat_pool = stat_pool - intelligence
 		
 		if max_armor > 0:
