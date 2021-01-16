@@ -1,4 +1,5 @@
 extends Control
+
 #Tabs
 onready var tabs = $TabContainer
 onready var character_tab = $TabContainer/Character
@@ -42,6 +43,9 @@ onready var equipment_stats_con_value = $TabContainer/Inventory/EquipmentStats/C
 onready var equipment_stats_agi_value = $TabContainer/Inventory/EquipmentStats/Agi/Value
 onready var equipment_stats_int_value = $TabContainer/Inventory/EquipmentStats/Int/Value
 onready var tooltip = $ItemTooltip
+
+onready var auto_deposit_weapons = $TabContainer/Inventory/AutoDepositWeapons
+onready var auto_deposit_armor = $TabContainer/Inventory/AutoDepositArmor
 
 
 
@@ -383,6 +387,9 @@ func display_inventory_screen():
 	update_inventory_stats()
 
 func update_inventory_screen():
+	auto_deposit_weapons.pressed = Global.InspectTarget.config.auto_deposit_weapons
+	auto_deposit_armor.pressed = Global.InspectTarget.config.auto_deposit_armor
+	
 	for item in Global.InspectTarget.inventory.items:
 		var create_item_row = true
 		
@@ -453,3 +460,11 @@ func _show_tooltip(item):
 	
 func _hide_tooltip():
 	tooltip.visible = false
+
+
+func _on_AutoDepositArmor_toggled(button_pressed):
+	Global.InspectTarget.config.auto_deposit_armor = button_pressed
+
+
+func _on_AutoDepositWeapons_toggled(button_pressed):
+	Global.InspectTarget.config.auto_deposit_weapons = button_pressed

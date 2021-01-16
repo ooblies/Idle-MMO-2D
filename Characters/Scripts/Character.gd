@@ -29,7 +29,6 @@ onready var soft_collisions = $SoftCollision
 onready var nametag : Label = $NameTag
 onready var clickable = $Clickable
 onready var exclamation = $Exclamation
-onready var deposit_timer = $DepositTimer
 
 #physics vars
 export var acceleration = 300
@@ -69,6 +68,9 @@ var hunting_target_location
 #item vars
 var inventory : Inventory = load("res://Items/Inventory/Inventory.gd").new()
 var equipment : Equipment = load("res://Items/Equipment/Equipment.gd").new()
+
+#config
+var config : CharacterConfig = load("res://Characters/Scripts/CharacterConfig.gd").new()
 	
 
 
@@ -166,25 +168,21 @@ func state_travel(delta):
 					respawn_point.position = global_position
 					velocity = Vector2.ZERO				
 
-func has_depositable_items():
-	return inventory.items.size() > 0
 
-
-
-func _on_DepositTimer_timeout():
-	if has_depositable_items():
-		var item = inventory.pop()
-		Global.inventory.append(item)
-		print("Depositing " + item.name)
-	else:
-		deposit_timer.stop()
-	
+func get_first_depositable_item():
+	for item in inventory.items:
+		if item.is_weapon && config.auto_deposit_weapons:
+			return item
+		if item.is_armor && config.auto_deposit_armor:
+			return item
+			
+	return null
 	
 	
 func state_rest(delta):
 	res_team()
 	if !is_busy:
-		if stats.health >= stats.max_health && stats.mana >= stats.max_mana && !has_depositable_items():
+		if stats.health >= stats.max_health && stats.mana >= stats.max_mana && !get_first_depositable_item():
 			set_state(Global.States.Idle)
 		else:
 			if path != null:	
@@ -192,8 +190,6 @@ func state_rest(delta):
 			else:
 				play_animation("idle")
 				velocity = Vector2.ZERO
-				if deposit_timer.time_left == 0:
-					deposit_timer.start()
 
 func res_team():
 	if party != null:

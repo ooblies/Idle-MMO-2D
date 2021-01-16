@@ -1,5 +1,25 @@
 extends Node #need to spawn characters
 
+var common_color = Color("#ffffff")
+var uncommon_color = Color("#1eff00")
+var rare_color = Color("#0070dd")
+var epic_color = Color("#a335ee")
+var legendary_color = Color("#ff8000")
+
+func get_rarity_color(rarity):
+	match rarity:
+		ItemRarity.Common:
+			return common_color
+		ItemRarity.Uncommon:
+			return uncommon_color
+		ItemRarity.Rare:
+			return rare_color
+		ItemRarity.Epic:
+			return epic_color
+		ItemRarity.Legendary:
+			return legendary_color
+		
+
 var gold : int = 0 setget set_gold
 func set_gold(value):
 	gold = value

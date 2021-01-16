@@ -7,6 +7,7 @@ onready var label_name = $HBoxContainer/Name
 onready var label_value = $HBoxContainer/Value
 onready var text = $HBoxContainer/TextureRect
 onready var upgrade = $HBoxContainer/Upgrade
+onready var border = $Border
 
 var dragging = false
 var previous_location
@@ -14,9 +15,13 @@ export var slot_size = 32
 
 
 func _ready():
+	#dev
+	#item = LootManager.generate_item(LootManager.T1_SWORD)
+	
 	label_name.text = item.name
 	label_value.text = str(item.calculate_value())
 	text.texture = item.icon
+	border.self_modulate = Global.get_rarity_color(item.rarity)
 	refresh()
 
 func _input(event):
@@ -54,14 +59,15 @@ func _input(event):
 	
 
 func refresh():
-	if Global.InspectTarget.is_in_group("Characters"):
-		if Global.InspectTarget.equipment.get_equipment_by_slot(item.equipment_slot) != null:
-			if item.calculate_value() > Global.InspectTarget.equipment.get_equipment_by_slot(item.equipment_slot).calculate_value():
-				upgrade.visible = true
+	if Global.InspectTarget:
+		if Global.InspectTarget.is_in_group("Characters"):
+			if Global.InspectTarget.equipment.get_equipment_by_slot(item.equipment_slot) != null:
+				if item.calculate_value() > Global.InspectTarget.equipment.get_equipment_by_slot(item.equipment_slot).calculate_value():
+					upgrade.visible = true
+				else:
+					upgrade.visible = false
 			else:
-				upgrade.visible = false
-		else:
-			upgrade.visible = true
+				upgrade.visible = true
 
 
 func pos_in_rect(pos, rect_pos, rect_size : Vector2):

@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://UI/7Soul UI Pack/_sheet_window_05.png" type="Texture" id=1]
+[ext_resource path="res://UI/GUI_DynamicFont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://GUI_Theme.tres" type="Theme" id=3]
+[ext_resource path="res://UI/7Soul UI Pack/buttons_127.png" type="Texture" id=4]
+[ext_resource path="res://UI/7Soul UI Pack/buttons_146.png" type="Texture" id=5]
+
+[sub_resource type="StyleBoxTexture" id=1]
+texture = ExtResource( 5 )
+region_rect = Rect2( 0, 0, 16, 16 )
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+margin_right = 320.0
+margin_bottom = 256.0
+texture = ExtResource( 1 )
+region_rect = Rect2( 0, 0, 48, 48 )
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="NinePatchRect"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -29.0
+margin_top = -7.0
+margin_right = 29.0
+margin_bottom = 7.0
+custom_fonts/font = ExtResource( 2 )
+text = "Test Text"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="NinePatchRect"]
+margin_left = 96.0
+margin_top = 152.0
+margin_right = 124.0
+margin_bottom = 176.0
+theme = ExtResource( 3 )
+custom_styles/hover = SubResource( 1 )
+shortcut_in_tooltip = false
+icon = ExtResource( 4 )
+flat = true

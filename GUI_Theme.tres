@@ -1,3 +1,40 @@
-[gd_resource type="Theme" format=2]
+[gd_resource type="Theme" load_steps=6 format=2]
+
+[ext_resource path="res://UI/GUI_DynamicFont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://UI/7Soul UI Pack/_sheet_window_05.png" type="Texture" id=2]
+[ext_resource path="res://UI/7Soul UI Pack/buttons_127.png" type="Texture" id=3]
+[ext_resource path="res://UI/7Soul UI Pack/buttons_123.png" type="Texture" id=4]
+
+[sub_resource type="StyleBoxTexture" id=1]
+content_margin_left = 0.0
+content_margin_right = 0.0
+content_margin_top = 0.0
+content_margin_bottom = 0.0
+texture = ExtResource( 2 )
+region_rect = Rect2( 0, 0, 48, 48 )
+margin_left = 6.0
+margin_right = 6.0
+margin_top = 6.0
+margin_bottom = 6.0
+expand_margin_left = 12.0
+expand_margin_right = 12.0
+expand_margin_top = 12.0
+expand_margin_bottom = 12.0
 
 [resource]
+default_font = ExtResource( 1 )
+Button/colors/font_color = Color( 0.88, 0.88, 0.88, 1 )
+Button/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
+Button/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
+Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+Button/constants/hseparation = 2
+Button/fonts/font = null
+Button/icons/btn_GreenCheck = ExtResource( 3 )
+Button/icons/btn_RedCross = ExtResource( 4 )
+Button/styles/disabled = null
+Button/styles/focus = null
+Button/styles/hover = null
+Button/styles/normal = null
+Button/styles/pressed = null
+Icons/icons/close = null
+Panel/styles/panel = SubResource( 1 )
