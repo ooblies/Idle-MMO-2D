@@ -35,6 +35,15 @@ func generate_drop_scene(enemy):
 	
 	return new_drop
 
+
+func create_drop_with_item(item):
+	var new_drop : Drop = drop_scene.instance()
+	var loot : Array
+	loot.append(item)
+	new_drop.loot = loot
+	
+	return new_drop
+
 func generate_item(item):
 	var i = item.duplicate()
 	i.generate()

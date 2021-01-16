@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://World/Images/Chest.png" type="Texture" id=1]
 [ext_resource path="res://World/Scenes/Chest.gd" type="Script" id=2]
@@ -38,6 +38,9 @@ tracks/0/keys = {
 [sub_resource type="CircleShape2D" id=3]
 radius = 128.0
 
+[sub_resource type="CircleShape2D" id=4]
+radius = 8.0
+
 [node name="Chest" type="Node2D" groups=[
 "Banks",
 ]]
@@ -52,13 +55,21 @@ hframes = 4
 anims/Close = SubResource( 1 )
 anims/Open = SubResource( 2 )
 
-[node name="PickupTimer" type="Timer" parent="."]
+[node name="PullTimer" type="Timer" parent="."]
 autostart = true
 
-[node name="PickupArea" type="Area2D" parent="."]
+[node name="PullArea" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PullArea"]
 shape = SubResource( 3 )
-[connection signal="timeout" from="PickupTimer" to="." method="_on_PickupTimer_timeout"]
+
+[node name="PickupArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
+shape = SubResource( 4 )
+[connection signal="timeout" from="PullTimer" to="." method="_on_PullTimer_timeout"]
+[connection signal="body_entered" from="PickupArea" to="." method="_on_Area2D_body_entered"]

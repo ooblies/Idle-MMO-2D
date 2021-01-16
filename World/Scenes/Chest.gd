@@ -3,6 +3,7 @@ extends Node2D
 onready var player = $AnimationPlayer
 onready var sprite = $Sprite
 onready var pickup_area = $PickupArea
+onready var pull_area = $PullArea
 
 var open = false
 
@@ -31,13 +32,27 @@ func add_to_global_inventory(item):
 	Global.inventory.append(item)
 
 
-func _on_PickupTimer_timeout():
+func _on_PullTimer_timeout():
 	print("Pulling Items")
-	var nearby_characters = pickup_area.get_overlapping_bodies()
+	var nearby_characters = pull_area.get_overlapping_bodies()
 	
 	for character in nearby_characters:
 		var item = character.get_first_depositable_item()
 		if item:
 			character.inventory.remove(item)
-			Global.inventory.append(item)
+			
 			print("Pulling - " + str(item.name))
+			
+			var drop = LootManager.create_drop_with_item(item)
+			get_parent().add_child(drop)
+			drop.global_position = character.global_position
+			drop.target = self			
+			drop.sprite.texture = item.icon
+			drop.go()
+
+
+func _on_Area2D_body_entered(body):
+	body.queue_free()
+	Global.inventory.append(body.loot[0])
+	player.play("Close")
+

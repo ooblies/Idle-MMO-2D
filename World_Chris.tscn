@@ -956,6 +956,9 @@ heal_strength = 5
 [node name="Chest" parent="YSort/Camps" instance=ExtResource( 16 )]
 position = Vector2( 361.274, 280 )
 
+[node name="CollisionShape2D" parent="YSort/Camps/Chest/PullArea" index="0"]
+position = Vector2( -0.000152588, 0 )
+
 [node name="Spawners" type="YSort" parent="YSort"]
 
 [node name="BatSpawner" parent="YSort/Spawners" instance=ExtResource( 15 )]
@@ -1132,3 +1135,5 @@ visible = false
 [editable path="UI"]
 
 [editable path="Camera2D"]
+
+[editable path="YSort/Camps/Chest"]

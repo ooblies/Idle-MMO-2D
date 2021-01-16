@@ -157,7 +157,7 @@ func _on_EnemyStats_no_health():
 	if drop:
 		get_parent().add_child(drop)
 		drop.global_position = global_position
-		drop.target_character = player_detection.player
+		drop.target = player_detection.player
 	
 	queue_free()
 	

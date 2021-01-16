@@ -554,9 +554,10 @@ func fire_ability_projectile(a_name):
 
 
 func _on_PickupArea_body_entered(body):
-	for item in body.loot:
-		inventory.add(item)
-	
-	body.queue_free()
+	if body.target == self:
+		for item in body.loot:
+			inventory.add(item)
+		
+		body.queue_free()
 
 
