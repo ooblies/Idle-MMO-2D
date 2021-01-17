@@ -33,7 +33,6 @@ func add_to_global_inventory(item):
 
 
 func _on_PullTimer_timeout():
-	print("Pulling Items")
 	var nearby_characters = pull_area.get_overlapping_bodies()
 	
 	for character in nearby_characters:

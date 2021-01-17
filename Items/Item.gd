@@ -93,7 +93,7 @@ func generate():
 			rarity_multiplier = 1
 			print("Generated Common Item")
 		
-		var stat_pool = 10 * equipment_tier * rarity_multiplier
+		var stat_pool = int(10 * equipment_tier * rarity_multiplier)
 		for stat in stat_preference:
 			if stat_pool > 0:
 				match stat:

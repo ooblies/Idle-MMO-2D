@@ -1,9 +1,8 @@
-[gd_scene load_steps=55 format=2]
+[gd_scene load_steps=53 format=2]
 
 [ext_resource path="res://Characters/Scripts/Character.gd" type="Script" id=1]
 [ext_resource path="res://Characters/Images/Default Sprite Sheet.png" type="Texture" id=2]
 [ext_resource path="res://Shadows/SmallShadow.png" type="Texture" id=3]
-[ext_resource path="res://Characters/Scripts/EnemyDetector.gd" type="Script" id=4]
 [ext_resource path="res://Hitboxes & Hurtboxes/Hitbox.gd" type="Script" id=5]
 [ext_resource path="res://UI/HealthUI.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Enemies/Components/PlayerStats.tscn" type="PackedScene" id=7]
@@ -2173,9 +2172,6 @@ tracks/7/keys = {
 
 [sub_resource type="ShaderMaterial" id=24]
 
-[sub_resource type="CircleShape2D" id=25]
-radius = 526.024
-
 [sub_resource type="CircleShape2D" id=26]
 radius = 12.0416
 
@@ -2268,17 +2264,6 @@ vframes = 8
 hframes = 8
 frame = 21
 
-[node name="EnemyDetector" type="Area2D" parent="."]
-visible = false
-modulate = Color( 1, 1, 1, 0.231373 )
-position = Vector2( 0, -7 )
-collision_layer = 0
-collision_mask = 2048
-script = ExtResource( 4 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetector"]
-shape = SubResource( 25 )
-
 [node name="Hurtbox" parent="." instance=ExtResource( 8 )]
 visible = false
 collision_layer = 4
@@ -2366,9 +2351,6 @@ process_material = SubResource( 30 )
 
 [node name="PickupArea" parent="." instance=ExtResource( 24 )]
 position = Vector2( 0, -7 )
-[connection signal="area_entered" from="EnemyDetector" to="EnemyDetector" method="_on_EnemyDetector_area_entered"]
-[connection signal="body_entered" from="EnemyDetector" to="EnemyDetector" method="_on_EnemyDetector_body_entered"]
-[connection signal="body_exited" from="EnemyDetector" to="." method="_on_EnemyDetector_body_exited"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_RespawnTimer_timeout"]
 [connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]

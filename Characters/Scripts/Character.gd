@@ -7,7 +7,6 @@ class_name Character
 
 #Onready vars
 onready var animation_player : AnimationPlayer = $AnimationPlayer
-onready var enemy_detector : Area2D = $EnemyDetector
 onready var hitbox_pivot  = $HitboxPivot
 onready var hitbox : Area2D = $HitboxPivot/Hitbox
 onready var hitbox_area_shape : CollisionShape2D = $HitboxPivot/Hitbox/CollisionShape2D
@@ -62,8 +61,8 @@ var party : Party = null
 var state = Global.States.Idle
 
 var task = Global.Tasks.Town
-var hunting_target = null
-var hunting_target_location
+var current_enemy = null
+var current_enemy_type = null
 
 #item vars
 var inventory : Inventory = load("res://Items/Inventory/Inventory.gd").new()
@@ -254,8 +253,8 @@ func seek_closest_camp():
 func state_attack(_delta):
 	if is_busy == false:
 		velocity = Vector2.ZERO
-		var enemy = enemy_detector.enemy	
-		if enemy != null:
+		
+		if current_enemy != null:
 			if attack_timer.time_left == 0:
 				#check ability manage timer
 				#var ability_activated = ability_manager.activate_ready_ability()
@@ -281,7 +280,7 @@ func state_attack(_delta):
 				
 				attack_timer.start(min(class_speed, weapon_speed))
 			else:
-				if not attack_area.overlaps_body(enemy):
+				if not attack_area.overlaps_body(current_enemy):
 					set_state(Global.States.Chase)
 		else:
 			set_state(Global.States.Idle)
@@ -301,13 +300,13 @@ func attack_animation_finished():
 func state_chase(delta):	
 	if not is_busy:
 		res_team()
-		var enemy = enemy_detector.enemy
-		if enemy != null:
-			var angle = rad2deg(get_angle_to(enemy.global_position))
+
+		if current_enemy != null:
+			var angle = rad2deg(get_angle_to(current_enemy.global_position))
 			hitbox_pivot.rotation_degrees = angle
 			
 			#if in attack range		
-			if attack_area.overlaps_body(enemy):
+			if attack_area.overlaps_body(current_enemy):
 				play_animation("idle")
 				set_state(Global.States.Attack)
 			else:
@@ -366,25 +365,45 @@ func move_to_enemy(e):
 		set_state(Global.States.Chase)
 	else:
 		print("can't find a path to " + e.name)
-		enemy_detector.get_next_enemy()
+		find_enemy()
+
+func find_enemy():
+	#TODO
+	pass
 
 func seek_enemy():
-	if enemy_detector.can_see_enemy() && navigation != null:
+	if current_enemy && navigation:
 		if party != null:
 			if party.is_party_leader(self):
-				party.set_attack_target(enemy_detector.enemy)
+				party.set_attack_target(current_enemy)
 			else: 
-				move_to_enemy(enemy_detector.enemy)
+				move_to_enemy(current_enemy)
 		else:
-			move_to_enemy(enemy_detector.enemy)
+			move_to_enemy(current_enemy)
 	else:
 		if task == Global.Tasks.Hunt:
-			set_hunting_target(hunting_target)
+			if current_enemy:
+				path = navigation.calculate_path(global_position, current_enemy.global_position)
+				set_state(Global.States.Travel)
+			elif current_enemy_type != null:
+				hunt(current_enemy_type)
+			
+			
 		elif task == Global.Tasks.Town:
 			seek_closest_camp()
 		#can't find enemy - go to spawner
-		
-		
+
+func hunt(enemy_type):
+	current_enemy_type = enemy_type
+	var enemies = get_tree().get_nodes_in_group("Enemies")
+	for enemy in enemies:
+		if enemy.enemy_class.enemy_enum == enemy_type:
+			current_enemy = enemy
+			break
+	if task == Global.Tasks.Hunt:
+		if current_enemy:
+			path = navigation.calculate_path(global_position, current_enemy.global_position)
+			set_state(Global.States.Travel)
 
 func _on_Hurtbox_area_entered(area : Area2D):
 	if area.collision_layer == 8192: #EnemyHitbox
@@ -507,22 +526,7 @@ func _on_Clickable_click():
 	Global.InspectTarget = self
 	exclamation.visible = false
 	
-func set_hunting_target(enemy):
-	hunting_target = enemy
 		
-	var spawners = get_tree().get_nodes_in_group("Spawners")
-	for spawner in spawners:
-		if spawner.enemy == enemy:
-			var loc = spawner.global_position + spawner.get_spawn_location()
-			hunting_target_location = loc
-			path = navigation.calculate_path(global_position, hunting_target_location)
-			set_state(Global.States.Travel)
-		
-func get_enemy_position():
-	if enemy_detector.can_see_enemy():
-		var enemy = enemy_detector.enemy
-		return enemy.global_position
-	return null
 
 func fire_attack_projectile():
 	if character_class.attack_projectile_texture != null:

@@ -285,15 +285,16 @@ func _on_OptionButton_item_selected(index):
 		display_character_tab()
 
 
-func _on_enemy_type_selected(enemy):
+func _on_enemy_type_selected(enemy_type):
 	if Global.InspectTarget.is_in_group("Characters"):
-		enemy -= 1
+		enemy_type -= 1
 		#-1 is NONE
-		if enemy >= 0:
+		#TODO - This is a crappy way to do this
+		if enemy_type >= 0:
 			if Global.InspectTarget.party != null:
-				Global.InspectTarget.party.set_hunting_target(enemy)
+				Global.InspectTarget.party.hunt(enemy_type)
 			else:
-				Global.InspectTarget.set_hunting_target(enemy)
+				Global.InspectTarget.hunt(enemy_type)
 
 
 func _create_party():

@@ -53,9 +53,9 @@ func set_task(task):
 	for character in characters:
 		character.task = task
 		
-func set_hunting_target(target):
+func hunt(target):
 	for character in characters:
-		character.set_hunting_target(target)
+		character.hunt(target)
 
 func has_res():
 	var can = false

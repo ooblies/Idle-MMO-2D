@@ -71,10 +71,7 @@ func can_create_character(character_class):
 	
 	
 func get_create_character_warning_message(character_class):
-	var characters = get_tree().get_nodes_in_group("Characters")
-	
 	get_character_counts_and_levels()
-	
 	
 	match character_class:
 		Global.Classes.Warrior:
