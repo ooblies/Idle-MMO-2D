@@ -33,7 +33,7 @@ onready var exclamation = $Exclamation
 export var acceleration = 300
 export var max_speed = 50
 export var friction = 200
-export var rest_threshhold = .75
+export var rest_threshhold = .25
 export var soft_collision_strength = 400
 var velocity = Vector2.ZERO
 
@@ -51,6 +51,7 @@ var character_class : CharacterClass
 
 #ability vars
 var is_busy = false
+var is_dead = false
 var ability_to_activate = null
 export var respawn_time = 10
 
@@ -58,9 +59,8 @@ export var respawn_time = 10
 var party : Party = null
 
 #state and tasks
-var state = Global.States.Idle
-
-var task = Global.Tasks.Town
+var state = Global.CharacterStates.Idle
+var task = Global.CharacterTasks.Rest
 var current_enemy = null
 var current_enemy_type = null
 
@@ -101,7 +101,6 @@ func _ready():
 	attack_area_shape.position = hitbox_area_shape.position	
 	hitbox_area_shape.rotation_degrees = 90
 	
-	set_state(Global.States.Idle)
 	#shaders
 	var dupe_mat = get_node("Sprite").material.duplicate()
 	sprite.material = dupe_mat
@@ -113,25 +112,17 @@ func _ready():
 	inventory.add(LootManager.get_test_item())
 	inventory.add(LootManager.get_test_item())
 	
-	set_state(Global.States.Rest)
-	
 	
 func _physics_process(delta):
 	nametag.text = character_name
 	#print(class_prefix + "- Range:" + str(hitbox_area_shape.shape.height))
 	match state:
-		Global.States.Idle:
+		Global.CharacterStates.Idle:
 			state_idle(delta)
-		Global.States.Attack:
+		Global.CharacterStates.Attack:
 			state_attack(delta)
-		Global.States.Chase:
-			state_chase(delta)
-		Global.States.Rest:
-			state_rest(delta)
-		Global.States.Dead:
-			state_dead()
-		Global.States.Travel:
-			state_travel(delta)
+		Global.CharacterStates.Move:
+			state_move(delta)
 				
 	if soft_collisions.is_colliding():
 		velocity += soft_collisions.get_push_vector() * delta * soft_collision_strength
@@ -150,22 +141,7 @@ func flip_sprite():
 	else:
 		sprite.flip_h = true
 
-func state_travel(delta):
-	res_team()
-	if !is_busy:
-		if path != null && path.size() > 0:	
-			move_along_path(delta)
-		else:		
-			match task:
-				Global.Tasks.Hunt:
-					#set_state(Global.States.Idle)
-					if path == null:
-						set_state(Global.States.Chase)
-					pass
-				Global.Tasks.Town:
-					play_animation("idle")
-					respawn_point.position = global_position
-					velocity = Vector2.ZERO				
+
 
 
 func get_first_depositable_item():
@@ -174,22 +150,11 @@ func get_first_depositable_item():
 			return item
 		if item.is_armor && config.auto_deposit_armor:
 			return item
+		if item.is_junk && config.auto_deposit_junk:
+			return item
 			
 	return null
 	
-	
-func state_rest(delta):
-	res_team()
-	if !is_busy:
-		if stats.health >= stats.max_health && stats.mana >= stats.max_mana && !get_first_depositable_item():
-			set_state(Global.States.Idle)
-		else:
-			if path != null:	
-				move_along_path(delta)
-			else:
-				play_animation("idle")
-				velocity = Vector2.ZERO
-
 func res_team():
 	if party != null:
 		if party.get_dead_member() != null:
@@ -206,31 +171,32 @@ func state_idle(_delta):
 	
 	if !is_busy:
 		path = null
-		#if navigation_line != null:
-			#navigation_line.points = []
 		play_animation("idle")
 		velocity = Vector2.ZERO
 		
-		var camp = false	
 	
 		match task:
-			Global.Tasks.Town:
-				camp = seek_closest_camp()
-				if camp:
-					set_state(Global.States.Travel)
-			Global.Tasks.Hunt:		
-				var hpercent = float(stats.health) / float(stats.max_health)	
-				if hpercent < rest_threshhold:
-					camp = seek_closest_camp()
-					if camp:
-						if party != null:
-							party.set_state(Global.States.Rest)
-						else:
-							set_state(Global.States.Rest)
-					else:
-						seek_enemy()
-				else:
-					seek_enemy()
+			Global.CharacterTasks.Rest:
+				seek_closest_camp()
+			Global.CharacterTasks.Hunt:		
+				#var hpercent = float(stats.health) / float(stats.max_health)	
+				#if hpercent < rest_threshhold:
+					#camp = seek_closest_camp()
+					#if camp:
+						#if party != null:
+							#party.set_state(Global.CharacterStates.Rest)
+						#else:
+							#set_state(Global.CharacterStates.Rest)
+					#else:
+						#seek_enemy()
+				#else:
+					#seek_enemy()
+				seek_enemy()
+			Global.CharacterTasks.Fight:
+				seek_enemy()
+			Global.CharacterTasks.Search:
+				seek_enemy()
+				
 		
 		
 func seek_closest_camp():
@@ -243,12 +209,12 @@ func seek_closest_camp():
 				closest_camp = camp
 	if closest_camp != null:
 		var target_position = closest_camp.get_target_position()
-		#print("Travel to camp - " + str(target_position))
-		path = navigation.calculate_path(global_position, target_position)		
-		return true
+		
+		if global_position.distance_to(closest_camp.global_position) > 50:
+			path = navigation.calculate_path(global_position, target_position)		
+			set_state(Global.CharacterStates.Move)
 	else:
-		#print("no camp found")
-		return false
+		print("no camp found")
 	
 func state_attack(_delta):
 	if is_busy == false:
@@ -281,9 +247,9 @@ func state_attack(_delta):
 				attack_timer.start(min(class_speed, weapon_speed))
 			else:
 				if not attack_area.overlaps_body(current_enemy):
-					set_state(Global.States.Chase)
+					set_state(Global.CharacterStates.Move)
 		else:
-			set_state(Global.States.Idle)
+			set_state(Global.CharacterStates.Idle)
 			
 
 func activate_ability():
@@ -296,19 +262,20 @@ func activate_ability():
 func attack_animation_finished():
 	is_busy = false
 	play_animation("idle")
-	
-func state_chase(delta):	
-	if not is_busy:
-		res_team()
 
-		if current_enemy != null:
+func state_move(delta):
+	res_team()
+	if !is_busy:
+		#chasing
+		if current_enemy:
+			#rotate towards enemyh
 			var angle = rad2deg(get_angle_to(current_enemy.global_position))
 			hitbox_pivot.rotation_degrees = angle
 			
 			#if in attack range		
 			if attack_area.overlaps_body(current_enemy):
 				play_animation("idle")
-				set_state(Global.States.Attack)
+				set_state(Global.CharacterStates.Attack)
 			else:
 				if path != null:
 					var buff = ability_manager.activate_buffs()
@@ -320,9 +287,13 @@ func state_chase(delta):
 					else:
 						move_along_path(delta)	
 				else :
-					set_state(Global.States.Idle)
-		else:
-			set_state(Global.States.Idle)
+					set_state(Global.CharacterStates.Idle)
+		#travelling
+		elif path != null && path.size() > 0:	
+			move_along_path(delta)
+		else:		
+			set_state(Global.CharacterStates.Idle)
+
 
 func update_navigation_line():	
 	if draw_path && path.size() > 0:
@@ -338,6 +309,7 @@ func move_along_path(delta):
 	play_animation("move")
 	
 	if path == null || path.size() == 0:
+		print("No path")
 		return
 		
 	if (global_position.distance_to(path[0]) < path_radius):
@@ -347,7 +319,7 @@ func move_along_path(delta):
 		
 	if paths_hit >= paths_hit_recalculate:
 		paths_hit = 0
-		if state == Global.States.Chase:
+		if state == Global.CharacterStates.Attack:
 			seek_enemy()
 		
 	if path == null || path.size() == 0:
@@ -362,7 +334,7 @@ func move_to_enemy(e):
 	path = navigation.calculate_path(global_position, e.global_position)
 	if path != null && path.size() > 0:
 		update_navigation_line()
-		set_state(Global.States.Chase)
+		set_state(Global.CharacterStates.Move)
 	else:
 		print("can't find a path to " + e.name)
 		find_enemy()
@@ -381,15 +353,15 @@ func seek_enemy():
 		else:
 			move_to_enemy(current_enemy)
 	else:
-		if task == Global.Tasks.Hunt:
+		if task == Global.CharacterTasks.Hunt || task == Global.CharacterTasks.Fight:
 			if current_enemy:
 				path = navigation.calculate_path(global_position, current_enemy.global_position)
-				set_state(Global.States.Travel)
+				set_state(Global.CharacterStates.Move)
 			elif current_enemy_type != null:
 				hunt(current_enemy_type)
 			
 			
-		elif task == Global.Tasks.Town:
+		elif task == Global.CharacterTasks.Rest:
 			seek_closest_camp()
 		#can't find enemy - go to spawner
 
@@ -400,33 +372,43 @@ func hunt(enemy_type):
 		if enemy.enemy_class.enemy_enum == enemy_type:
 			current_enemy = enemy
 			break
-	if task == Global.Tasks.Hunt:
+	if task == Global.CharacterTasks.Hunt || task == Global.CharacterTasks.Fight:
 		if current_enemy:
 			path = navigation.calculate_path(global_position, current_enemy.global_position)
-			set_state(Global.States.Travel)
+			set_state(Global.CharacterStates.Move)
 
 func _on_Hurtbox_area_entered(area : Area2D):
+	#take damage
 	if area.collision_layer == 8192: #EnemyHitbox
 		if area.damage_event:
+			#incoming damage
 			var damage = float(area.damage_event.damage)
+			
+			#armor mitigation
 			if area.damage_event.damage_type == Global.DamageTypes.Melee:
 				var armor = equipment.get_armor_value()
 				var armor_dr = float(armor) / float(armor + 400 + (50 * area.damage_event.attacker_level))
 				damage = float(damage * float(1 - armor_dr))
+			
+			#magic resist mitigation
 			if area.damage_event.damage_type == Global.DamageTypes.Magic:
 				var mr = equipment.get_magic_resist()
 				var mr_dr = float(mr) / float(mr + 400 + (50 * area.damage_event.attacker_level))
 				damage = float(damage * float(1 - mr_dr))
+				
+			#mitigated damage
 			var damage_mitigated = effect_manager.get_damage_after_block(damage)
-			#print("Damage Incoming: " + str(damage))
-			#print("Damage Taken:    " + str(damage_mitigated))
+			
 			stats.health -= damage_mitigated
 			health_ui.hearts = stats.health
-			#inspect_ui.stats = stats
 	
 			hurt_box.create_hit_effect()
-			if state == Global.States.Rest || state == Global.States.Travel:
+			
+			if state == Global.CharacterStates.Move || state == Global.CharacterStates.Idle:
+				set_state(Global.CharacterStates.Attack)
 				seek_enemy()
+	
+	#recieve healing
 	if area.collision_layer == 16: #CharacterHealbox
 		stats.health += area.heal_amount
 		health_ui.hearts = stats.health
@@ -436,14 +418,14 @@ func _on_Hurtbox_area_entered(area : Area2D):
 		#inspect_ui.stats = stats
 
 func _on_Stats_no_health():
-	set_state(Global.States.Dead)
+	die()
+	is_busy = true
 	respawn_timer.start(respawn_time)
 
 func set_state(new_state):
-	#var new_state_text = Global.States.keys()[new_state]
 	state = new_state
 	#inspect_ui.status = new_state_text
-	print(character_name + " - State:" + Global.States.keys()[new_state])
+	print(character_name + " - State:" + Global.CharacterStates.keys()[new_state])
 
 func play_animation(name):
 	var animation_name = character_class.class_prefix + name
@@ -487,18 +469,20 @@ func get_effective_stat(stat):
 	
 	return base + increase
 
-func state_dead():
+func die():
 	velocity = Vector2.ZERO
 	sprite.material.shader = load("res://Effects/Ghost.shader")
 	play_animation("idle")
 	health_ui.visible = false
 	hurt_box.monitorable = false
 	$CollisionShape2D.disabled = true
+	is_dead = true
 
 func revive():
-	set_state(Global.States.Idle)
+	set_state(Global.CharacterStates.Idle)
 	
 	is_busy = false
+	is_dead = false
 	
 	stats.health = stats.max_health
 	health_ui.hearts = stats.health

@@ -8,6 +8,8 @@ var item_id : int
 export(Texture) var icon
 export(String) var name = "Item"
 export(String) var description = "Description"
+
+export(bool) var is_junk = false
 export(int) var junk_value = 0
 
 func calculate_value():
@@ -75,23 +77,18 @@ func generate():
 		if randf() > 0.99: #1% chance legendary
 			rarity = Global.ItemRarity.Legendary
 			rarity_multiplier = 2.5
-			print("Generated Legendary Item")
 		elif randf() > 0.96: #4% chance epic
 			rarity = Global.ItemRarity.Epic
 			rarity_multiplier = 2
-			print("Generated Epic Item")
 		elif randf() > 0.85: #15% chance Rare
 			rarity = Global.ItemRarity.Rare
 			rarity_multiplier = 1.5
-			print("Generated Rare Item")
 		elif randf() > 0.7: #30% chance uncommon
 			rarity = Global.ItemRarity.Uncommon
 			rarity_multiplier = 1.2
-			print("Generated Uncommon Item")
 		else: # 50% chance
 			rarity = Global.ItemRarity.Common
 			rarity_multiplier = 1
-			print("Generated Common Item")
 		
 		var stat_pool = int(10 * equipment_tier * rarity_multiplier)
 		for stat in stat_preference:

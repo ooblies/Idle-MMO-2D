@@ -27,6 +27,9 @@ func _input(event):
 					player.play("Open")
 					Global.InspectTarget = self
 					open = !open
+					
+	if event.is_action("ui_cancel") && open:
+		player.play("Close")
 
 func add_to_global_inventory(item):
 	Global.inventory.append(item)
@@ -54,4 +57,5 @@ func _on_Area2D_body_entered(body):
 	body.queue_free()
 	Global.inventory.append(body.loot[0])
 	player.play("Close")
+
 

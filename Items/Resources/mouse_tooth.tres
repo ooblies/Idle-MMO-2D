@@ -1,25 +1,25 @@
 [gd_resource type="Resource" load_steps=3 format=2]
 
 [ext_resource path="res://Items/Item.gd" type="Script" id=1]
-[ext_resource path="res://Items/Icons/helmet_01.png" type="Texture" id=2]
+[ext_resource path="res://Items/Icons/drops_01.png" type="Texture" id=2]
 
 [resource]
 script = ExtResource( 1 )
 icon = ExtResource( 2 )
-name = "Leather Hat"
+name = "Mouse Tooth"
 description = "Description"
-is_junk = false
-junk_value = 0
+is_junk = true
+junk_value = 5
 is_consumable = false
-is_equipable = true
+is_equipable = false
 equipment_tier = 1
-equipment_slot = 2
+equipment_slot = 9
 equipment_class = 4
-stat_preference = [ "Con", "Agi", "Str" ]
+stat_preference = [ "Agi", "Con", "Str", "Int" ]
 rarity = 0
-is_armor = true
-min_armor = 1
-max_armor = 4
+is_armor = false
+min_armor = 0
+max_armor = 0
 min_magic_resist = 0
 max_magic_resist = 0
 is_two_hand = false

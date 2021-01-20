@@ -1,18 +1,15 @@
 extends Control
 
+onready var panel = $Panel
+
 export(int) var click_radius = 10
 
 signal click
 
 func _ready():
-	pass
+	panel.rect_size = Vector2(2*click_radius, 2*click_radius)
+	panel.rect_position = Vector2(-1*click_radius, -1*click_radius)
+	
 
-func _input(event):
-	if event.get("button_index") != null: 
-		if event.button_index == BUTTON_LEFT && event.pressed:			
-			var mouse_pos = get_local_mouse_position()
-			var zero = Vector2.ZERO
-			var dist = zero.distance_to(mouse_pos)
-			#print("attempted click - distance - " + str(dist))
-			if dist < click_radius:
-				emit_signal("click")
+func _on_Panel_pressed():
+	emit_signal("click")

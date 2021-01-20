@@ -3,7 +3,7 @@ extends Area2D
 var players = null
 var player = null setget ,get_player
 func get_player():
-	if player.state == Global.States.Dead:
+	if player.is_dead:
 		player = null
 		return null
 	else:

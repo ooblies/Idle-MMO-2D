@@ -22,7 +22,9 @@ onready var experience_row = $TabContainer/Character/RowExp
 onready var level_row = $TabContainer/Character/RowLevel
 onready var state_row = $TabContainer/Character/RowStatus
 onready var task_row = $TabContainer/Character/RowTask/OptionButton
-onready var hunt_enemy_row = $TabContainer/Character/EnemyType/OptionButton
+onready var hunt_enemy_row = $TabContainer/Character/HuntEnemyType/OptionButton
+onready var search_item_row = $TabContainer/Character/SearchItem/OptionButton
+
 #party
 onready var new_party_name = $TabContainer/Character/Party/HBoxContainer/TextEdit
 onready var party_list = $TabContainer/Character/Party/PartyList
@@ -112,14 +114,20 @@ func set_level(value):
 
 func _ready():
 	visible = false
-	task_row.add_item("Town", Global.Tasks.Town)
-	task_row.add_item("Hunt", Global.Tasks.Hunt)
+	task_row.add_item("Fight", Global.CharacterTasks.Fight)
+	task_row.add_item("Hunt", Global.CharacterTasks.Hunt)
+	task_row.add_item("Search", Global.CharacterTasks.Search)
+	task_row.add_item("Rest", Global.CharacterTasks.Rest)
 	
 	#todo make dynamic
 	hunt_enemy_row.add_item("None",-1)
 	hunt_enemy_row.add_item("Mouse", Global.Enemies.Mouse)
 	hunt_enemy_row.add_item("Bat", Global.Enemies.Bat)
 	hunt_enemy_row.add_item("Boar", Global.Enemies.Boar)
+	
+	#todo make all discovered items show up here
+	search_item_row.add_item("None",-1)
+	search_item_row.add_item("1h Sword", Global.Items.Wooden_1h_Sword)
 	
 func _process(_delta):
 	var git = Global.InspectTarget
@@ -163,7 +171,7 @@ func display_character_tab():
 	set_constitution(stats.constitution)
 	set_experience(stats.experience)
 	set_level(stats.level)
-	set_state(Global.get_state_name(target.state))
+	set_state(Global.get_character_state_name(target.state))
 	if target.party != null:
 		if target.party.is_party_leader(target):
 			task_row.disabled = false
@@ -174,10 +182,14 @@ func display_character_tab():
 			
 	task_row.select(target.task)
 	hunt_enemy_row.select(-1)
-	if target.task == Global.Tasks.Hunt:
+	if target.task == Global.CharacterTasks.Hunt:
 		hunt_enemy_row.get_parent().visible = true
 	else:
 		hunt_enemy_row.get_parent().visible = false
+	if target.task == Global.CharacterTasks.Search:
+		search_item_row.get_parent().visible = true
+	else:
+		search_item_row.get_parent().visible = false
 
 
 func display_abilities_screen():
@@ -281,20 +293,26 @@ func _on_OptionButton_item_selected(index):
 		Global.InspectTarget.party.set_task(index)
 	else:
 		Global.InspectTarget.task = index
-	if index == Global.Tasks.Hunt:
+		
+	if index == Global.CharacterTasks.Hunt:
 		display_character_tab()
+	if index == Global.CharacterTasks.Fight:
+		#todo assign this dynamically based on ilvl?
+		if Global.InspectTarget.party != null:
+			Global.InspectTarget.party.hunt(0) #mouse
+		else:
+			Global.InspectTarget.hunt(0)
 
 
 func _on_enemy_type_selected(enemy_type):
-	if Global.InspectTarget.is_in_group("Characters"):
-		enemy_type -= 1
-		#-1 is NONE
-		#TODO - This is a crappy way to do this
-		if enemy_type >= 0:
-			if Global.InspectTarget.party != null:
-				Global.InspectTarget.party.hunt(enemy_type)
-			else:
-				Global.InspectTarget.hunt(enemy_type)
+	enemy_type -= 1
+	#-1 is NONE
+	#TODO - This is a crappy way to do this
+	if enemy_type >= 0:
+		if Global.InspectTarget.party != null:
+			Global.InspectTarget.party.hunt(enemy_type)
+		else:
+			Global.InspectTarget.hunt(enemy_type)
 
 
 func _create_party():
@@ -406,6 +424,7 @@ func update_inventory_screen():
 			
 			var _enter = new_item_row.connect("mouse_entered",self,"_show_tooltip",[new_item_row.item])
 			var _exit = new_item_row.connect("mouse_exited",self,"_hide_tooltip")
+			var _equip = new_item_row.connect("hide_tooltip",self,"_hide_tooltip")
 			
 			var sell_button : Button = new_item_row.get_node("HBoxContainer/Sell")
 			var _sell = sell_button.connect("pressed",self,"_sell_item",[new_item_row.item])
@@ -469,3 +488,13 @@ func _on_AutoDepositArmor_toggled(button_pressed):
 
 func _on_AutoDepositWeapons_toggled(button_pressed):
 	Global.InspectTarget.config.auto_deposit_weapons = button_pressed
+
+
+func _on_search_item_selected():
+	#TODO - look up enemy by drop
+	#display list of enemies with drop rates and difficulty
+	print("CharacterUI.gd - Implement this")
+
+
+func _on_AutoDepositJunk_toggled(button_pressed):
+	Global.InspectTarget.config.auto_deposit_junk = button_pressed

@@ -18,6 +18,7 @@ margin_left = 256.0
 margin_top = 128.0
 margin_right = -724.0
 margin_bottom = -128.0
+mouse_filter = 1
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 720.0, 384.0, 160.0 ],
@@ -35,6 +36,7 @@ __meta__ = {
 }
 
 [node name="Character" type="VBoxContainer" parent="TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -331,12 +333,12 @@ margin_right = 292.0
 margin_bottom = 20.0
 text = "Task"
 
-[node name="EnemyType" type="HBoxContainer" parent="TabContainer/Character"]
+[node name="HuntEnemyType" type="HBoxContainer" parent="TabContainer/Character"]
 margin_top = 248.0
 margin_right = 292.0
 margin_bottom = 268.0
 
-[node name="Label" type="Label" parent="TabContainer/Character/EnemyType"]
+[node name="Label" type="Label" parent="TabContainer/Character/HuntEnemyType"]
 margin_top = 2.0
 margin_right = 259.0
 margin_bottom = 17.0
@@ -344,15 +346,33 @@ size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 1 )
 text = "Hunt enemy"
 
-[node name="OptionButton" type="OptionButton" parent="TabContainer/Character/EnemyType"]
+[node name="OptionButton" type="OptionButton" parent="TabContainer/Character/HuntEnemyType"]
+margin_left = 263.0
+margin_right = 292.0
+margin_bottom = 20.0
+
+[node name="SearchItem" type="HBoxContainer" parent="TabContainer/Character"]
+margin_top = 272.0
+margin_right = 292.0
+margin_bottom = 292.0
+
+[node name="Label" type="Label" parent="TabContainer/Character/SearchItem"]
+margin_top = 2.0
+margin_right = 259.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 1 )
+text = "Search for Item"
+
+[node name="OptionButton" type="OptionButton" parent="TabContainer/Character/SearchItem"]
 margin_left = 263.0
 margin_right = 292.0
 margin_bottom = 20.0
 
 [node name="Party" type="VBoxContainer" parent="TabContainer/Character"]
-margin_top = 272.0
+margin_top = 296.0
 margin_right = 292.0
-margin_bottom = 373.0
+margin_bottom = 397.0
 size_flags_vertical = 8
 __meta__ = {
 "_edit_use_anchors_": false
@@ -529,7 +549,6 @@ margin_right = 292.0
 margin_bottom = 40.0
 
 [node name="Inventory" type="Control" parent="TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -800,13 +819,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="AutoDepositJunk" type="CheckBox" parent="TabContainer/Inventory"]
+margin_left = 108.0
+margin_top = 248.0
+margin_right = 221.0
+margin_bottom = 280.0
+text = "Junk"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ItemTooltip" parent="." instance=ExtResource( 6 )]
 visible = false
 [connection signal="text_changed" from="TabContainer/Character/TitleContainer/TitleEdit" to="." method="_on_TitleEdit_text_changed"]
 [connection signal="visibility_changed" from="TabContainer/Character/TitleContainer/TitleEdit" to="." method="_on_TitleEdit_visibility_changed"]
 [connection signal="pressed" from="TabContainer/Character/TitleContainer/TitleEditToggle" to="." method="_on_TitleEditToggle_pressed"]
 [connection signal="item_selected" from="TabContainer/Character/RowTask/OptionButton" to="." method="_on_OptionButton_item_selected"]
-[connection signal="item_selected" from="TabContainer/Character/EnemyType/OptionButton" to="." method="_on_enemy_type_selected"]
+[connection signal="item_selected" from="TabContainer/Character/HuntEnemyType/OptionButton" to="." method="_on_enemy_type_selected"]
+[connection signal="item_selected" from="TabContainer/Character/SearchItem/OptionButton" to="." method="_on_search_item_selected"]
 [connection signal="text_changed" from="TabContainer/Character/Party/HBoxContainer/TextEdit" to="." method="_on_PartyEdit_text_changed"]
 [connection signal="pressed" from="TabContainer/Character/Party/HBoxContainer/Button" to="." method="_create_party"]
 [connection signal="toggled" from="TabContainer/Abilities/AbilityList/AbilityRow/Active" to="." method="_on_ability_active_toggled" binds= [ 1 ]]
@@ -814,3 +844,4 @@ visible = false
 [connection signal="toggled" from="TabContainer/Abilities/AbilityList/AbilityRow3/Active" to="." method="_on_ability_active_toggled" binds= [ 3 ]]
 [connection signal="toggled" from="TabContainer/Inventory/AutoDepositWeapons" to="." method="_on_AutoDepositWeapons_toggled"]
 [connection signal="toggled" from="TabContainer/Inventory/AutoDepositArmor" to="." method="_on_AutoDepositArmor_toggled"]
+[connection signal="toggled" from="TabContainer/Inventory/AutoDepositJunk" to="." method="_on_AutoDepositJunk_toggled"]

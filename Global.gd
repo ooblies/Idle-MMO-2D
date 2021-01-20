@@ -60,21 +60,24 @@ enum Abilities {
 	Archer_DoubleShot,
 	Archer_Snipe
 }
-
-enum States {
+enum CharacterStates {
 	Idle,
-	Move,
-	Chase,
-	Attack,
-	Wander,
-	Rest,
-	Dead,
-	Travel
+	Move, 
+	Attack
 }
 
-enum Tasks {
-	Town,
-	Hunt
+enum EnemyStates {
+	Idle,
+	Wander,
+	Chase,
+	Attack,
+}
+
+enum CharacterTasks {
+	Fight,
+	Hunt,
+	Search,
+	Rest
 }
 
 enum AbilityType {
@@ -137,8 +140,8 @@ enum Items {
 
 var inventory = Array()
 
-func get_state_name(state):
-	return States.keys()[state]
+func get_character_state_name(state):
+	return CharacterStates.keys()[state]
 
 var default_names = ["Liam","Noah","William","James","Oliver","Benjamin","Elijah","Lucas","Mason","Logan","Alexander","Ethan",
 			"Emma","Olivia","Ava","Isabella","Sophia","Charlotte","Mia","Amelia","Harper","Evelyn","Abigail","Emily","Elizabeth"]

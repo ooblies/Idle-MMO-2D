@@ -8,9 +8,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="."]
-visible = false
+[node name="Panel" type="Button" parent="."]
+modulate = Color( 1, 1, 1, 0 )
 margin_left = -10.0
 margin_top = -10.0
 margin_right = 10.0
 margin_bottom = 10.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="Panel" to="." method="_on_Panel_pressed"]

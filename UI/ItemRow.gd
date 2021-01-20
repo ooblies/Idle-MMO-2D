@@ -13,6 +13,8 @@ var dragging = false
 var previous_location
 export var slot_size = 32
 
+signal hide_tooltip
+
 
 func _ready():
 	#dev
@@ -34,6 +36,7 @@ func _input(event):
 			if not dragging and event.pressed:
 				dragging = true
 				previous_location = text.rect_global_position
+				emit_signal("hide_tooltip")
 		
 		#release
 		if dragging and not event.pressed:
@@ -49,6 +52,7 @@ func _input(event):
 						for unequipped_item in unequipped_items:
 							Global.InspectTarget.inventory.add(unequipped_item)
 						Global.InspectTarget.inventory.remove(item)
+						
 				else:
 					text.rect_global_position = previous_location
 	#drag

@@ -2172,21 +2172,21 @@ tracks/7/keys = {
 
 [sub_resource type="ShaderMaterial" id=24]
 
-[sub_resource type="CircleShape2D" id=26]
+[sub_resource type="CircleShape2D" id=25]
 radius = 12.0416
 
-[sub_resource type="CapsuleShape2D" id=27]
+[sub_resource type="CapsuleShape2D" id=26]
 radius = 16.0
 height = 16.0
 
-[sub_resource type="CapsuleShape2D" id=28]
+[sub_resource type="CapsuleShape2D" id=27]
 radius = 14.0
 height = 6.0
 
-[sub_resource type="CircleShape2D" id=29]
+[sub_resource type="CircleShape2D" id=28]
 radius = 8.0
 
-[sub_resource type="ParticlesMaterial" id=30]
+[sub_resource type="ParticlesMaterial" id=29]
 lifetime_randomness = 1.0
 emission_shape = 1
 emission_sphere_radius = 10.0
@@ -2271,7 +2271,7 @@ collision_mask = 8208
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2( 0, -7 )
-shape = SubResource( 26 )
+shape = SubResource( 25 )
 
 [node name="HitboxPivot" type="Position2D" parent="."]
 position = Vector2( 0, -7 )
@@ -2285,7 +2285,7 @@ script = ExtResource( 5 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxPivot/Hitbox"]
 position = Vector2( 16, 0 )
 rotation = 1.5708
-shape = SubResource( 27 )
+shape = SubResource( 26 )
 
 [node name="AttackArea" type="Area2D" parent="HitboxPivot"]
 visible = false
@@ -2295,7 +2295,7 @@ collision_mask = 2048
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxPivot/AttackArea"]
 position = Vector2( 8, 0 )
 rotation = 1.5708
-shape = SubResource( 28 )
+shape = SubResource( 27 )
 
 [node name="AttackTimer" type="Timer" parent="."]
 one_shot = true
@@ -2329,7 +2329,7 @@ visible = false
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="SoftCollision"]
 position = Vector2( 0, -4 )
-shape = SubResource( 29 )
+shape = SubResource( 28 )
 
 [node name="Clickable" parent="." instance=ExtResource( 10 )]
 margin_left = 0.297302
@@ -2347,7 +2347,7 @@ position = Vector2( 0, -7 )
 emitting = false
 amount = 128
 lifetime = 2.0
-process_material = SubResource( 30 )
+process_material = SubResource( 29 )
 
 [node name="PickupArea" parent="." instance=ExtResource( 24 )]
 position = Vector2( 0, -7 )

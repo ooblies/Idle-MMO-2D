@@ -27,7 +27,7 @@ var soft_collision_strength = 400
 var enemy_class : EnemyClass
 
 #state vars
-var state = Global.States.Chase
+var state = Global.EnemyStates.Chase
 var is_attacking = false
 var velocity = Vector2.ZERO
 
@@ -35,7 +35,7 @@ func _ready():
 	stats.enemy_class = enemy_class
 	hitbox.position.y = enemy_class.hitbox_offset_y
 	
-	state = pick_random_state([Global.States.Idle,Global.States.Wander])	
+	state = pick_random_state([Global.EnemyStates.Idle,Global.EnemyStates.Wander])	
 		
 	#sprite.frame = rand_range(0,4)
 	
@@ -49,15 +49,15 @@ func _ready():
 
 func _physics_process(delta):
 	match state:
-		Global.States.Idle:
+		Global.EnemyStates.Idle:
 			play_animation("idle")
 			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 			seek_player()
 			if wander_controller.get_time_left() == 0:
 				update_wander()
 				
-		Global.States.Wander:
-			play_animation("idle")
+		Global.EnemyStates.Wander:
+			play_animation("move")
 			seek_player()
 			if wander_controller.get_time_left() == 0:
 				update_wander()
@@ -66,20 +66,20 @@ func _physics_process(delta):
 			if global_position.distance_to(wander_controller.target_position) <= wander_target_range:
 				update_wander()
 			
-		Global.States.Chase:
-			play_animation("idle")
+		Global.EnemyStates.Chase:
+			play_animation("move")
 			
 			if player_detection.player != null:
 				#if in attack range
 				if global_position.distance_to(player_detection.player.global_position) <= hitbox_shape.shape.radius:
 					play_animation("idle")
-					state = Global.States.Attack
+					state = Global.EnemyStates.Attack
 				else :
 					accelerate_towards_point(player_detection.player.global_position,delta)				
 			else:
-				state = Global.States.Idle
+				state = Global.EnemyStates.Idle
 				
-		Global.States.Attack:
+		Global.EnemyStates.Attack:
 			if is_attacking == false:
 				velocity = Vector2.ZERO
 				if player_detection.player != null:
@@ -96,9 +96,9 @@ func _physics_process(delta):
 						
 					else:
 						if global_position.distance_to(player_detection.player.global_position) > hitbox_shape.shape.radius:
-							state = Global.States.Chase
+							state = Global.EnemyStates.Chase
 				else:
-					state = Global.States.Idle	
+					state = Global.EnemyStates.Idle	
 
 	if soft_collisions.is_colliding():
 		velocity += soft_collisions.get_push_vector() * delta * soft_collision_strength
@@ -117,17 +117,17 @@ func accelerate_towards_point(point, delta):
 	
 func seek_player():
 	if player_detection.can_see_player():
-		state = Global.States.Chase
+		state = Global.EnemyStates.Chase
 
 func update_wander():
-	state = pick_random_state([Global.States.Idle,Global.States.Wander])
+	state = pick_random_state([Global.EnemyStates.Idle,Global.EnemyStates.Wander])
 	wander_controller.start_wander_timer(rand_range(1,3))
 
 func pick_random_state(state_list):
 	state_list.shuffle()
 	return state_list.pop_front()
 
-func _on_Hurtbox_area_entered(area):
+func _on_Hurtbox_area_entered(area): 
 	stats.health -= area.damage_event.damage
 	health_ui.hearts = stats.health
 	
