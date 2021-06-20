@@ -15,6 +15,7 @@ var connections = 0
 
 export var default_weight : float = 4
 export var draw_connections : bool = false
+export var draw_paths : bool = false
 
 
 func _ready():
@@ -34,7 +35,12 @@ func _ready():
 
 
 ## Private functions
-
+func clear_navigation():
+	clear()
+	astar.clear()
+	for child in get_children():
+		child.queue_free()
+	traversable_tiles = []
 
 # Adds tiles to the A* grid but does not connect them
 # ie. They will exist on the grid, but you cannot find a path yet
@@ -154,7 +160,13 @@ func calculate_path(start, end):
 	for point in path_map:
 		var point_world = map_to_world(Vector2(point.x, point.y)) + half_cell_size
 		path_world.append(point_world)
-	
+		
+	if draw_paths:
+		var line = Line2D.new()
+		line.points = path_world
+		line.default_color = Color.white
+		line.width = 2.0
+		add_child(line)
 	
 	var path_duration : float = OS.get_system_time_msecs() - path_time
 	#print("Calculate path from " + str(start) + " to " + str(end))
@@ -162,6 +174,13 @@ func calculate_path(start, end):
 	if path_duration >= 100:
 		print("WARNING - Time to calculate path - " + str(path_duration / 1000) + "s")
 	return path_world
+
+func add_point(point : Vector2):
+	set_cell(point.x, point.y,0)
+	
+	traversable_tiles.append(point)
+	var id = _get_id_for_point(point)
+	astar.add_point(id, Vector2(point.x, point.y), default_weight)
 
 func disable_point(point : Vector2, radius : float):
 	radius = radius * sqrt(2.0)

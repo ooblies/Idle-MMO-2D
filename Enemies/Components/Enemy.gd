@@ -128,9 +128,9 @@ func pick_random_state(state_list):
 	return state_list.pop_front()
 
 func _on_Hurtbox_area_entered(area): 
+	EventManager.send_message(enemy_class.name + " takes " + str(area.damage_event.damage) + " damage.", EventManager.EventType.Combat)
 	stats.health -= area.damage_event.damage
 	health_ui.hearts = stats.health
-	
 	hurt_box.create_hit_effect()
 
 func _on_Clickable_click():
@@ -158,6 +158,8 @@ func _on_EnemyStats_no_health():
 		get_parent().add_child(drop)
 		drop.global_position = global_position
 		drop.target = player_detection.player
+	
+	EventManager.send_message(enemy_class.name + " died.", EventManager.EventType.Combat)
 	
 	queue_free()
 	

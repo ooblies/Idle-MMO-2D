@@ -277,6 +277,7 @@ func create_particle_effect(a):
 	return particles
 
 func activate_ability(a: Ability):
+	EventManager.send_message(a.parent.character_name + " actives ability " + a.name + ".", EventManager.EventType.Combat)
 	print("activating " + a.name)
 	
 	var collision = CollisionShape2D.new()

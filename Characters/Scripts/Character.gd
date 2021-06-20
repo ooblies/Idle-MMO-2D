@@ -71,9 +71,12 @@ var equipment : Equipment = load("res://Items/Equipment/Equipment.gd").new()
 #config
 var config : CharacterConfig = load("res://Characters/Scripts/CharacterConfig.gd").new()
 	
-
+export(bool) var in_cave = true
 
 func _ready():
+	if character_class == null:
+		character_class = load("res://Characters/Components/Classes/Archer.tres")
+		
 	stats.character_class = character_class
 	stats.health = stats.max_health
 	stats.experience = 1
@@ -107,11 +110,27 @@ func _ready():
 	
 	
 	inventory.add(LootManager.get_test_item())
-	inventory.add(LootManager.get_test_item())
-	inventory.add(LootManager.get_test_item())
-	inventory.add(LootManager.get_test_item())
-	inventory.add(LootManager.get_test_item())
+	#get_cave_path()
 	
+	var message = character_name + " is ready!"
+	EventManager.send_message(message, EventManager.EventType.Info)
+	
+	
+	
+	
+func get_cave_path():
+	return
+	var cave = get_parent().get_parent().get_parent()
+	navigation = get_node("/root/World/Navigation")
+	var target_pos = cave.tilemap.get_exploration_target(position)
+	print("Current Pos - " + str(position))
+	print("Target Pos - " +  str(target_pos))
+	if target_pos != null:
+		print("Cave Target Found")
+		path = navigation.calculate_path(position, target_pos)
+		set_state(Global.CharacterStates.Move)
+	else:
+		print("No Cave Target Found")
 	
 func _physics_process(delta):
 	nametag.text = character_name
@@ -214,7 +233,8 @@ func seek_closest_camp():
 			path = navigation.calculate_path(global_position, target_position)		
 			set_state(Global.CharacterStates.Move)
 	else:
-		print("no camp found")
+		#print("no camp found")
+		pass
 	
 func state_attack(_delta):
 	if is_busy == false:
@@ -292,7 +312,11 @@ func state_move(delta):
 		elif path != null && path.size() > 0:	
 			move_along_path(delta)
 		else:		
-			set_state(Global.CharacterStates.Idle)
+			#CaveTest
+			if in_cave:
+				get_cave_path()
+			else:
+				set_state(Global.CharacterStates.Idle)
 
 
 func update_navigation_line():	
@@ -407,6 +431,8 @@ func _on_Hurtbox_area_entered(area : Area2D):
 			if state == Global.CharacterStates.Move || state == Global.CharacterStates.Idle:
 				set_state(Global.CharacterStates.Attack)
 				seek_enemy()
+			
+			EventManager.send_message(character_name + " takes " + str(damage_mitigated) + " damage.", EventManager.EventType.Combat)
 	
 	#recieve healing
 	if area.collision_layer == 16: #CharacterHealbox
@@ -416,6 +442,7 @@ func _on_Hurtbox_area_entered(area : Area2D):
 			stats.mana += area.mana_regen
 			health_ui.mana = stats.mana
 		#inspect_ui.stats = stats
+		EventManager.send_message(character_name + " heals for  " + str(area.heal_amount) + ".", EventManager.EventType.Combat)
 
 func _on_Stats_no_health():
 	die()
@@ -477,6 +504,8 @@ func die():
 	hurt_box.monitorable = false
 	$CollisionShape2D.disabled = true
 	is_dead = true
+	
+	EventManager.send_message(character_name + " has died. :(", EventManager.EventType.Combat)
 
 func revive():
 	set_state(Global.CharacterStates.Idle)
@@ -495,6 +524,7 @@ func revive():
 	global_position = respawn_point.position
 	
 	respawn_timer.stop()
+	EventManager.send_message(character_name + " came back to life :)", EventManager.EventType.Combat)
 	
 func _on_RespawnTimer_timeout():
 	if party != null:
@@ -533,13 +563,21 @@ func fire_ability_projectile(a_name):
 		projectile.p_rotation = hitbox_pivot.rotation_degrees
 		add_child(projectile)
 
-
+func has_inventory_space():
+	return inventory.has_space();
+	
 func _on_PickupArea_body_entered(body):
 	#TODO print no room message
 	if body.target == self && inventory.has_space():
 		for item in body.loot:
 			inventory.add(item)
+			EventManager.send_message(character_name + " picked up " + item.name + ".", EventManager.EventType.Info)
 		
 		body.queue_free()
 
 
+
+
+#func _on_CaveTimer_timeout():
+	#print("Getting Cave Path")
+	#get_cave_path()

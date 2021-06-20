@@ -1,16 +1,23 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://UI/CampUI.tscn" type="PackedScene" id=1]
 [ext_resource path="res://UI/CharacterUI.tscn" type="PackedScene" id=2]
 [ext_resource path="res://UI/EnemyUI.tscn" type="PackedScene" id=3]
 [ext_resource path="res://UI/BankUI.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Menus/Event Window.tscn" type="PackedScene" id=5]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 
 [node name="CampUI" parent="." instance=ExtResource( 1 )]
+visible = false
 
 [node name="CharacterUI" parent="." instance=ExtResource( 2 )]
+visible = false
 
 [node name="EnemyUI" parent="." instance=ExtResource( 3 )]
+visible = false
 
 [node name="BankUI" parent="." instance=ExtResource( 4 )]
+visible = false
+
+[node name="EventWindow" parent="." instance=ExtResource( 5 )]

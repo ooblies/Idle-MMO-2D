@@ -34,6 +34,8 @@ func _input(event):
 func add_to_global_inventory(item):
 	Global.inventory.append(item)
 
+func has_inventory_space():
+	return true
 
 func _on_PullTimer_timeout():
 	var nearby_characters = pull_area.get_overlapping_bodies()

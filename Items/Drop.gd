@@ -15,7 +15,8 @@ func _process(delta):
 	if !wait && target:
 		var target_pos = (target.global_position - global_position).normalized()
 		
-		var _temp = move_and_collide(target_pos * move_speed * delta)
+		if (target.has_inventory_space()):
+			var _temp = move_and_collide(target_pos * move_speed * delta)
 
 func go():
 	collision.disabled = false

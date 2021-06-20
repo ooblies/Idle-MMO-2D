@@ -1,4 +1,4 @@
-[gd_scene load_steps=159 format=2]
+[gd_scene load_steps=160 format=2]
 
 [ext_resource path="res://World/Scenes/Bush.tscn" type="PackedScene" id=1]
 [ext_resource path="res://World.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Player/Camera2D.tscn" type="PackedScene" id=10]
 [ext_resource path="res://UI/UI.tscn" type="PackedScene" id=11]
 [ext_resource path="res://GUI_Theme.tres" type="Theme" id=12]
+[ext_resource path="res://World/Scenes/SignPost.tscn" type="PackedScene" id=13]
 [ext_resource path="res://World/Navigation/NavigationDetails.gd" type="Script" id=14]
 [ext_resource path="res://Enemies/Scenes/EnemySpawner.tscn" type="PackedScene" id=15]
 [ext_resource path="res://World/Scenes/Chest.tscn" type="PackedScene" id=16]
@@ -873,19 +874,13 @@ script = ExtResource( 2 )
 [node name="UI" parent="." instance=ExtResource( 11 )]
 
 [node name="CampUI" parent="UI" index="0"]
-visible = false
 theme = ExtResource( 12 )
 
 [node name="CharacterUI" parent="UI" index="1"]
-visible = false
 theme = ExtResource( 12 )
 
 [node name="EnemyUI" parent="UI" index="2"]
-visible = false
 theme = ExtResource( 12 )
-
-[node name="BankUI" parent="UI" index="3"]
-visible = false
 
 [node name="$" type="Label" parent="UI"]
 margin_right = 40.0
@@ -1120,6 +1115,9 @@ position = Vector2( 1224, -16 )
 
 [node name="Tree12" parent="YSort/Environment/Trees" instance=ExtResource( 9 )]
 position = Vector2( 1216, -240 )
+
+[node name="SignPost" parent="YSort/Environment" instance=ExtResource( 13 )]
+position = Vector2( 409.444, 232 )
 
 [node name="Enemies" type="YSort" parent="YSort"]
 

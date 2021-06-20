@@ -2338,6 +2338,7 @@ margin_right = 0.297302
 margin_bottom = -10.4055
 
 [node name="Exclamation" type="Sprite" parent="."]
+visible = false
 position = Vector2( 0, -64 )
 scale = Vector2( 0.125, 0.125 )
 texture = ExtResource( 20 )
@@ -2351,12 +2352,17 @@ process_material = SubResource( 29 )
 
 [node name="PickupArea" parent="." instance=ExtResource( 24 )]
 position = Vector2( 0, -7 )
+
+[node name="CaveTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_RespawnTimer_timeout"]
 [connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
 [connection signal="add_effect" from="AbilityManager" to="." method="_add_effect"]
 [connection signal="click" from="Clickable" to="." method="_on_Clickable_click"]
 [connection signal="body_entered" from="PickupArea" to="." method="_on_PickupArea_body_entered"]
+[connection signal="timeout" from="CaveTimer" to="." method="_on_CaveTimer_timeout"]
 
 [editable path="Hurtbox"]
 

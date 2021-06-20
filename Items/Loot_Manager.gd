@@ -22,7 +22,7 @@ var MOUSE_TOOTH = preload("res://Items/Resources/mouse_tooth.tres")
 
 
 func generate_loot(enemy):
-	var loot : Array
+	var loot : Array = []
 	match enemy.enemy_enum:
 		Global.Enemies.Mouse:
 			if randf() <= .7: #70% chance
@@ -52,7 +52,7 @@ func generate_drop_scene(enemy):
 
 func create_drop_with_item(item):
 	var new_drop : Drop = drop_scene.instance()
-	var loot : Array
+	var loot : Array = []
 	loot.append(item)
 	new_drop.loot = loot
 	
